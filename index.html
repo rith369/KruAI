@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0F172A">
+    <title>KruAI - Your Personal Study Companion</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@400;500;600;700;800&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+    </div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                <span>KruAI</span>
+            </div>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-label">XP</div>
+                    <div class="stat-value" id="xp-display">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value" id="streak-display">0🔥</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value" id="level-display">1</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-screen="home">🏠 Home</button>
+            <button class="nav-tab" data-screen="subjects">📚 Subjects</button>
+            <button class="nav-tab" data-screen="flashcards">🗂️ Flashcards</button>
+            <button class="nav-tab" data-screen="ai-coach">🤖 AI Coach</button>
+            <button class="nav-tab" data-screen="leaderboard">🏆 Leaderboard</button>
+            <button class="nav-tab" data-screen="donate">💰 Donate</button>
+            <button class="nav-tab" data-screen="progress">📊 Progress</button>
+        </nav>
+        
+        <!-- Home Screen -->
+        <div id="home" class="screen active">
+            <div class="card">
+                <h1 class="card-title">Welcome Back! 🎉</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: var(--space-md);">
+                    Your personalized learning journey starts here. Let's crush your Bac II goals together!
+                </p>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(167, 139, 250, 0.1));">
+                    <h2 class="card-subtitle">📅 Daily Challenge</h2>
+                    <p style="margin-bottom: var(--space-md);">Complete today's exercises to maintain your streak!</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 60%"></div>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: var(--space-xs);">3 out of 5 completed</p>
+                </div>
+                
+                <h2 class="card-subtitle mt-md">🎯 Quick Actions</h2>
+                <div class="flex flex-col gap-md">
+                    <button class="btn btn-primary btn-block" onclick="showScreen('subjects')">
+                        📚 Continue Learning
+                    </button>
+                    <button class="btn btn-secondary btn-block" onclick="showScreen('flashcards')">
+                        🗂️ Review Flashcards
+                    </button>
+                    <button class="btn btn-secondary btn-block" onclick="showScreen('ai-coach')">
+                        🤖 Ask AI Coach
+                    </button>
+                    <button class="btn btn-success btn-block" onclick="showScreen('donate')">
+                        💰 Support Students in Need
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-subtitle">⚡ Recent Activity</h2>
+                <div class="topic-list">
+                    <div class="topic-item completed" onclick="resumeLesson('math', 'limits')">
+                        <div class="topic-info">
+                            <h3>Limits in Calculus</h3>
+                            <div class="topic-meta">
+                                <span>📐 Math</span>
+                                <span>⏱️ 15 min left</span>
+                            </div>
+                        </div>
+                        <div class="topic-status">
+                            <div class="status-badge completed"></div>
+                            <span>80%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subjects Screen -->
+        <div id="subjects" class="screen">
+            <div class="card">
+                <h1 class="card-title">Choose Your Subject</h1>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                    Select a subject to start learning. Each topic is designed to help you master the fundamentals.
+                </p>
+                
+                <div class="subject-grid">
+                    <div class="subject-card" onclick="selectSubject('math')">
+                        <div class="subject-icon">📐</div>
+                        <h3 class="subject-name">Mathematics</h3>
+                        <p class="subject-topics">Limits • Probability</p>
+                    </div>
+                    
+                    <div class="subject-card" onclick="selectSubject('biology')">
+                        <div class="subject-icon">🧬</div>
+                        <h3 class="subject-name">Biology</h3>
+                        <p class="subject-topics">Human Body • Human Brain</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Topic Selection Screen -->
+        <div id="topic-selection" class="screen">
+            <div class="card">
+                <button class="btn btn-secondary mb-md" onclick="showScreen('subjects')">
+                    ← Back to Subjects
+                </button>
+                
+                <h1 class="card-title" id="subject-title"></h1>
+                <div id="topic-list" class="topic-list"></div>
+            </div>
+        </div>
+        
+        <!-- Lesson Screen -->
+        <div id="lesson" class="screen">
+            <div class="card">
+                <button class="btn btn-secondary mb-md" onclick="backToTopics()">
+                    ← Back to Topics
+                </button>
+                
+                <div id="lesson-content"></div>
+                
+                <button class="btn btn-primary btn-block" onclick="nextStep()">
+                    Continue →
+                </button>
+            </div>
+        </div>
+        
+        <!-- Flashcards Screen -->
+        <div id="flashcards" class="screen">
+            <div class="card">
+                <h1 class="card-title">Flashcard Review 🗂️</h1>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                    Tap the card to flip and test your knowledge. Use spaced repetition to remember better!
+                </p>
+                
+                <div id="flashcard-deck"></div>
+                
+                <div class="flex gap-md mt-md">
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="previousFlashcard()">
+                        ← Previous
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" onclick="nextFlashcard()">
+                        Next →
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Coach Screen -->
+        <div id="ai-coach" class="screen">
+            <div class="card">
+                <h1 class="card-title">AI Study Coach 🤖</h1>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                    Ask me anything! I'm here to help you understand difficult concepts 24/7.
+                </p>
+                
+                <div class="chat-container" id="chat-messages">
+                    <div class="chat-message ai">
+                        <div class="message-avatar ai">🤖</div>
+                        <div class="message-content">
+                            Hi! I'm your AI study coach. Ask me any questions about your lessons, and I'll explain step-by-step!
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask a question..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leaderboard Screen (FAKE) -->
+        <div id="leaderboard" class="screen">
+            <div class="card">
+                <h1 class="card-title">🏆 Student Leaderboard</h1>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                    Compete with students across Cambodia! Complete lessons to earn XP and climb the ranks.
+                </p>
+                
+                <div class="leaderboard-tabs">
+                    <button class="lb-tab active" onclick="switchLeaderboard('xp')">Top XP</button>
+                    <button class="lb-tab" onclick="switchLeaderboard('streak')">Best Streaks</button>
+                    <button class="lb-tab" onclick="switchLeaderboard('completed')">Most Lessons</button>
+                </div>
+                
+                <div id="leaderboard-content"></div>
+            </div>
+        </div>
+        
+        <!-- Donate Screen (FAKE) -->
+        <div id="donate" class="screen">
+            <div class="card">
+                <h1 class="card-title">💰 Support Education</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: var(--space-lg);">
+                    Help students from low-income families access quality education. 100% of donations go directly to scholarships!
+                </p>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(245, 158, 11, 0.1));">
+                    <h2 class="card-subtitle">📊 Impact So Far</h2>
+                    <div class="impact-stats">
+                        <div class="impact-item">
+                            <div class="impact-value">$12,450</div>
+                            <div class="impact-label">Total Raised</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-value">87</div>
+                            <div class="impact-label">Students Helped</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-value">234</div>
+                            <div class="impact-label">Donors</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="card-subtitle mt-md">💳 Donation Options</h2>
+                
+                <button class="donation-btn" onclick="showDonationMessage('ABA Bank')">
+                    <div class="donation-icon">🏦</div>
+                    <div class="donation-info">
+                        <div class="donation-title">Donate via ABA Bank</div>
+                        <div class="donation-desc">One-time or monthly donation</div>
+                    </div>
+                    <div class="donation-arrow">→</div>
+                </button>
+                
+                <button class="donation-btn" onclick="showDonationMessage('Watch Ads')">
+                    <div class="donation-icon">📺</div>
+                    <div class="donation-info">
+                        <div class="donation-title">Watch Ads to Donate</div>
+                        <div class="donation-desc">$0.10 per ad watched (Free for you!)</div>
+                    </div>
+                    <div class="donation-arrow">→</div>
+                </button>
+                
+                <h2 class="card-subtitle mt-md">🌟 Top Donors This Month</h2>
+                <div id="donor-leaderboard"></div>
+            </div>
+        </div>
+        
+        <!-- Progress Screen -->
+        <div id="progress" class="screen">
+            <div class="card">
+                <h1 class="card-title">Your Progress 📊</h1>
+                
+                <div class="card" style="background: linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(245, 158, 11, 0.1));">
+                    <h2 class="card-subtitle">Overall Progress</h2>
+                    <div class="progress-container" style="height: 12px;">
+                        <div class="progress-bar" style="width: 45%"></div>
+                    </div>
+                    <p style="color: var(--text-muted); margin-top: var(--space-xs);">45% Complete</p>
+                </div>
+                
+                <h2 class="card-subtitle mt-md">Subject Breakdown</h2>
+                <div class="topic-list">
+                    <div class="topic-item">
+                        <div class="topic-info">
+                            <h3>📐 Mathematics</h3>
+                            <div class="progress-container" style="margin-top: 0.5rem;">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="topic-status">60%</div>
+                    </div>
+                    
+                    <div class="topic-item">
+                        <div class="topic-info">
+                            <h3>🧬 Biology</h3>
+                            <div class="progress-container" style="margin-top: 0.5rem;">
+                                <div class="progress-bar" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div class="topic-status">30%</div>
+                    </div>
+                </div>
+                
+                <h2 class="card-subtitle mt-md">🏆 Achievements</h2>
+                <div class="flex gap-md" style="flex-wrap: wrap;">
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔥</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted);">3 Day Streak</div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">⭐</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted);">First Lesson</div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem; opacity: 0.3;">🎯</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); opacity: 0.5;">Perfect Week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
