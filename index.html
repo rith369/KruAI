@@ -2,25 +2,1286 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0F172A">
-    <title>KruAI - Study Companion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bac II Study Companion</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Bangers&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .bangers {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+        }
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 430px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        .floating-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="bg-gradient"></div>
-    </div>
+    <div id="root"></div>
 
-    <div id="app" class="app-container"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    <div id="xp-popup" class="xp-popup"></div>
-    <div id="badge-popup" class="badge-popup"></div>
+        // Translation data
+        const translations = {
+            en: {
+                welcome: "Welcome to Your",
+                bacStudy: "Bac II Study Journey",
+                surveyIntro: "Let's personalize your path to success!",
+                strengths: "What are your strengths?",
+                weaknesses: "What are your weaknesses?",
+                targetGrade: "What's your target grade?",
+                monthsLeft: "Months until Bac II?",
+                generateRoadmap: "Generate My Roadmap",
+                home: "Home",
+                lessons: "Lessons",
+                donate: "Donate",
+                chat: "Chat",
+                profile: "Profile",
+                daysLeft: "Days Until Bac II",
+                currentStreak: "Day Streak",
+                todayChallenge: "Today's Challenge",
+                dailyPlan: "Today's Action Plan",
+                yourRoadmap: "Your Personalized Roadmap",
+                recommendedTime: "Recommended Study Time",
+                hoursPerDay: "hours/day",
+                basedOn: "Based on your goal & timeline",
+                roadmapPhases: "Your Learning Phases",
+                todaysPlan: "Complete today's tasks to earn 50 XP!",
+                completedMsg: "Great work! Come back tomorrow for more!",
+                math: "Math",
+                biology: "Biology",
+                basicLimits: "Basic Limits",
+                basicProbability: "Basic Probability",
+                humanBody: "Human Body",
+                humanBrain: "Human Brain",
+                importanceNote: "Importance for Exam",
+                summary: "Summary",
+                funFact: "Fun Fact",
+                surpriseTip: "Surprise Tip",
+                didYouKnow: "Did You Know?",
+                quickChallenge: "Quick Challenge",
+                earnXP: "Earn +20 XP",
+                backToLessons: "Back to Lessons",
+                donateTitle: "Support Education",
+                donateSubtitle: "100% goes to scholarships for poor students",
+                moneyDonation: "Money Donation",
+                watchAds: "Watch Ads to Donate",
+                topDonors: "Top Donors Leaderboard",
+                thankYou: "Thank you for your support!",
+                aiCoach: "AI Study Coach",
+                askQuestion: "Ask me anything about your studies...",
+                send: "Send",
+                noInternet: "⚠️ No internet connection. Please try again later.",
+                commonQuestions: "Common Questions",
+                viewRoadmap: "View My Roadmap",
+                studyNow: "Start Studying",
+                motivationQuote: "Motivation of the Day",
+                completeLesson: "Complete lesson",
+                practice: "Practice exercises",
+                reviewCards: "Review flashcards",
+                dailyChallengeTask: "Daily challenge",
+                chooseDepth: "Choose your study depth:",
+                quickReview: "Quick Review (10 min)",
+                standardStudy: "Standard Study (30 min)",
+                deepDive: "Deep Dive (60 min)",
+                chemistry: "Chemistry",
+                physics: "Physics",
+                history: "History",
+                english: "English"
+            },
+            km: {
+                welcome: "សូមស្វាគមន៍មកកាន់",
+                bacStudy: "ការធ្វើដំណើរសិក្សា Bac II",
+                surveyIntro: "តោះធ្វើផ្លូវរបស់អ្នកឲ្យផ្ទាល់ខ្លួន!",
+                strengths: "តើអ្នកពូកែមុខវិជ្ជាអ្វី?",
+                weaknesses: "តើអ្នកខ្សោយមុខវិជ្ជាអ្វី?",
+                targetGrade: "តើអ្នកចង់បានពិន្ទុប៉ុន្មាន?",
+                monthsLeft: "នៅសល់ប៉ុន្មានខែដល់ Bac II?",
+                generateRoadmap: "បង្កើតផែនការរបស់ខ្ញុំ",
+                home: "ទំព័រដើម",
+                lessons: "មេរៀន",
+                donate: "បរិច្ចាគ",
+                chat: "ជជែក",
+                profile: "ប្រវត្តិរូប",
+                daysLeft: "ថ្ងៃនៅសល់ដល់ Bac II",
+                currentStreak: "ថ្ងៃជាប់គ្នា",
+                todayChallenge: "បញ្ហាប្រឈមថ្ងៃនេះ",
+                dailyPlan: "ផែនការសកម្មភាពថ្ងៃនេះ",
+                yourRoadmap: "ផែនការសិក្សាផ្ទាល់ខ្លួនរបស់អ្នក",
+                recommendedTime: "ពេលវេលាសិក្សាដែលបានណែនាំ",
+                hoursPerDay: "ម៉ោង/ថ្ងៃ",
+                basedOn: "ផ្អែកលើគោលដៅនិងពេលវេលារបស់អ្នក",
+                roadmapPhases: "ដំណាក់កាលនៃការរៀនសូត្ររបស់អ្នក",
+                todaysPlan: "បំពេញកិច្ចការថ្ងៃនេះដើម្បីទទួលបាន 50 XP!",
+                completedMsg: "ល្អណាស់! ត្រលប់មកវិញនៅថ្ងៃស្អែក!",
+                math: "គណិតវិទ្យា",
+                biology: "ជីវវិទ្យា",
+                basicLimits: "លីមីតមូលដ្ឋាន",
+                basicProbability: "ប្រូបាប៊ីលីតេមូលដ្ឋាន",
+                humanBody: "រាងកាយមនុស្ស",
+                humanBrain: "ខួរក្បាលមនុស្ស",
+                importanceNote: "សារៈសំខាន់សម្រាប់ប្រឡង",
+                summary: "សង្ខេប",
+                funFact: "ការពិតគួរឲ្យចាប់អារម្មណ៍",
+                surpriseTip: "គន្លឹះភ្ញាក់ផ្អើល",
+                didYouKnow: "តើអ្នកដឹងទេ?",
+                quickChallenge: "បញ្ហាប្រឈមរហ័ស",
+                earnXP: "ទទួលបាន +20 XP",
+                backToLessons: "ត្រលប់ទៅមេរៀន",
+                donateTitle: "គាំទ្រការអប់រំ",
+                donateSubtitle: "100% ទៅជាអាហារូបករណ៍សម្រាប់សិស្សក្រីក្រ",
+                moneyDonation: "បរិច្ចាគប្រាក់",
+                watchAds: "មើលផ្សាយពាណិជ្ជកម្មដើម្បីបរិច្ចាគ",
+                topDonors: "អ្នកបរិច្ចាគកំពូល",
+                thankYou: "សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!",
+                aiCoach: "គ្រូបង្ហាត់ AI",
+                askQuestion: "សួរខ្ញុំអ្វីក៏បានអំពីការសិក្សារបស់អ្នក...",
+                send: "ផ្ញើ",
+                noInternet: "⚠️ គ្មានអ៊ីនធឺណិត។ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។",
+                commonQuestions: "សំណួរទូទៅ",
+                viewRoadmap: "មើលផែនការរបស់ខ្ញុំ",
+                studyNow: "ចាប់ផ្តើមសិក្សា",
+                motivationQuote: "ការលើកទឹកចិត្តប្រចាំថ្ងៃ",
+                completeLesson: "បំពេញមេរៀន",
+                practice: "អនុវត្តលំហាត់",
+                reviewCards: "ពិនិត្យកាតចងចាំ",
+                dailyChallengeTask: "បញ្ហាប្រឈមប្រចាំថ្ងៃ",
+                chooseDepth: "ជ្រើសរើសកម្រិតសិក្សា:",
+                quickReview: "ពិនិត្យរហ័ស (10 នាទី)",
+                standardStudy: "សិក្សាស្តង់ដារ (30 នាទី)",
+                deepDive: "ស៊ីជម្រៅ (60 នាទី)",
+                chemistry: "គីមីវិទ្យា",
+                physics: "រូបវិទ្យា",
+                history: "ប្រវត្តិសាស្ត្រ",
+                english: "អង់គ្លេស"
+            }
+        };
 
-    <script src="app.js"></script>
+        // Lessons content
+        const lessonsData = {
+            math: {
+                limits: {
+                    title: { en: "Basic Limits", km: "លីមីតមូលដ្ឋាន" },
+                    importance: "85%",
+                    content: {
+                        en: "A limit describes the value that a function approaches as the input approaches some value. Limits are essential for understanding calculus and are frequently tested in Bac II exams.",
+                        km: "លីមីតពិពណ៌នាអំពីតម្លៃដែលអនុគមន៍ទៅជិតនៅពេលដែលធាតុចូលទៅជិតតម្លៃមួយ។ លីមីតមានសារៈសំខាន់សម្រាប់ការយល់ដឹងពីកាល់គុលនិងត្រូវបានសាកល្បងញឹកញាប់នៅក្នុងប្រឡង Bac II។"
+                    },
+                    summary: {
+                        en: "Key formulas: lim(x→a) f(x) = L. Always check left and right limits separately.",
+                        km: "រូបមន្តសំខាន់: lim(x→a) f(x) = L។ ត្រូវពិនិត្យលីមីតខាងឆ្វេងនិងស្តាំដាច់ដោយឡែក។"
+                    },
+                    funFact: {
+                        en: "The concept of limits was invented because mathematicians wanted to divide by zero... safely!",
+                        km: "គំនិតនៃលីមីតត្រូវបានបង្កើតឡើងព្រោះគណិតវិទូចង់ចែកដោយសូន្យ... ប៉ុន្តែឲ្យមានសុវត្ថិភាព!"
+                    },
+                    tip: {
+                        en: "Pro trick: Always check left and right limits separately - they might not match!",
+                        km: "គន្លឹះអ្នកជំនាញ: ត្រូវតែពិនិត្យលីមីតខាងឆ្វេងនិងស្តាំដាច់ដោយឡែក - ពួកវាប្រហែលជាមិនដូចគ្នា!"
+                    }
+                },
+                probability: {
+                    title: { en: "Basic Probability", km: "ប្រូបាប៊ីលីតេមូលដ្ឋាន" },
+                    importance: "40%",
+                    content: {
+                        en: "Probability measures the likelihood of an event occurring. Combined with combinatorics, it makes up a significant portion of the Bac II math exam.",
+                        km: "ប្រូបាប៊ីលីតេវាស់វែងលទ្ធភាពនៃការកើតឡើងនៃព្រឹត្តិការណ៍មួយ។ បញ្ចូលគ្នាជាមួយកុំប៊ីណាទ័រ វាបង្កើតជាផ្នែកសំខាន់នៃប្រឡងគណិតវិទ្យា Bac II។"
+                    },
+                    summary: {
+                        en: "P(Event) = Favorable Outcomes / Total Outcomes. Use tree diagrams for complex problems.",
+                        km: "P(ព្រឹត្តិការណ៍) = លទ្ធផលអំណោយផល / លទ្ធផលសរុប។ ប្រើដ្យាក្រាមដើមឈើសម្រាប់បញ្ហាស្មុគស្មាញ។"
+                    },
+                    funFact: {
+                        en: "Flipping a coin 10 times heads doesn't make tails more likely next time! Each flip is independent.",
+                        km: "ការបោះកាក់ 10 ដងចេញក្បាលមិនធ្វើឲ្យកន្ទុយមានលទ្ធភាពច្រើននៅពេលបន្ទាប់ទេ! ការបោះនីមួយៗឯករាជ្យគ្នា។"
+                    },
+                    tip: {
+                        en: "Draw tree diagrams for complex problems - it's much faster and you won't miss cases!",
+                        km: "គូរដ្យាក្រាមដើមឈើសម្រាប់បញ្ហាស្មុគស្មាញ - វារហ័សជាងនិងអ្នកនឹងមិនរំលងករណីទេ!"
+                    }
+                }
+            },
+            biology: {
+                body: {
+                    title: { en: "Human Body", km: "រាងកាយមនុស្ស" },
+                    importance: "65%",
+                    content: {
+                        en: "The human body consists of multiple organ systems working together. The digestive system is the most frequently tested topic in Bac II biology exams.",
+                        km: "រាងកាយមនុស្សមានប្រព័ន្ធសរីរាង្គច្រើនដែលធ្វើការជាមួយគ្នា។ ប្រព័ន្ធរំលាយអាហារគឺជាប្រធានបទដែលត្រូវបានសាកល្បងញឹកញាប់បំផុតនៅក្នុងប្រឡងជីវវិទ្យា Bac II។"
+                    },
+                    summary: {
+                        en: "Major systems: Digestive, Respiratory, Circulatory, Nervous, Skeletal, Muscular. Make colorful diagrams!",
+                        km: "ប្រព័ន្ធសំខាន់ៗ: រំលាយអាហារ ដង្ហើម ចរាចរឈាម សរសៃប្រសាទ គ្រោងឆ្អឹង សាច់ដុំ។ ធ្វើដ្យាក្រាមពណ៌!"
+                    },
+                    funFact: {
+                        en: "Your stomach gets a completely new lining every 3-4 days to protect itself from its own acid!",
+                        km: "ក្រពះរបស់អ្នកទទួលបានស្រទាប់ថ្មីទាំងស្រុងរៀងរាល់ 3-4 ថ្ងៃដើម្បីការពារខ្លួនឯងពីអាស៊ីតរបស់វា!"
+                    },
+                    tip: {
+                        en: "Make body system diagrams with different colors for each organ - much easier to remember!",
+                        km: "ធ្វើដ្យាក្រាមប្រព័ន្ធរាងកាយដោយពណ៌ផ្សេងៗគ្នាសម្រាប់សរីរាង្គនីមួយៗ - ងាយនឹកចាំជាង!"
+                    },
+                    didYouKnow: {
+                        en: "You have the same number of bones in your neck as a giraffe: 7 cervical vertebrae!",
+                        km: "អ្នកមានឆ្អឹងក្នុងកនៅដូចគ្នាជាមួយហ្សីរ៉ាហ្វ: 7 កងឆ្អឹងកង!"
+                    }
+                },
+                brain: {
+                    title: { en: "Human Brain", km: "ខួរក្បាលមនុស្ស" },
+                    importance: "70%",
+                    content: {
+                        en: "The human brain controls all body functions through billions of neurons. Understanding neuron structure is critical for Bac II exams.",
+                        km: "ខួរក្បាលមនុស្សគ្រប់គ្រងមុខងារទាំងអស់របស់រាងកាយតាមរយៈណឺរ៉ូនរាប់ពាន់លាន។ ការយល់ដឹងពីរចនាសម្ព័ន្ធណឺរ៉ូនគឺសំខាន់សម្រាប់ប្រឡង Bac II។"
+                    },
+                    summary: {
+                        en: "Main parts: Cerebrum (thinking), Cerebellum (coordination), Brain stem (vital functions). Neurons communicate via synapses.",
+                        km: "ផ្នែកសំខាន់ៗ: សេរេប្រុម (គំនិត), សេរេបែល (ការសម្របសម្រួល), ដើមខួរក្បាល (មុខងារសំខាន់)។ ណឺរ៉ូនទំនាក់ទំនងតាមរយៈស៊ីណាប។"
+                    },
+                    funFact: {
+                        en: "Your brain uses 20% of your body's total energy but is only 2% of your body weight!",
+                        km: "ខួរក្បាលរបស់អ្នកប្រើ 20% នៃថាមពលសរុបរបស់រាងកាយប៉ុន្តែមានតែ 2% នៃទម្ងន់រាងកាយ!"
+                    },
+                    tip: {
+                        en: "Connect brain parts to their functions using memorable stories - it sticks better than pure memorization!",
+                        km: "ភ្ជាប់ផ្នែកខួរក្បាលទៅនឹងមុខងាររបស់វាដោយប្រើរឿងដែលចងចាំបាន - វាស្អិតជាងការចងចាំសុទ្ធសាធ!"
+                    },
+                    didYouKnow: {
+                        en: "You have enough neurons in your brain to count every star in the Milky Way galaxy!",
+                        km: "អ្នកមានណឺរ៉ូនគ្រប់គ្រាន់ក្នុងខួរក្បាលរបស់អ្នកដើម្បីរាប់ផ្កាយទាំងអស់នៅក្នុងកាឡាក់ស៊ី Milky Way!"
+                    }
+                }
+            }
+        };
+
+        // Main App Component
+        function App() {
+            const [lang, setLang] = useState('en');
+            const [surveyComplete, setSurveyComplete] = useState(false);
+            const [currentPage, setCurrentPage] = useState('survey');
+            const [userData, setUserData] = useState({
+                strengths: [],
+                weaknesses: [],
+                targetGrade: '',
+                monthsLeft: ''
+            });
+            const [xp, setXp] = useState(0);
+            const [level, setLevel] = useState(1);
+            const [streak, setStreak] = useState(3);
+            const [tasksCompleted, setTasksCompleted] = useState({
+                lesson: false,
+                practice: false,
+                flashcards: false,
+                challenge: false
+            });
+            const [currentLesson, setCurrentLesson] = useState(null);
+
+            const t = translations[lang];
+
+            useEffect(() => {
+                const saved = localStorage.getItem('bacStudyData');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    setSurveyComplete(data.surveyComplete || false);
+                    setUserData(data.userData || userData);
+                    setXp(data.xp || 0);
+                    setLevel(data.level || 1);
+                    setStreak(data.streak || 3);
+                    setTasksCompleted(data.tasksCompleted || tasksCompleted);
+                    if (data.surveyComplete) {
+                        setCurrentPage('home');
+                    }
+                }
+            }, []);
+
+            useEffect(() => {
+                const dataToSave = {
+                    surveyComplete,
+                    userData,
+                    xp,
+                    level,
+                    streak,
+                    tasksCompleted
+                };
+                localStorage.setItem('bacStudyData', JSON.stringify(dataToSave));
+            }, [surveyComplete, userData, xp, level, streak, tasksCompleted]);
+
+            const completeSurvey = (data) => {
+                setUserData(data);
+                setSurveyComplete(true);
+                setCurrentPage('roadmap');
+            };
+
+            const completeTask = (task) => {
+                if (!tasksCompleted[task]) {
+                    setTasksCompleted({...tasksCompleted, [task]: true});
+                    setXp(xp + 20);
+                    if ((xp + 20) >= level * 100) {
+                        setLevel(level + 1);
+                    }
+                }
+            };
+
+            const getDaysUntilBac = () => {
+                return parseInt(userData.monthsLeft) * 30 || 150;
+            };
+
+            const getStudyHours = () => {
+                const gradeMap = { 'A': 3.5, 'B': 2.5, 'C': 1.75, 'D': 1.25, 'E': 1 };
+                return gradeMap[userData.targetGrade] || 2;
+            };
+
+            return (
+                <div className="app-container">
+                    {!surveyComplete ? (
+                        <SurveyPage lang={lang} setLang={setLang} onComplete={completeSurvey} t={t} />
+                    ) : (
+                        <>
+                            {currentPage === 'roadmap' && (
+                                <RoadmapPage 
+                                    lang={lang} 
+                                    userData={userData} 
+                                    studyHours={getStudyHours()}
+                                    onContinue={() => setCurrentPage('home')}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'home' && (
+                                <HomePage 
+                                    lang={lang}
+                                    setLang={setLang}
+                                    xp={xp}
+                                    level={level}
+                                    streak={streak}
+                                    daysLeft={getDaysUntilBac()}
+                                    tasksCompleted={tasksCompleted}
+                                    completeTask={completeTask}
+                                    onViewRoadmap={() => setCurrentPage('roadmap')}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'lessons' && (
+                                <LessonsPage 
+                                    lang={lang}
+                                    setCurrentLesson={setCurrentLesson}
+                                    setCurrentPage={setCurrentPage}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'lesson-detail' && currentLesson && (
+                                <LessonDetailPage 
+                                    lang={lang}
+                                    lesson={currentLesson}
+                                    onBack={() => setCurrentPage('lessons')}
+                                    onComplete={() => completeTask('lesson')}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'donate' && (
+                                <DonatePage lang={lang} t={t} />
+                            )}
+                            {currentPage === 'chat' && (
+                                <ChatPage lang={lang} t={t} />
+                            )}
+                            
+                            {currentPage !== 'roadmap' && currentPage !== 'lesson-detail' && (
+                                <TabBar currentPage={currentPage} setCurrentPage={setCurrentPage} t={t} />
+                            )}
+                        </>
+                    )}
+                </div>
+            );
+        }
+
+        // Survey Page Component
+        function SurveyPage({ lang, setLang, onComplete, t }) {
+            const [step, setStep] = useState(1);
+            const [formData, setFormData] = useState({
+                strengths: [],
+                weaknesses: [],
+                targetGrade: '',
+                monthsLeft: ''
+            });
+
+            const subjects = ['math', 'biology', 'chemistry', 'physics', 'history', 'english'];
+
+            const toggleSubject = (field, subject) => {
+                const current = formData[field];
+                if (current.includes(subject)) {
+                    setFormData({...formData, [field]: current.filter(s => s !== subject)});
+                } else {
+                    setFormData({...formData, [field]: [...current, subject]});
+                }
+            };
+
+            const handleSubmit = () => {
+                onComplete(formData);
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-700 p-6 flex flex-col">
+                    <div className="flex justify-end mb-4">
+                        <button 
+                            onClick={() => setLang(lang === 'en' ? 'km' : 'en')}
+                            className="bg-white/20 text-white px-4 py-2 rounded-full text-sm font-medium"
+                        >
+                            {lang === 'en' ? '🇰🇭 ភាសាខ្មែរ' : '🇬🇧 English'}
+                        </button>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-center animate-slide-up">
+                        <div className="text-center mb-8">
+                            <h1 className="bangers text-5xl text-white mb-2 animate-bounce">
+                                {t.welcome}
+                            </h1>
+                            <h2 className="text-3xl font-bold text-yellow-300 mb-4">
+                                {t.bacStudy}
+                            </h2>
+                            <p className="text-white/90 text-lg">
+                                {t.surveyIntro}
+                            </p>
+                        </div>
+
+                        <div className="bg-white rounded-3xl p-6 shadow-2xl">
+                            {step === 1 && (
+                                <div className="animate-fade-in">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-4">
+                                        {t.strengths}
+                                    </h3>
+                                    <div className="grid grid-cols-2 gap-3 mb-6">
+                                        {subjects.map(sub => (
+                                            <button
+                                                key={sub}
+                                                onClick={() => toggleSubject('strengths', sub)}
+                                                className={`py-3 rounded-xl font-medium transition-all ${
+                                                    formData.strengths.includes(sub)
+                                                        ? 'bg-green-500 text-white shadow-lg scale-105'
+                                                        : 'bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
+                                                {t[sub]}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        onClick={() => setStep(2)}
+                                        disabled={formData.strengths.length === 0}
+                                        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        Next →
+                                    </button>
+                                </div>
+                            )}
+
+                            {step === 2 && (
+                                <div className="animate-fade-in">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-4">
+                                        {t.weaknesses}
+                                    </h3>
+                                    <div className="grid grid-cols-2 gap-3 mb-6">
+                                        {subjects.map(sub => (
+                                            <button
+                                                key={sub}
+                                                onClick={() => toggleSubject('weaknesses', sub)}
+                                                className={`py-3 rounded-xl font-medium transition-all ${
+                                                    formData.weaknesses.includes(sub)
+                                                        ? 'bg-red-500 text-white shadow-lg scale-105'
+                                                        : 'bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
+                                                {t[sub]}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setStep(1)}
+                                            className="flex-1 bg-gray-300 text-gray-700 py-4 rounded-xl font-bold"
+                                        >
+                                            ← Back
+                                        </button>
+                                        <button
+                                            onClick={() => setStep(3)}
+                                            disabled={formData.weaknesses.length === 0}
+                                            className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold disabled:opacity-50"
+                                        >
+                                            Next →
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {step === 3 && (
+                                <div className="animate-fade-in">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-4">
+                                        {t.targetGrade}
+                                    </h3>
+                                    <div className="grid grid-cols-5 gap-3 mb-6">
+                                        {['A', 'B', 'C', 'D', 'E'].map(grade => (
+                                            <button
+                                                key={grade}
+                                                onClick={() => setFormData({...formData, targetGrade: grade})}
+                                                className={`py-4 rounded-xl font-bold text-xl transition-all ${
+                                                    formData.targetGrade === grade
+                                                        ? 'bg-blue-500 text-white shadow-lg scale-110'
+                                                        : 'bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
+                                                {grade}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setStep(2)}
+                                            className="flex-1 bg-gray-300 text-gray-700 py-4 rounded-xl font-bold"
+                                        >
+                                            ← Back
+                                        </button>
+                                        <button
+                                            onClick={() => setStep(4)}
+                                            disabled={!formData.targetGrade}
+                                            className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold disabled:opacity-50"
+                                        >
+                                            Next →
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {step === 4 && (
+                                <div className="animate-fade-in">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-4">
+                                        {t.monthsLeft}
+                                    </h3>
+                                    <div className="grid grid-cols-3 gap-3 mb-6">
+                                        {['1', '2', '3', '4', '5', '6'].map(month => (
+                                            <button
+                                                key={month}
+                                                onClick={() => setFormData({...formData, monthsLeft: month})}
+                                                className={`py-4 rounded-xl font-bold text-lg transition-all ${
+                                                    formData.monthsLeft === month
+                                                        ? 'bg-orange-500 text-white shadow-lg scale-110'
+                                                        : 'bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
+                                                {month}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setStep(3)}
+                                            className="flex-1 bg-gray-300 text-gray-700 py-4 rounded-xl font-bold"
+                                        >
+                                            ← Back
+                                        </button>
+                                        <button
+                                            onClick={handleSubmit}
+                                            disabled={!formData.monthsLeft}
+                                            className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold disabled:opacity-50 animate-pulse"
+                                        >
+                                            {t.generateRoadmap} ✨
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Roadmap Page Component
+        function RoadmapPage({ lang, userData, studyHours, onContinue, t }) {
+            const phases = [
+                { 
+                    month: `${t.month || 'Month'} 1-2`, 
+                    title: lang === 'en' ? 'Fix Math foundations' : 'ជួសជុលគ្រឹះគណិតវិទ្យា',
+                    icon: '📐'
+                },
+                { 
+                    month: `${t.month || 'Month'} 3`, 
+                    title: lang === 'en' ? 'Biology deep dive' : 'ស៊ីជម្រៅជីវវិទ្យា',
+                    icon: '🧬'
+                },
+                { 
+                    month: `${t.month || 'Month'} 4`, 
+                    title: lang === 'en' ? 'Mixed practice all subjects' : 'អនុវត្តលាយមុខវិជ្ជាទាំងអស់',
+                    icon: '📚'
+                },
+                { 
+                    month: `${t.month || 'Month'} 5`, 
+                    title: lang === 'en' ? 'Exam simulation & weak areas' : 'ប្រឡងពិសោធន៍ & តំបន់ខ្សោយ',
+                    icon: '🎯'
+                }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 p-6 flex flex-col">
+                    <div className="animate-slide-up">
+                        <h1 className="bangers text-4xl text-white text-center mb-6 animate-bounce">
+                            {t.yourRoadmap} 🎓
+                        </h1>
+
+                        <div className="bg-white rounded-3xl p-6 shadow-2xl mb-6">
+                            <div className="text-center mb-6">
+                                <div className="inline-block bg-gradient-to-r from-green-400 to-emerald-500 text-white px-6 py-3 rounded-full font-bold text-lg animate-pulse">
+                                    {t.targetGrade || 'Target Grade'}: {userData.targetGrade} | {userData.monthsLeft} {lang === 'en' ? 'months left' : 'ខែនៅសល់'}
+                                </div>
+                            </div>
+
+                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-5 mb-6">
+                                <h3 className="font-bold text-gray-800 mb-3 text-lg">
+                                    ⏰ {t.recommendedTime}
+                                </h3>
+                                <div className="text-center">
+                                    <div className="text-5xl font-black gradient-text mb-2">
+                                        {studyHours}
+                                    </div>
+                                    <div className="text-gray-600 font-medium">
+                                        {t.hoursPerDay}
+                                    </div>
+                                    <div className="text-sm text-gray-500 mt-2">
+                                        {t.basedOn}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mb-4">
+                                <h3 className="font-bold text-gray-800 mb-4 text-lg">
+                                    🗺️ {t.roadmapPhases}
+                                </h3>
+                                <div className="space-y-3">
+                                    {phases.map((phase, idx) => (
+                                        <div 
+                                            key={idx} 
+                                            className="bg-white border-2 border-purple-200 rounded-xl p-4 flex items-center gap-3 animate-slide-up"
+                                            style={{animationDelay: `${idx * 0.1}s`}}
+                                        >
+                                            <div className="text-3xl">{phase.icon}</div>
+                                            <div>
+                                                <div className="font-bold text-purple-600">{phase.month}</div>
+                                                <div className="text-gray-700">{phase.title}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={onContinue}
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-2xl font-bold text-xl shadow-xl animate-pulse"
+                        >
+                            {t.studyNow} 🚀
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Home Page Component
+        function HomePage({ lang, setLang, xp, level, streak, daysLeft, tasksCompleted, completeTask, onViewRoadmap, t }) {
+            const allTasksComplete = Object.values(tasksCompleted).every(v => v);
+            const motivationQuotes = {
+                en: [
+                    "Success is the sum of small efforts repeated day in and day out.",
+                    "The expert in anything was once a beginner.",
+                    "Study hard now, celebrate later!",
+                    "Your future self will thank you for today's effort."
+                ],
+                km: [
+                    "ភាពជោគជ័យគឺជាផលបូកនៃការខិតខំតូចៗដែលធ្វើម្តងហើយម្តងទៀត។",
+                    "អ្នកជំនាញក្នុងអ្វីមួយធ្លាប់ជាអ្នកចាប់ផ្តើម។",
+                    "ប្រឹងសិក្សាឥឡូវ អបអរនៅពេលក្រោយ!",
+                    "ខ្លួនឯងអនាគតរបស់អ្នកនឹងថ្លែងអំណរគុណចំពោះការខិតខំថ្ងៃនេះ។"
+                ]
+            };
+            const randomQuote = motivationQuotes[lang][Math.floor(Math.random() * motivationQuotes[lang].length)];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl">
+                        <div className="flex justify-between items-center mb-6">
+                            <h1 className="bangers text-3xl text-white">BAC II HERO</h1>
+                            <button 
+                                onClick={() => setLang(lang === 'en' ? 'km' : 'en')}
+                                className="bg-white/20 text-white px-3 py-1 rounded-full text-sm"
+                            >
+                                {lang === 'en' ? '🇰🇭 KM' : '🇬🇧 EN'}
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3 mb-4">
+                            <div className="bg-white/20 backdrop-blur-lg rounded-xl p-3 text-center">
+                                <div className="text-yellow-300 text-2xl font-black">{daysLeft}</div>
+                                <div className="text-white/90 text-xs">{t.daysLeft}</div>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-lg rounded-xl p-3 text-center">
+                                <div className="text-yellow-300 text-2xl font-black">{streak} 🔥</div>
+                                <div className="text-white/90 text-xs">{t.currentStreak}</div>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-lg rounded-xl p-3 text-center">
+                                <div className="text-yellow-300 text-2xl font-black">Lv {level}</div>
+                                <div className="text-white/90 text-xs">{xp} XP</div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4">
+                            <div className="text-white/90 text-xs mb-2">{t.motivationQuote}</div>
+                            <div className="text-white font-medium italic">"{randomQuote}"</div>
+                        </div>
+                    </div>
+
+                    <div className="p-6">
+                        <div className="bg-white rounded-2xl shadow-lg p-5 mb-4">
+                            <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span className="text-2xl">📋</span> {t.dailyPlan}
+                            </h2>
+                            {!allTasksComplete ? (
+                                <div className="space-y-3">
+                                    <p className="text-sm text-gray-600 mb-3">{t.todaysPlan}</p>
+                                    <TaskItem 
+                                        completed={tasksCompleted.lesson}
+                                        icon="📖"
+                                        text={`${t.completeLesson}: Basic Limits (20 min)`}
+                                        onClick={() => completeTask('lesson')}
+                                    />
+                                    <TaskItem 
+                                        completed={tasksCompleted.practice}
+                                        icon="✍️"
+                                        text={`${t.practice} (15 min)`}
+                                        onClick={() => completeTask('practice')}
+                                    />
+                                    <TaskItem 
+                                        completed={tasksCompleted.flashcards}
+                                        icon="🎴"
+                                        text={`${t.reviewCards} (10 min)`}
+                                        onClick={() => completeTask('flashcards')}
+                                    />
+                                    <TaskItem 
+                                        completed={tasksCompleted.challenge}
+                                        icon="🎯"
+                                        text={t.dailyChallengeTask}
+                                        onClick={() => completeTask('challenge')}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="text-center py-6">
+                                    <div className="text-6xl mb-3 animate-bounce">🎉</div>
+                                    <div className="font-bold text-green-600 text-lg">{t.completedMsg}</div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={onViewRoadmap}
+                                className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-4 rounded-xl font-bold shadow-lg flex flex-col items-center gap-2"
+                            >
+                                <span className="text-3xl">🗺️</span>
+                                <span className="text-sm">{t.viewRoadmap}</span>
+                            </button>
+                            <button
+                                onClick={() => {}}
+                                className="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-xl font-bold shadow-lg flex flex-col items-center gap-2"
+                            >
+                                <span className="text-3xl">📚</span>
+                                <span className="text-sm">{t.studyNow}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function TaskItem({ completed, icon, text, onClick }) {
+            return (
+                <div
+                    onClick={!completed ? onClick : null}
+                    className={`flex items-center gap-3 p-3 rounded-xl border-2 transition-all cursor-pointer ${
+                        completed 
+                            ? 'bg-green-50 border-green-300' 
+                            : 'bg-gray-50 border-gray-200 hover:border-purple-300'
+                    }`}
+                >
+                    <div className="text-2xl">{completed ? '✅' : icon}</div>
+                    <div className={`flex-1 font-medium ${completed ? 'text-green-700 line-through' : 'text-gray-700'}`}>
+                        {text}
+                    </div>
+                </div>
+            );
+        }
+
+        // Lessons Page Component
+        function LessonsPage({ lang, setCurrentLesson, setCurrentPage, t }) {
+            const lessons = [
+                { id: 'math-limits', category: 'math', title: lessonsData.math.limits.title[lang], importance: '85%', icon: '📐' },
+                { id: 'math-probability', category: 'math', title: lessonsData.math.probability.title[lang], importance: '40%', icon: '🎲' },
+                { id: 'biology-body', category: 'biology', title: lessonsData.biology.body.title[lang], importance: '65%', icon: '🫀' },
+                { id: 'biology-brain', category: 'biology', title: lessonsData.biology.brain.title[lang], importance: '70%', icon: '🧠' }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                        <h1 className="bangers text-3xl text-white text-center">{t.lessons} 📚</h1>
+                    </div>
+
+                    <div className="p-6 space-y-6">
+                        <div>
+                            <h2 className="font-bold text-xl text-gray-800 mb-3 flex items-center gap-2">
+                                <span className="text-2xl">📐</span> {t.math}
+                            </h2>
+                            <div className="space-y-3">
+                                {lessons.filter(l => l.category === 'math').map(lesson => (
+                                    <LessonCard 
+                                        key={lesson.id}
+                                        lesson={lesson}
+                                        onClick={() => {
+                                            setCurrentLesson(lesson.id);
+                                            setCurrentPage('lesson-detail');
+                                        }}
+                                        t={t}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 className="font-bold text-xl text-gray-800 mb-3 flex items-center gap-2">
+                                <span className="text-2xl">🧬</span> {t.biology}
+                            </h2>
+                            <div className="space-y-3">
+                                {lessons.filter(l => l.category === 'biology').map(lesson => (
+                                    <LessonCard 
+                                        key={lesson.id}
+                                        lesson={lesson}
+                                        onClick={() => {
+                                            setCurrentLesson(lesson.id);
+                                            setCurrentPage('lesson-detail');
+                                        }}
+                                        t={t}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function LessonCard({ lesson, onClick, t }) {
+            return (
+                <div
+                    onClick={onClick}
+                    className="bg-white rounded-xl p-4 shadow-md border-2 border-gray-100 hover:border-purple-300 cursor-pointer transition-all hover:scale-102"
+                >
+                    <div className="flex items-center gap-4">
+                        <div className="text-4xl">{lesson.icon}</div>
+                        <div className="flex-1">
+                            <h3 className="font-bold text-gray-800">{lesson.title}</h3>
+                            <div className="text-sm text-orange-600 font-medium">
+                                {t.importanceNote}: {lesson.importance}
+                            </div>
+                        </div>
+                        <div className="text-purple-500 text-2xl">→</div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Lesson Detail Page Component
+        function LessonDetailPage({ lang, lesson, onBack, onComplete, t }) {
+            const [studyDepth, setStudyDepth] = useState(null);
+            const [showContent, setShowContent] = useState(false);
+
+            const getLessonData = () => {
+                const parts = lesson.split('-');
+                const category = parts[0];
+                const topic = parts[1];
+                
+                if (category === 'math') {
+                    return lessonsData.math[topic === 'limits' ? 'limits' : 'probability'];
+                } else {
+                    return lessonsData.biology[topic === 'body' ? 'body' : 'brain'];
+                }
+            };
+
+            const lessonData = getLessonData();
+
+            if (!studyDepth) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-6">
+                        <button onClick={onBack} className="mb-6 text-purple-600 font-medium flex items-center gap-2">
+                            ← {t.backToLessons}
+                        </button>
+                        <div className="bg-white rounded-2xl p-6 shadow-xl">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                                {t.chooseDepth}
+                            </h2>
+                            <div className="space-y-4">
+                                <button
+                                    onClick={() => { setStudyDepth('quick'); setShowContent(true); }}
+                                    className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
+                                >
+                                    <span>🏃 {t.quickReview}</span>
+                                </button>
+                                <button
+                                    onClick={() => { setStudyDepth('standard'); setShowContent(true); }}
+                                    className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
+                                >
+                                    <span>📚 {t.standardStudy}</span>
+                                </button>
+                                <button
+                                    onClick={() => { setStudyDepth('deep'); setShowContent(true); }}
+                                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
+                                >
+                                    <span>🎯 {t.deepDive}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 sticky top-0 z-10 shadow-xl">
+                        <button onClick={onBack} className="text-white mb-3 flex items-center gap-2">
+                            ← {t.backToLessons}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white">{lessonData.title[lang]}</h1>
+                        <div className="text-yellow-300 text-sm mt-2">
+                            {t.importanceNote}: {lessonData.importance} • {studyDepth === 'quick' ? '10 min' : studyDepth === 'standard' ? '30 min' : '60 min'}
+                        </div>
+                    </div>
+
+                    <div className="p-6 space-y-4 animate-slide-up">
+                        <div className="bg-white rounded-2xl p-5 shadow-lg">
+                            <h3 className="font-bold text-gray-800 mb-3 text-lg">📖 Lesson Content</h3>
+                            <p className="text-gray-700 leading-relaxed">{lessonData.content[lang]}</p>
+                        </div>
+
+                        <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5 shadow-lg">
+                            <h3 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                                <span className="text-xl">📝</span> {t.summary}
+                            </h3>
+                            <p className="text-blue-900">{lessonData.summary[lang]}</p>
+                        </div>
+
+                        <div className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-5 shadow-lg">
+                            <h3 className="font-bold text-yellow-800 mb-2 flex items-center gap-2">
+                                <span className="text-xl">🎯</span> {t.funFact}
+                            </h3>
+                            <p className="text-yellow-900">{lessonData.funFact[lang]}</p>
+                        </div>
+
+                        <div className="bg-purple-50 border-2 border-purple-300 rounded-2xl p-5 shadow-lg">
+                            <h3 className="font-bold text-purple-800 mb-2 flex items-center gap-2">
+                                <span className="text-xl">💡</span> {t.surpriseTip}
+                            </h3>
+                            <p className="text-purple-900">{lessonData.tip[lang]}</p>
+                        </div>
+
+                        {lessonData.didYouKnow && (
+                            <div className="bg-green-50 border-2 border-green-300 rounded-2xl p-5 shadow-lg">
+                                <h3 className="font-bold text-green-800 mb-2 flex items-center gap-2">
+                                    <span className="text-xl">🧠</span> {t.didYouKnow}
+                                </h3>
+                                <p className="text-green-900">{lessonData.didYouKnow[lang]}</p>
+                            </div>
+                        )}
+
+                        <button
+                            onClick={onComplete}
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl"
+                        >
+                            ✅ {t.quickChallenge} - {t.earnXP}
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Donate Page Component
+        function DonatePage({ lang, t }) {
+            const [donated, setDonated] = useState(false);
+
+            const topDonors = [
+                { name: 'UNICEF Cambodia', amount: '$50,000', type: 'NGO' },
+                { name: 'Sokha Tep', amount: '$5,000', type: 'Individual' },
+                { name: 'ABA Bank', amount: '$25,000', type: 'Company' },
+                { name: 'Ministry of Education', amount: '$100,000', type: 'Government' },
+                { name: 'Dara Chan', amount: '$2,500', type: 'Individual' }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                        <h1 className="bangers text-3xl text-white text-center mb-2">{t.donateTitle} 💝</h1>
+                        <p className="text-white/90 text-center text-sm">{t.donateSubtitle}</p>
+                    </div>
+
+                    <div className="p-6 space-y-4">
+                        {!donated ? (
+                            <>
+                                <button
+                                    onClick={() => setDonated(true)}
+                                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white p-6 rounded-2xl font-bold text-lg shadow-xl flex items-center justify-between"
+                                >
+                                    <span>💵 {t.moneyDonation}</span>
+                                    <span className="text-3xl">→</span>
+                                </button>
+                                <button
+                                    onClick={() => setDonated(true)}
+                                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-2xl font-bold text-lg shadow-xl flex items-center justify-between"
+                                >
+                                    <span>📺 {t.watchAds}</span>
+                                    <span className="text-3xl">→</span>
+                                </button>
+                            </>
+                        ) : (
+                            <div className="bg-white rounded-2xl p-8 shadow-xl text-center animate-slide-up">
+                                <div className="text-6xl mb-4 animate-bounce">🎉</div>
+                                <h2 className="text-2xl font-bold text-green-600 mb-2">{t.thankYou}</h2>
+                                <p className="text-gray-600">Your donation will help students achieve their dreams!</p>
+                            </div>
+                        )}
+
+                        <div className="bg-white rounded-2xl p-6 shadow-xl">
+                            <h2 className="font-bold text-xl text-gray-800 mb-4 flex items-center gap-2">
+                                <span className="text-2xl">🏆</span> {t.topDonors}
+                            </h2>
+                            <div className="space-y-3">
+                                {topDonors.map((donor, idx) => (
+                                    <div key={idx} className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl">
+                                        <div className="text-2xl font-black text-purple-600 w-8">#{idx + 1}</div>
+                                        <div className="flex-1">
+                                            <div className="font-bold text-gray-800">{donor.name}</div>
+                                            <div className="text-sm text-gray-500">{donor.type}</div>
+                                        </div>
+                                        <div className="font-bold text-green-600">{donor.amount}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Chat Page Component
+        function ChatPage({ lang, t }) {
+            const [messages, setMessages] = useState([]);
+            const [input, setInput] = useState('');
+
+            const commonQuestions = [
+                { q: lang === 'en' ? 'How do I calculate limits?' : 'តើគណនាលីមីតយ៉ាងដូចម្តេច?', a: lang === 'en' ? 'To calculate limits, substitute the value into the function. If you get 0/0, try factoring or L\'Hôpital\'s rule!' : 'ដើម្បីគណនាលីមីត ជំនួសតម្លៃទៅក្នុងអនុគមន៍។ ប្រសិនបើអ្នកទទួលបាន 0/0 សូមព្យាយាមដាក់កត្តា ឬច្បាប់ L\'Hôpital!' },
+                { q: lang === 'en' ? 'What\'s the brain structure?' : 'តើរចនាសម្ព័ន្ធខួរក្បាលជាអ្វី?', a: lang === 'en' ? 'The brain has 3 main parts: Cerebrum (thinking), Cerebellum (balance), and Brain stem (vital functions).' : 'ខួរក្បាលមាន 3 ផ្នែកសំខាន់: សេរេប្រុម (គំនិត), សេរេបែល (តុល្យភាព), និងដើមខួរក្បាល (មុខងារសំខាន់)។' },
+                { q: lang === 'en' ? 'How to improve my grade?' : 'តើធ្វើយ៉ាងណាដើម្បីកែលម្អពិន្ទុ?', a: lang === 'en' ? 'Follow your daily plan, practice weak areas, and review with flashcards. Consistency is key!' : 'អនុវត្តតាមផែនការប្រចាំថ្ងៃរបស់អ្នក អនុវត្តតំបន់ខ្សោយ និងពិនិត្យជាមួយកាតចងចាំ។ ភាពជាប់លាប់គឺជាសោ!' }
+            ];
+
+            const handleSend = () => {
+                if (!input.trim()) return;
+                
+                setMessages([...messages, { type: 'user', text: input }]);
+                
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { 
+                        type: 'bot', 
+                        text: t.noInternet 
+                    }]);
+                }, 500);
+                
+                setInput('');
+            };
+
+            const handleQuestionClick = (q, a) => {
+                setMessages([
+                    ...messages, 
+                    { type: 'user', text: q },
+                    { type: 'bot', text: a }
+                ]);
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-32">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                        <h1 className="bangers text-3xl text-white text-center">{t.aiCoach} 🤖</h1>
+                    </div>
+
+                    {messages.length === 0 ? (
+                        <div className="p-6">
+                            <div className="bg-white rounded-2xl p-6 shadow-lg mb-4">
+                                <h3 className="font-bold text-gray-800 mb-4">{t.commonQuestions}</h3>
+                                <div className="space-y-3">
+                                    {commonQuestions.map((item, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleQuestionClick(item.q, item.a)}
+                                            className="w-full text-left p-4 bg-purple-50 hover:bg-purple-100 rounded-xl border-2 border-purple-200 transition-all"
+                                        >
+                                            <div className="font-medium text-purple-800">{item.q}</div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="p-6 space-y-4 max-h-[calc(100vh-250px)] overflow-y-auto">
+                            {messages.map((msg, idx) => (
+                                <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                    <div className={`max-w-[80%] p-4 rounded-2xl ${
+                                        msg.type === 'user' 
+                                            ? 'bg-purple-600 text-white' 
+                                            : 'bg-white text-gray-800 shadow-md'
+                                    }`}>
+                                        {msg.text}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="fixed bottom-20 left-0 right-0 bg-white border-t-2 border-gray-200 p-4">
+                        <div className="max-w-[430px] mx-auto flex gap-3">
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                                placeholder={t.askQuestion}
+                                className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500"
+                            />
+                            <button
+                                onClick={handleSend}
+                                className="bg-purple-600 text-white px-6 py-3 rounded-xl font-bold"
+                            >
+                                {t.send}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Tab Bar Component
+        function TabBar({ currentPage, setCurrentPage, t }) {
+            const tabs = [
+                { id: 'home', icon: '🏠', label: t.home },
+                { id: 'lessons', icon: '📚', label: t.lessons },
+                { id: 'donate', icon: '💝', label: t.donate },
+                { id: 'chat', icon: '💬', label: t.chat }
+            ];
+
+            return (
+                <div className="tab-bar">
+                    <div className="flex justify-around py-3">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setCurrentPage(tab.id)}
+                                className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
+                                    currentPage === tab.id 
+                                        ? 'bg-purple-100 text-purple-600 scale-110' 
+                                        : 'text-gray-500'
+                                }`}
+                            >
+                                <span className="text-2xl">{tab.icon}</span>
+                                <span className="text-xs font-medium">{tab.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // Render App
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
