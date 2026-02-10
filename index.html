@@ -170,7 +170,39 @@
                 chemistry: "Chemistry",
                 physics: "Physics",
                 history: "History",
-                english: "English"
+                english: "English",
+                flashcards: "Flashcards",
+                practice: "Practice",
+                leaderboard: "Leaderboard",
+                progress: "Progress",
+                mockExam: "Mock Exam",
+                startFlashcards: "Start Flashcards",
+                showAnswer: "Show Answer",
+                nextCard: "Next Card",
+                cardProgress: "Card Progress",
+                correct: "Correct",
+                incorrect: "Incorrect",
+                startPractice: "Start Practice",
+                checkAnswer: "Check Answer",
+                nextQuestion: "Next Question",
+                yourAnswer: "Your Answer",
+                correctAnswer: "Correct Answer",
+                explanation: "Explanation",
+                practiceScore: "Practice Score",
+                weakAreas: "Weak Areas",
+                topStudents: "Top Students",
+                yourRank: "Your Rank",
+                progressOverview: "Progress Overview",
+                topicsCompleted: "Topics Completed",
+                totalXP: "Total XP",
+                totalTime: "Study Time",
+                weeklyProgress: "Weekly Progress",
+                startMockExam: "Start Mock Exam",
+                examInstructions: "Answer all questions to see your Bac II readiness score",
+                submitExam: "Submit Exam",
+                examScore: "Exam Score",
+                retakeExam: "Retake Exam",
+                bacReadiness: "Bac II Readiness"
             },
             km: {
                 welcome: "សូមស្វាគមន៍មកកាន់",
@@ -236,7 +268,39 @@
                 chemistry: "គីមីវិទ្យា",
                 physics: "រូបវិទ្យា",
                 history: "ប្រវត្តិសាស្ត្រ",
-                english: "អង់គ្លេស"
+                english: "អង់គ្លេស",
+                flashcards: "កាតចងចាំ",
+                practice: "អនុវត្ត",
+                leaderboard: "តារាងលេខរៀង",
+                progress: "ការរីកចម្រើន",
+                mockExam: "ប្រឡងពិសោធន៍",
+                startFlashcards: "ចាប់ផ្តើមកាតចងចាំ",
+                showAnswer: "បង្ហាញចម្លើយ",
+                nextCard: "កាតបន្ទាប់",
+                cardProgress: "ការរីកចម្រើនកាត",
+                correct: "ត្រឹមត្រូវ",
+                incorrect: "មិនត្រឹមត្រូវ",
+                startPractice: "ចាប់ផ្តើមអនុវត្ត",
+                checkAnswer: "ពិនិត្យចម្លើយ",
+                nextQuestion: "សំណួរបន្ទាប់",
+                yourAnswer: "ចម្លើយរបស់អ្នក",
+                correctAnswer: "ចម្លើយត្រឹមត្រូវ",
+                explanation: "ពន្យល់",
+                practiceScore: "ពិន្ទុអនុវត្ត",
+                weakAreas: "តំបន់ខ្សោយ",
+                topStudents: "សិស្សកំពូល",
+                yourRank: "ចំណាត់ថ្នាក់របស់អ្នក",
+                progressOverview: "ទិដ្ឋភាពទូទៅនៃការរីកចម្រើន",
+                topicsCompleted: "ប្រធានបទបានបញ្ចប់",
+                totalXP: "XP សរុប",
+                totalTime: "ពេលវេលាសិក្សា",
+                weeklyProgress: "ការរីកចម្រើនប្រចាំសប្តាហ៍",
+                startMockExam: "ចាប់ផ្តើមប្រឡងពិសោធន៍",
+                examInstructions: "ឆ្លើយសំណួរទាំងអស់ដើម្បីមើលពិន្ទុរៀបចំ Bac II",
+                submitExam: "ដាក់ប្រឡង",
+                examScore: "ពិន្ទុប្រឡង",
+                retakeExam: "ធ្វើប្រឡងម្តងទៀត",
+                bacReadiness: "ការរៀបចំ Bac II"
             }
         };
 
@@ -336,6 +400,101 @@
             }
         };
 
+        // Flashcards data
+        const flashcardsData = {
+            math: [
+                { q: { en: "What is a limit?", km: "តើលីមីតជាអ្វី?" }, a: { en: "The value a function approaches as input approaches a value", km: "តម្លៃដែលអនុគមន៍ទៅជិតនៅពេលធាតុចូលទៅជិតតម្លៃមួយ" }, topic: "limits" },
+                { q: { en: "Formula for probability?", km: "រូបមន្តប្រូបាប៊ីលីតេ?" }, a: { en: "P(E) = Favorable outcomes / Total outcomes", km: "P(E) = លទ្ធផលអំណោយផល / លទ្ធផលសរុប" }, topic: "probability" },
+                { q: { en: "What is 0/0 in limits?", km: "តើ 0/0 នៅក្នុងលីមីតជាអ្វី?" }, a: { en: "Indeterminate form - use factoring or L'Hôpital's rule", km: "ទម្រង់មិនកំណត់ - ប្រើដាក់កត្តា ឬច្បាប់ L'Hôpital" }, topic: "limits" },
+                { q: { en: "What is a variable?", km: "តើអថេរជាអ្វី?" }, a: { en: "A symbol that represents a number (like x or y)", km: "និមិត្តសញ្ញាដែលតំណាងលេខ (ដូចជា x ឬ y)" }, topic: "foundation" },
+                { q: { en: "What is an equation?", km: "តើសមីការជាអ្វី?" }, a: { en: "A mathematical statement that two things are equal", km: "សេចក្តីថ្លែងការណ៍គណិតវិទ្យាថាអ្វីពីរស្មើគ្នា" }, topic: "foundation" }
+            ],
+            biology: [
+                { q: { en: "How many bones in the neck?", km: "តើមានឆ្អឹងប៉ុន្មាននៅក?" }, a: { en: "7 cervical vertebrae", km: "7 កងឆ្អឹងក" }, topic: "body" },
+                { q: { en: "Main parts of the brain?", km: "ផ្នែកសំខាន់នៃខួរក្បាល?" }, a: { en: "Cerebrum, Cerebellum, Brain stem", km: "សេរេប្រុម, សេរេបែល, ដើមខួរក្បាល" }, topic: "brain" },
+                { q: { en: "What does the cerebrum control?", km: "តើសេរេប្រុមគ្រប់គ្រងអ្វី?" }, a: { en: "Thinking, memory, and voluntary movement", km: "ការគិត ការចងចាំ និងចលនាស្ម័គ្រចិត្ត" }, topic: "brain" },
+                { q: { en: "What is a cell?", km: "តើកោសិកាជាអ្វី?" }, a: { en: "The basic unit of all living things", km: "ឯកតាមូលដ្ឋាននៃសារពាង្គរស់ទាំងអស់" }, topic: "foundation" },
+                { q: { en: "What is an organ?", km: "តើសរីរាង្គជាអ្វី?" }, a: { en: "A group of tissues working together", km: "ក្រុមជាលិកាដែលធ្វើការជាមួយគ្នា" }, topic: "foundation" }
+            ]
+        };
+
+        // Foundation lessons data
+        const foundationLessons = {
+            math: {
+                title: { en: "Math Foundation", km: "គ្រឹះគណិតវិទ្យា" },
+                importance: "100%",
+                content: {
+                    en: "Before diving into advanced topics, let's review the basics. Understanding variables, equations, and basic operations is essential for all math topics.",
+                    km: "មុនពេលចូលទៅក្នុងប្រធានបទកម្រិតខ្ពស់ តោះពិនិត្យមូលដ្ឋាន។ ការយល់ដឹងអំពីអថេរ សមីការ និងប្រតិបត្តិការមូលដ្ឋានមានសារៈសំខាន់សម្រាប់គណិតវិទ្យាទាំងអស់។"
+                },
+                summary: {
+                    en: "Variables (x, y) represent unknown numbers. Equations show equality (2x + 3 = 7). Master these to succeed in advanced math.",
+                    km: "អថេរ (x, y) តំណាងលេខមិនស្គាល់។ សមីការបង្ហាញសមភាព (2x + 3 = 7)។ ត្រួតពិនិត្យទាំងនេះដើម្បីជោគជ័យក្នុងគណិតវិទ្យាកម្រិតខ្ពស់។"
+                },
+                funFact: {
+                    en: "The word 'algebra' comes from an Arabic word meaning 'reunion of broken parts'!",
+                    km: "ពាក្យ 'algebra' មកពីពាក្យអារ៉ាប់ដែលមានន័យថា 'ការរួបរួមនៃផ្នែកបែក'!"
+                },
+                tip: {
+                    en: "Always isolate the variable on one side of the equation. What you do to one side, do to the other!",
+                    km: "តែងតែដាច់អថេរនៅម្ខាងនៃសមីការ។ អ្វីដែលអ្នកធ្វើនៅម្ខាង ធ្វើទៅម្ខាងទៀត!"
+                }
+            },
+            biology: {
+                title: { en: "Biology Foundation", km: "គ្រឹះជីវវិទ្យា" },
+                importance: "100%",
+                content: {
+                    en: "All living things are made of cells. Cells form tissues, tissues form organs, and organs form organ systems. Understanding this hierarchy is key to biology.",
+                    km: "សារពាង្គរស់ទាំងអស់ត្រូវបានបង្កើតពីកោសិកា។ កោសិកាបង្កើតជាលិកា ជាលិកាបង្កើតសរីរាង្គ និងសរីរាង្គបង្កើតប្រព័ន្ធសរីរាង្គ។ ការយល់ដឹងអំពីឋានានុក្រមនេះគឺជាគន្លឹះនៃជីវវិទ្យា។"
+                },
+                summary: {
+                    en: "Cell → Tissue → Organ → Organ System → Organism. This is the biological hierarchy of organization.",
+                    km: "កោសិកា → ជាលិកា → សរីរាង្គ → ប្រព័ន្ធសរីរាង្គ → សារពាង្គ។ នេះគឺជាឋានានុក្រមជីវសាស្ត្រនៃការរៀបចំ។"
+                },
+                funFact: {
+                    en: "Your body has about 37 trillion cells! That's 37,000,000,000,000 cells!",
+                    km: "រាងកាយរបស់អ្នកមានកោសិកាប្រហែល 37 ត្រីលាន! នោះគឺ 37,000,000,000,000 កោសិកា!"
+                },
+                tip: {
+                    en: "Draw diagrams! Visual learning helps you remember the structure of organs and systems.",
+                    km: "គូរដ្យាក្រាម! ការរៀនដោយមើលឃើញជួយអ្នកចងចាំរចនាសម្ព័ន្ធសរីរាង្គនិងប្រព័ន្ធ។"
+                },
+                didYouKnow: {
+                    en: "Red blood cells live for only 120 days before being replaced!",
+                    km: "កោសិកាឈាមក្រហមរស់តែ 120 ថ្ងៃមុនពេលត្រូវបានជំនួស!"
+                }
+            }
+        };
+
+        // Practice questions data
+        const practiceData = {
+            math: [
+                { q: { en: "Calculate: lim(x→2) (x² - 4)/(x - 2)", km: "គណនា: lim(x→2) (x² - 4)/(x - 2)" }, correct: "4", options: ["2", "4", "0", "undefined"], explanation: { en: "Factor as (x+2)(x-2)/(x-2) = x+2, substitute x=2 → answer is 4", km: "ដាក់កត្តាជា (x+2)(x-2)/(x-2) = x+2, ជំនួស x=2 → ចម្លើយគឺ 4" } },
+                { q: { en: "A coin is flipped twice. P(both heads)?", km: "បោះកាក់ពីរដង។ P(ទាំងពីរក្បាល)?" }, correct: "1/4", options: ["1/2", "1/4", "1/3", "2/3"], explanation: { en: "P(H) × P(H) = 1/2 × 1/2 = 1/4", km: "P(H) × P(H) = 1/2 × 1/2 = 1/4" } }
+            ],
+            biology: [
+                { q: { en: "Which part coordinates balance?", km: "ផ្នែកណាសម្របសម្រួលតុល្យភាព?" }, correct: "Cerebellum", options: ["Cerebrum", "Cerebellum", "Brain stem", "Neuron"], explanation: { en: "The cerebellum controls coordination and balance", km: "សេរេបែលគ្រប់គ្រងការសម្របសម្រួលនិងតុល្យភាព" } },
+                { q: { en: "Stomach lining regenerates every?", km: "ស្រទាប់ក្រពះកើតឡើងវិញរៀងរាល់?" }, correct: "3-4 days", options: ["1 day", "3-4 days", "1 week", "1 month"], explanation: { en: "Stomach gets new lining every 3-4 days to protect from acid", km: "ក្រពះទទួលបានស្រទាប់ថ្មីរៀងរាល់ 3-4 ថ្ងៃដើម្បីការពារពីអាស៊ីត" } }
+            ]
+        };
+
+        // Leaderboard data
+        const leaderboardData = [
+            { name: "Sokha", xp: 2450, level: 8, streak: 12, avatar: "👨" },
+            { name: "Dara", xp: 2100, level: 7, streak: 9, avatar: "👩" },
+            { name: "Visal", xp: 1850, level: 6, streak: 15, avatar: "👦" },
+            { name: "Sreymom", xp: 1600, level: 6, streak: 7, avatar: "👧" },
+            { name: "Ratanak", xp: 1400, level: 5, streak: 10, avatar: "👨" }
+        ];
+
+        // Mock exam questions
+        const mockExamData = [
+            { subject: "math", q: { en: "Evaluate: lim(x→0) sin(x)/x", km: "វាយតម្លៃ: lim(x→0) sin(x)/x" }, correct: "1", options: ["0", "1", "∞", "undefined"] },
+            { subject: "math", q: { en: "P(rolling a 6 on dice)?", km: "P(បោះលីសបាន 6)?" }, correct: "1/6", options: ["1/2", "1/6", "1/3", "1/12"] },
+            { subject: "biology", q: { en: "Main function of neurons?", km: "មុខងារសំខាន់របស់ណឺរ៉ូន?" }, correct: "Transmit signals", options: ["Produce energy", "Transmit signals", "Store memory", "Digest food"] },
+            { subject: "biology", q: { en: "Which system breaks down food?", km: "ប្រព័ន្ធណារំលាយអាហារ?" }, correct: "Digestive", options: ["Respiratory", "Digestive", "Circulatory", "Nervous"] }
+        ];
+
         // Main App Component
         function App() {
             const [lang, setLang] = useState('en');
@@ -357,6 +516,9 @@
                 challenge: false
             });
             const [currentLesson, setCurrentLesson] = useState(null);
+            const [flashcardProgress, setFlashcardProgress] = useState({});
+            const [practiceHistory, setPracticeHistory] = useState([]);
+            const [examResults, setExamResults] = useState([]);
 
             const t = translations[lang];
 
@@ -370,6 +532,9 @@
                     setLevel(data.level || 1);
                     setStreak(data.streak || 3);
                     setTasksCompleted(data.tasksCompleted || tasksCompleted);
+                    setFlashcardProgress(data.flashcardProgress || {});
+                    setPracticeHistory(data.practiceHistory || []);
+                    setExamResults(data.examResults || []);
                     if (data.surveyComplete) {
                         setCurrentPage('home');
                     }
@@ -383,10 +548,13 @@
                     xp,
                     level,
                     streak,
-                    tasksCompleted
+                    tasksCompleted,
+                    flashcardProgress,
+                    practiceHistory,
+                    examResults
                 };
                 localStorage.setItem('bacStudyData', JSON.stringify(dataToSave));
-            }, [surveyComplete, userData, xp, level, streak, tasksCompleted]);
+            }, [surveyComplete, userData, xp, level, streak, tasksCompleted, flashcardProgress, practiceHistory, examResults]);
 
             const completeSurvey = (data) => {
                 setUserData(data);
@@ -412,6 +580,17 @@
                 const gradeMap = { 'A': 3.5, 'B': 2.5, 'C': 1.75, 'D': 1.25, 'E': 1 };
                 return gradeMap[userData.targetGrade] || 2;
             };
+
+            const handleLessonClick = (lessonId) => {
+                setCurrentLesson(lessonId);
+                setCurrentPage('lesson-detail');
+            };
+
+            // Make handler and user data globally available
+            useEffect(() => {
+                window.handleLessonClick = handleLessonClick;
+                window.userWeaknesses = userData.weaknesses || [];
+            }, [userData.weaknesses]);
 
             return (
                 <div className="app-container">
@@ -454,7 +633,7 @@
                                 <LessonDetailPage 
                                     lang={lang}
                                     lesson={currentLesson}
-                                    onBack={() => setCurrentPage('lessons')}
+                                    onBack={() => setCurrentPage('home')}
                                     onComplete={() => completeTask('lesson')}
                                     t={t}
                                 />
@@ -464,6 +643,37 @@
                             )}
                             {currentPage === 'chat' && (
                                 <ChatPage lang={lang} t={t} />
+                            )}
+                            {currentPage === 'leaderboard' && (
+                                <LeaderboardPage 
+                                    lang={lang}
+                                    currentXp={xp}
+                                    currentLevel={level}
+                                    currentStreak={streak}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'progress' && (
+                                <ProgressPage 
+                                    lang={lang}
+                                    xp={xp}
+                                    level={level}
+                                    streak={streak}
+                                    tasksCompleted={tasksCompleted}
+                                    practiceHistory={practiceHistory}
+                                    userData={userData}
+                                    t={t}
+                                />
+                            )}
+                            {currentPage === 'mockexam' && (
+                                <MockExamPage 
+                                    lang={lang}
+                                    examResults={examResults}
+                                    setExamResults={setExamResults}
+                                    setXp={setXp}
+                                    xp={xp}
+                                    t={t}
+                                />
                             )}
                             
                             {currentPage !== 'roadmap' && currentPage !== 'lesson-detail' && (
@@ -782,6 +992,54 @@
             };
             const randomQuote = motivationQuotes[lang][Math.floor(Math.random() * motivationQuotes[lang].length)];
 
+            // Get weaknesses from parent via props
+            const userWeaknesses = window.userWeaknesses || [];
+            
+            const lessonCards = [];
+            
+            // Add foundation lessons if user has weaknesses
+            if (userWeaknesses.includes('math')) {
+                lessonCards.push({ 
+                    id: 'math-foundation', 
+                    title: foundationLessons.math.title[lang], 
+                    icon: '🔢', 
+                    category: `${t.math} - ${lang === 'en' ? 'Foundation' : 'គ្រឹះ'}`, 
+                    color: 'from-orange-500 to-red-600', 
+                    progress: 0,
+                    importance: '95%',
+                    isFoundation: true
+                });
+            }
+            
+            // Regular math lessons
+            lessonCards.push(
+                { id: 'math-limits', title: lessonsData.math.limits.title[lang], icon: '📐', category: t.math, color: 'from-blue-500 to-indigo-600', progress: 0, importance: '85%' },
+                { id: 'math-probability', title: lessonsData.math.probability.title[lang], icon: '🎲', category: t.math, color: 'from-cyan-500 to-blue-600', progress: 0, importance: '40%' }
+            );
+            
+            // Add biology foundation if needed
+            if (userWeaknesses.includes('biology')) {
+                lessonCards.push({ 
+                    id: 'biology-foundation', 
+                    title: foundationLessons.biology.title[lang], 
+                    icon: '🧫', 
+                    category: `${t.biology} - ${lang === 'en' ? 'Foundation' : 'គ្រឹះ'}`, 
+                    color: 'from-lime-500 to-green-700', 
+                    progress: 0,
+                    importance: '95%',
+                    isFoundation: true
+                });
+            }
+            
+            // Regular biology lessons
+            lessonCards.push(
+                { id: 'biology-body', title: lessonsData.biology.body.title[lang], icon: '🫀', category: t.biology, color: 'from-green-500 to-emerald-600', progress: 0, importance: '65%' },
+                { id: 'biology-brain', title: lessonsData.biology.brain.title[lang], icon: '🧠', category: t.biology, color: 'from-teal-500 to-green-600', progress: 0, importance: '55%' }
+            );
+
+            // This will be passed down from parent
+            const handleLessonClick = window.handleLessonClick || (() => {});
+
             return (
                 <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
                     <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl">
@@ -812,14 +1070,35 @@
 
                         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4">
                             <div className="text-white/90 text-xs mb-2">{t.motivationQuote}</div>
-                            <div className="text-white font-medium italic">"{randomQuote}"</div>
+                            <div className="text-white font-medium italic text-sm">"{randomQuote}"</div>
                         </div>
                     </div>
 
                     <div className="p-6">
-                        <div className="bg-white rounded-2xl shadow-lg p-5 mb-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold text-gray-800">{t.lessons}</h2>
+                            <button 
+                                onClick={onViewRoadmap}
+                                className="text-purple-600 text-sm font-medium"
+                            >
+                                🗺️ Roadmap
+                            </button>
+                        </div>
+
+                        <div className="space-y-3">
+                            {lessonCards.map((lesson) => (
+                                <LessonCard 
+                                    key={lesson.id}
+                                    lesson={lesson}
+                                    onClick={() => handleLessonClick(lesson.id)}
+                                    t={t}
+                                />
+                            ))}
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-lg p-5 mt-6">
                             <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                <span className="text-2xl">📋</span> {t.dailyPlan}
+                                <span className="text-2xl">📋</span> {t.todayChallenge}
                             </h2>
                             {!allTasksComplete ? (
                                 <div className="space-y-3">
@@ -827,19 +1106,19 @@
                                     <TaskItem 
                                         completed={tasksCompleted.lesson}
                                         icon="📖"
-                                        text={`${t.completeLesson}: Basic Limits (20 min)`}
+                                        text={`${t.completeLesson}`}
                                         onClick={() => completeTask('lesson')}
                                     />
                                     <TaskItem 
                                         completed={tasksCompleted.practice}
                                         icon="✍️"
-                                        text={`${t.practice} (15 min)`}
+                                        text={`${t.practice}`}
                                         onClick={() => completeTask('practice')}
                                     />
                                     <TaskItem 
                                         completed={tasksCompleted.flashcards}
                                         icon="🎴"
-                                        text={`${t.reviewCards} (10 min)`}
+                                        text={`${t.reviewCards}`}
                                         onClick={() => completeTask('flashcards')}
                                     />
                                     <TaskItem 
@@ -855,23 +1134,6 @@
                                     <div className="font-bold text-green-600 text-lg">{t.completedMsg}</div>
                                 </div>
                             )}
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                onClick={onViewRoadmap}
-                                className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-4 rounded-xl font-bold shadow-lg flex flex-col items-center gap-2"
-                            >
-                                <span className="text-3xl">🗺️</span>
-                                <span className="text-sm">{t.viewRoadmap}</span>
-                            </button>
-                            <button
-                                onClick={() => {}}
-                                className="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-4 rounded-xl font-bold shadow-lg flex flex-col items-center gap-2"
-                            >
-                                <span className="text-3xl">📚</span>
-                                <span className="text-sm">{t.studyNow}</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -974,12 +1236,23 @@
             );
         }
 
-        // Lesson Detail Page Component
+        // Mimo-Style Lesson Page Component (with integrated flashcards & quiz)
         function LessonDetailPage({ lang, lesson, onBack, onComplete, t }) {
-            const [studyDepth, setStudyDepth] = useState(null);
-            const [showContent, setShowContent] = useState(false);
+            const [step, setStep] = useState(0); // Track progress through lesson
+            const [showAnswer, setShowAnswer] = useState(false);
+            const [selectedAnswer, setSelectedAnswer] = useState(null);
+            const [score, setScore] = useState(0);
 
             const getLessonData = () => {
+                // Check if it's a foundation lesson
+                if (lesson === 'math-foundation') {
+                    return foundationLessons.math;
+                }
+                if (lesson === 'biology-foundation') {
+                    return foundationLessons.biology;
+                }
+                
+                // Regular lessons
                 const parts = lesson.split('-');
                 const category = parts[0];
                 const topic = parts[1];
@@ -992,96 +1265,299 @@
             };
 
             const lessonData = getLessonData();
+            
+            // Get related flashcards and practice questions
+            const category = lesson.includes('foundation') ? lesson.split('-')[0] : lesson.split('-')[0];
+            const topic = lesson.includes('foundation') ? 'foundation' : lesson.split('-')[1];
+            
+            const relatedFlashcards = flashcardsData[category]?.filter(card => 
+                card.topic === topic
+            ) || [];
+            const relatedQuestions = practiceData[category] || [];
 
-            if (!studyDepth) {
-                return (
-                    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-6">
-                        <button onClick={onBack} className="mb-6 text-purple-600 font-medium flex items-center gap-2">
-                            ← {t.backToLessons}
-                        </button>
-                        <div className="bg-white rounded-2xl p-6 shadow-xl">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                                {t.chooseDepth}
-                            </h2>
-                            <div className="space-y-4">
-                                <button
-                                    onClick={() => { setStudyDepth('quick'); setShowContent(true); }}
-                                    className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
-                                >
-                                    <span>🏃 {t.quickReview}</span>
-                                </button>
-                                <button
-                                    onClick={() => { setStudyDepth('standard'); setShowContent(true); }}
-                                    className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
-                                >
-                                    <span>📚 {t.standardStudy}</span>
-                                </button>
-                                <button
-                                    onClick={() => { setStudyDepth('deep'); setShowContent(true); }}
-                                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl font-bold text-left flex items-center justify-between"
-                                >
-                                    <span>🎯 {t.deepDive}</span>
-                                </button>
+            // Build lesson steps: intro → content → flashcard → content → quiz → completion
+            const totalSteps = 7;
+
+            const renderStep = () => {
+                // Step 0: Introduction
+                if (step === 0) {
+                    return (
+                        <div className="text-center animate-slide-up">
+                            <div className="text-7xl mb-6 animate-bounce">{lesson.includes('math') ? '📐' : '🧬'}</div>
+                            <h2 className="text-3xl font-black text-gray-800 mb-4">{lessonData.title[lang]}</h2>
+                            <div className="bg-orange-50 border-2 border-orange-300 rounded-2xl p-4 mb-6">
+                                <div className="text-orange-800 font-bold mb-1">{t.importanceNote}</div>
+                                <div className="text-orange-900 text-2xl font-black">{lessonData.importance}</div>
                             </div>
+                            <p className="text-gray-600 mb-8">{lang === 'en' ? 'Let\'s learn this step by step!' : 'តោះរៀនគ្នាជាជំហាន!'}</p>
+                            <button
+                                onClick={() => setStep(1)}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl"
+                            >
+                                {lang === 'en' ? 'Start Learning' : 'ចាប់ផ្តើមរៀន'} 🚀
+                            </button>
                         </div>
-                    </div>
-                );
-            }
+                    );
+                }
+
+                // Step 1: Main Content
+                if (step === 1) {
+                    return (
+                        <div className="animate-slide-up">
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4">📖 {lang === 'en' ? 'Lesson' : 'មេរៀន'}</h3>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg mb-4">
+                                <p className="text-gray-700 leading-relaxed text-lg">{lessonData.content[lang]}</p>
+                            </div>
+                            <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5 shadow-lg">
+                                <h4 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                                    <span className="text-xl">📝</span> {t.summary}
+                                </h4>
+                                <p className="text-blue-900">{lessonData.summary[lang]}</p>
+                            </div>
+                            <button
+                                onClick={() => setStep(2)}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-2xl font-bold mt-6"
+                            >
+                                {lang === 'en' ? 'Continue' : 'បន្ត'} →
+                            </button>
+                        </div>
+                    );
+                }
+
+                // Step 2: Flashcard Practice with flip animation
+                if (step === 2 && relatedFlashcards.length > 0) {
+                    const currentCard = relatedFlashcards[0];
+                    return (
+                        <div className="animate-slide-up">
+                            <div className="text-center mb-4">
+                                <h3 className="text-xl font-bold text-gray-800">🎴 {lang === 'en' ? 'Quick Check' : 'ពិនិត្យរហ័ស'}</h3>
+                                <p className="text-sm text-gray-600">{lang === 'en' ? 'Tap card to flip' : 'ចុចកាតដើម្បីត្រឡប់'}</p>
+                            </div>
+                            
+                            <div 
+                                onClick={() => setShowAnswer(!showAnswer)}
+                                className="relative cursor-pointer"
+                                style={{ perspective: '1000px', minHeight: '350px' }}
+                            >
+                                <div 
+                                    className={`relative w-full transition-transform duration-500`}
+                                    style={{ 
+                                        transformStyle: 'preserve-3d',
+                                        transform: showAnswer ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                                    }}
+                                >
+                                    {/* Front of card */}
+                                    <div 
+                                        className="absolute w-full bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl shadow-2xl p-8 min-h-[350px] flex flex-col justify-center items-center text-center"
+                                        style={{ 
+                                            backfaceVisibility: 'hidden',
+                                            WebkitBackfaceVisibility: 'hidden'
+                                        }}
+                                    >
+                                        <div className="text-6xl mb-6">❓</div>
+                                        <div className="text-2xl font-bold text-white mb-4">
+                                            {currentCard.q[lang]}
+                                        </div>
+                                        <div className="text-white/80 text-sm mt-4">
+                                            👆 {lang === 'en' ? 'Tap to see answer' : 'ចុចដើម្បីមើលចម្លើយ'}
+                                        </div>
+                                    </div>
+
+                                    {/* Back of card */}
+                                    <div 
+                                        className="absolute w-full bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl shadow-2xl p-8 min-h-[350px] flex flex-col justify-center items-center text-center"
+                                        style={{ 
+                                            backfaceVisibility: 'hidden',
+                                            WebkitBackfaceVisibility: 'hidden',
+                                            transform: 'rotateY(180deg)'
+                                        }}
+                                    >
+                                        <div className="text-6xl mb-6">✅</div>
+                                        <div className="text-2xl font-bold text-white mb-4">
+                                            {currentCard.a[lang]}
+                                        </div>
+                                        <div className="text-white/80 text-sm mt-4">
+                                            👆 {lang === 'en' ? 'Tap to flip back' : 'ចុចដើម្បីត្រឡប់ក្រោយ'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    setStep(3); 
+                                    setShowAnswer(false); 
+                                }}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-2xl font-bold mt-6"
+                            >
+                                {lang === 'en' ? 'Got it! Continue' : 'យល់ហើយ! បន្ត'} →
+                            </button>
+                        </div>
+                    );
+                }
+
+                // Step 3: Fun Fact
+                if (step === 3 || (step === 2 && relatedFlashcards.length === 0)) {
+                    return (
+                        <div className="animate-slide-up">
+                            <div className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-6 shadow-lg mb-4">
+                                <h3 className="font-bold text-yellow-800 mb-3 flex items-center gap-2 text-xl">
+                                    <span className="text-2xl">🎯</span> {t.funFact}
+                                </h3>
+                                <p className="text-yellow-900 text-lg">{lessonData.funFact[lang]}</p>
+                            </div>
+                            <div className="bg-purple-50 border-2 border-purple-300 rounded-2xl p-6 shadow-lg">
+                                <h3 className="font-bold text-purple-800 mb-3 flex items-center gap-2 text-xl">
+                                    <span className="text-2xl">💡</span> {t.surpriseTip}
+                                </h3>
+                                <p className="text-purple-900 text-lg">{lessonData.tip[lang]}</p>
+                            </div>
+                            <button
+                                onClick={() => setStep(4)}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-2xl font-bold mt-6"
+                            >
+                                {lang === 'en' ? 'Continue' : 'បន្ត'} →
+                            </button>
+                        </div>
+                    );
+                }
+
+                // Step 4: Did You Know (if available)
+                if (step === 4 && lessonData.didYouKnow) {
+                    return (
+                        <div className="animate-slide-up">
+                            <div className="bg-green-50 border-2 border-green-300 rounded-2xl p-8 shadow-lg text-center">
+                                <div className="text-5xl mb-4">🧠</div>
+                                <h3 className="font-bold text-green-800 mb-4 text-2xl">{t.didYouKnow}</h3>
+                                <p className="text-green-900 text-lg leading-relaxed">{lessonData.didYouKnow[lang]}</p>
+                            </div>
+                            <button
+                                onClick={() => setStep(5)}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-2xl font-bold mt-6"
+                            >
+                                {lang === 'en' ? 'Ready for Quiz!' : 'រួចរាល់សម្រាប់ Quiz!'} 🎯
+                            </button>
+                        </div>
+                    );
+                }
+
+                // Step 5: Quiz
+                if (step === 5 || (step === 4 && !lessonData.didYouKnow)) {
+                    const currentQ = relatedQuestions[0];
+                    if (!currentQ) {
+                        setStep(6);
+                        return null;
+                    }
+
+                    return (
+                        <div className="animate-slide-up">
+                            <div className="text-center mb-4">
+                                <h3 className="text-2xl font-bold text-gray-800">✍️ {lang === 'en' ? 'Practice Quiz' : 'Quiz អនុវត្ត'}</h3>
+                                <p className="text-sm text-gray-600">{lang === 'en' ? 'Let\'s test what you learned!' : 'តោះសាកល្បងអ្វីដែលបានរៀន!'}</p>
+                            </div>
+
+                            <div className="bg-white rounded-2xl shadow-xl p-6">
+                                <div className="text-xl font-bold text-gray-800 mb-6">
+                                    {currentQ.q[lang]}
+                                </div>
+
+                                <div className="space-y-3 mb-6">
+                                    {currentQ.options.map((option, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setSelectedAnswer(option)}
+                                            disabled={selectedAnswer !== null}
+                                            className={`w-full p-4 rounded-xl font-medium text-left transition-all ${
+                                                selectedAnswer
+                                                    ? option === currentQ.correct
+                                                        ? 'bg-green-500 text-white'
+                                                        : option === selectedAnswer
+                                                        ? 'bg-red-500 text-white'
+                                                        : 'bg-gray-100 text-gray-400'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-purple-100 active:scale-95'
+                                            }`}
+                                        >
+                                            {option}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {selectedAnswer && (
+                                    <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-4 mb-4 animate-fade-in">
+                                        <div className="font-bold text-blue-800 mb-2">
+                                            {selectedAnswer === currentQ.correct ? '🎉 ' + (lang === 'en' ? 'Correct!' : 'ត្រឹមត្រូវ!') : '❌ ' + (lang === 'en' ? 'Not quite' : 'មិនមែន')}
+                                        </div>
+                                        <div className="text-blue-900">{currentQ.explanation[lang]}</div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {selectedAnswer && (
+                                <button
+                                    onClick={() => {
+                                        if (selectedAnswer === currentQ.correct) setScore(score + 1);
+                                        setStep(6);
+                                        setSelectedAnswer(null);
+                                    }}
+                                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-2xl font-bold mt-4"
+                                >
+                                    {lang === 'en' ? 'Continue' : 'បន្ត'} →
+                                </button>
+                            )}
+                        </div>
+                    );
+                }
+
+                // Step 6: Completion
+                if (step === 6) {
+                    onComplete();
+                    return (
+                        <div className="text-center animate-slide-up">
+                            <div className="text-8xl mb-6 animate-bounce">🎉</div>
+                            <h2 className="text-3xl font-black gradient-text mb-4">
+                                {lang === 'en' ? 'Lesson Complete!' : 'មេរៀនបញ្ចប់!'}
+                            </h2>
+                            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-6 mb-6">
+                                <div className="text-5xl font-black mb-2">+20 XP</div>
+                                <div className="text-lg">{lang === 'en' ? 'Experience Earned' : 'បទពិសោធន៍ទទួលបាន'}</div>
+                            </div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <div className="text-gray-600 mb-2">{lang === 'en' ? 'You mastered' : 'អ្នកបានត្រួតពិនិត្យ'}</div>
+                                <div className="text-2xl font-bold text-purple-600">{lessonData.title[lang]}</div>
+                            </div>
+                            <button
+                                onClick={onBack}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl"
+                            >
+                                {lang === 'en' ? 'Back to Lessons' : 'ត្រលប់ទៅមេរៀន'} 🏠
+                            </button>
+                        </div>
+                    );
+                }
+            };
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
                     <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 sticky top-0 z-10 shadow-xl">
-                        <button onClick={onBack} className="text-white mb-3 flex items-center gap-2">
-                            ← {t.backToLessons}
-                        </button>
-                        <h1 className="text-2xl font-bold text-white">{lessonData.title[lang]}</h1>
-                        <div className="text-yellow-300 text-sm mt-2">
-                            {t.importanceNote}: {lessonData.importance} • {studyDepth === 'quick' ? '10 min' : studyDepth === 'standard' ? '30 min' : '60 min'}
+                        <div className="flex justify-between items-center mb-3">
+                            <button onClick={onBack} className="text-white flex items-center gap-2">
+                                ← {lang === 'en' ? 'Exit' : 'ចេញ'}
+                            </button>
+                            <div className="text-white text-sm">
+                                {step} / {totalSteps - 1}
+                            </div>
+                        </div>
+                        <div className="w-full bg-white/20 rounded-full h-2">
+                            <div 
+                                className="bg-white h-2 rounded-full transition-all"
+                                style={{ width: `${(step / (totalSteps - 1)) * 100}%` }}
+                            />
                         </div>
                     </div>
 
-                    <div className="p-6 space-y-4 animate-slide-up">
-                        <div className="bg-white rounded-2xl p-5 shadow-lg">
-                            <h3 className="font-bold text-gray-800 mb-3 text-lg">📖 Lesson Content</h3>
-                            <p className="text-gray-700 leading-relaxed">{lessonData.content[lang]}</p>
-                        </div>
-
-                        <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5 shadow-lg">
-                            <h3 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
-                                <span className="text-xl">📝</span> {t.summary}
-                            </h3>
-                            <p className="text-blue-900">{lessonData.summary[lang]}</p>
-                        </div>
-
-                        <div className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-5 shadow-lg">
-                            <h3 className="font-bold text-yellow-800 mb-2 flex items-center gap-2">
-                                <span className="text-xl">🎯</span> {t.funFact}
-                            </h3>
-                            <p className="text-yellow-900">{lessonData.funFact[lang]}</p>
-                        </div>
-
-                        <div className="bg-purple-50 border-2 border-purple-300 rounded-2xl p-5 shadow-lg">
-                            <h3 className="font-bold text-purple-800 mb-2 flex items-center gap-2">
-                                <span className="text-xl">💡</span> {t.surpriseTip}
-                            </h3>
-                            <p className="text-purple-900">{lessonData.tip[lang]}</p>
-                        </div>
-
-                        {lessonData.didYouKnow && (
-                            <div className="bg-green-50 border-2 border-green-300 rounded-2xl p-5 shadow-lg">
-                                <h3 className="font-bold text-green-800 mb-2 flex items-center gap-2">
-                                    <span className="text-xl">🧠</span> {t.didYouKnow}
-                                </h3>
-                                <p className="text-green-900">{lessonData.didYouKnow[lang]}</p>
-                            </div>
-                        )}
-
-                        <button
-                            onClick={onComplete}
-                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl"
-                        >
-                            ✅ {t.quickChallenge} - {t.earnXP}
-                        </button>
+                    <div className="p-6">
+                        {renderStep()}
                     </div>
                 </div>
             );
@@ -1249,30 +1725,384 @@
             );
         }
 
+        // Leaderboard Page Component
+        function LeaderboardPage({ lang, currentXp, currentLevel, currentStreak, t }) {
+            const currentUser = { name: "You", xp: currentXp, level: currentLevel, streak: currentStreak, avatar: "⭐" };
+            const allUsers = [...leaderboardData, currentUser].sort((a, b) => b.xp - a.xp);
+            const userRank = allUsers.findIndex(u => u.name === "You") + 1;
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                        <h1 className="bangers text-3xl text-white text-center">{t.leaderboard} 🏆</h1>
+                        <p className="text-white/90 text-center text-sm mt-2">{t.topStudents}</p>
+                    </div>
+
+                    <div className="p-6">
+                        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-4 mb-6 shadow-xl">
+                            <div className="text-center">
+                                <div className="text-4xl mb-2">⭐</div>
+                                <div className="font-bold text-lg">{t.yourRank}</div>
+                                <div className="text-3xl font-black">#{userRank}</div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {allUsers.map((user, idx) => (
+                                <div 
+                                    key={idx}
+                                    className={`flex items-center gap-4 p-4 rounded-2xl shadow-lg ${
+                                        user.name === "You" 
+                                            ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white' 
+                                            : 'bg-white'
+                                    }`}
+                                >
+                                    <div className={`text-2xl font-black w-10 ${
+                                        idx === 0 ? 'text-yellow-500' : idx === 1 ? 'text-gray-400' : idx === 2 ? 'text-orange-600' : user.name === "You" ? 'text-white' : 'text-gray-400'
+                                    }`}>
+                                        #{idx + 1}
+                                    </div>
+                                    <div className="text-3xl">{user.avatar}</div>
+                                    <div className="flex-1">
+                                        <div className={`font-bold ${user.name === "You" ? 'text-white' : 'text-gray-800'}`}>
+                                            {user.name}
+                                        </div>
+                                        <div className={`text-sm ${user.name === "You" ? 'text-white/80' : 'text-gray-500'}`}>
+                                            Level {user.level} • {user.streak} 🔥
+                                        </div>
+                                    </div>
+                                    <div className={`font-black text-xl ${user.name === "You" ? 'text-yellow-300' : 'text-purple-600'}`}>
+                                        {user.xp} XP
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Progress Page Component
+        function ProgressPage({ lang, xp, level, streak, tasksCompleted, practiceHistory, userData, t }) {
+            const completedCount = Object.values(tasksCompleted).filter(v => v).length;
+            const totalTasks = Object.keys(tasksCompleted).length;
+            const completionRate = Math.round((completedCount / totalTasks) * 100);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                    <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                        <h1 className="bangers text-3xl text-white text-center">{t.progress} 📊</h1>
+                        <p className="text-white/90 text-center text-sm mt-2">{t.progressOverview}</p>
+                    </div>
+
+                    <div className="p-6 space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-white rounded-2xl p-5 shadow-lg text-center">
+                                <div className="text-3xl mb-2">⚡</div>
+                                <div className="text-3xl font-black text-purple-600">{xp}</div>
+                                <div className="text-sm text-gray-600">{t.totalXP}</div>
+                            </div>
+                            <div className="bg-white rounded-2xl p-5 shadow-lg text-center">
+                                <div className="text-3xl mb-2">🔥</div>
+                                <div className="text-3xl font-black text-orange-600">{streak}</div>
+                                <div className="text-sm text-gray-600">{t.currentStreak}</div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 className="font-bold text-gray-800 mb-4">{t.dailyPlan}</h3>
+                            <div className="mb-4">
+                                <div className="flex justify-between text-sm mb-2">
+                                    <span className="text-gray-600">Completion</span>
+                                    <span className="font-bold text-purple-600">{completionRate}%</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-3">
+                                    <div 
+                                        className="bg-gradient-to-r from-purple-600 to-indigo-600 h-3 rounded-full transition-all"
+                                        style={{ width: `${completionRate}%` }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                                {Object.entries(tasksCompleted).map(([key, done]) => (
+                                    <div key={key} className={`p-3 rounded-xl text-center ${done ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-500'}`}>
+                                        <div className="text-2xl mb-1">{done ? '✅' : '⭕'}</div>
+                                        <div className="text-xs font-medium capitalize">{key}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {practiceHistory.length > 0 && (
+                            <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                <h3 className="font-bold text-gray-800 mb-4">{t.practiceScore}</h3>
+                                <div className="space-y-3">
+                                    {practiceHistory.slice(-5).reverse().map((result, idx) => {
+                                        const percentage = Math.round((result.score / result.total) * 100);
+                                        return (
+                                            <div key={idx} className="border-b border-gray-100 pb-3 last:border-0">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <span className="font-medium text-gray-700">
+                                                        {result.category === 'math' ? t.math : t.biology}
+                                                    </span>
+                                                    <span className={`font-bold ${percentage >= 70 ? 'text-green-600' : 'text-orange-600'}`}>
+                                                        {percentage}%
+                                                    </span>
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                                    <div 
+                                                        className={`h-2 rounded-full ${percentage >= 70 ? 'bg-green-500' : 'bg-orange-500'}`}
+                                                        style={{ width: `${percentage}%` }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Mock Exam Page Component
+        function MockExamPage({ lang, examResults, setExamResults, setXp, xp, t }) {
+            const [examStarted, setExamStarted] = useState(false);
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [examFinished, setExamFinished] = useState(false);
+
+            const startExam = () => {
+                setExamStarted(true);
+                setCurrentQuestionIndex(0);
+                setAnswers({});
+                setExamFinished(false);
+            };
+
+            const handleAnswer = (questionIndex, answer) => {
+                setAnswers({ ...answers, [questionIndex]: answer });
+            };
+
+            const submitExam = () => {
+                let score = 0;
+                mockExamData.forEach((q, idx) => {
+                    if (answers[idx] === q.correct) score++;
+                });
+                
+                const percentage = Math.round((score / mockExamData.length) * 100);
+                const result = {
+                    score,
+                    total: mockExamData.length,
+                    percentage,
+                    date: new Date().toISOString()
+                };
+                
+                setExamResults([...examResults, result]);
+                setXp(xp + score * 20);
+                setExamFinished(true);
+            };
+
+            if (!examStarted) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24">
+                        <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-b-3xl shadow-xl mb-6">
+                            <h1 className="bangers text-3xl text-white text-center">{t.mockExam} 📝</h1>
+                            <p className="text-white/90 text-center text-sm mt-2">Bac II Simulation</p>
+                        </div>
+
+                        <div className="p-6">
+                            <div className="bg-white rounded-2xl p-8 shadow-xl text-center mb-6">
+                                <div className="text-6xl mb-4">🎯</div>
+                                <h2 className="text-2xl font-bold text-gray-800 mb-4">{t.startMockExam}</h2>
+                                <p className="text-gray-600 mb-6">{t.examInstructions}</p>
+                                <div className="bg-purple-50 rounded-xl p-4 mb-6">
+                                    <div className="text-4xl font-black text-purple-600 mb-1">{mockExamData.length}</div>
+                                    <div className="text-gray-700">Questions</div>
+                                </div>
+                                <button
+                                    onClick={startExam}
+                                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-5 rounded-xl font-bold text-lg shadow-xl"
+                                >
+                                    {t.startMockExam} 🚀
+                                </button>
+                            </div>
+
+                            {examResults.length > 0 && (
+                                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                    <h3 className="font-bold text-gray-800 mb-4">Previous Results</h3>
+                                    <div className="space-y-3">
+                                        {examResults.slice(-3).reverse().map((result, idx) => (
+                                            <div key={idx} className="flex justify-between items-center p-4 bg-purple-50 rounded-xl">
+                                                <div>
+                                                    <div className="font-bold text-gray-800">{result.score}/{result.total}</div>
+                                                    <div className="text-sm text-gray-500">
+                                                        {new Date(result.date).toLocaleDateString()}
+                                                    </div>
+                                                </div>
+                                                <div className={`text-2xl font-black ${
+                                                    result.percentage >= 80 ? 'text-green-600' : 
+                                                    result.percentage >= 60 ? 'text-yellow-600' : 'text-red-600'
+                                                }`}>
+                                                    {result.percentage}%
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (examFinished) {
+                const latestResult = examResults[examResults.length - 1];
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24 p-6 flex items-center justify-center">
+                        <div className="bg-white rounded-3xl p-8 shadow-2xl text-center max-w-md w-full animate-slide-up">
+                            <div className="text-7xl mb-4">
+                                {latestResult.percentage >= 80 ? '🎉' : latestResult.percentage >= 60 ? '👍' : '💪'}
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">{t.examScore}</h2>
+                            <div className="text-6xl font-black gradient-text mb-4">
+                                {latestResult.percentage}%
+                            </div>
+                            <div className="text-gray-600 mb-6">
+                                {latestResult.score} / {latestResult.total} {t.correct}
+                            </div>
+                            <div className={`p-4 rounded-xl mb-6 ${
+                                latestResult.percentage >= 80 ? 'bg-green-50 text-green-800' :
+                                latestResult.percentage >= 60 ? 'bg-yellow-50 text-yellow-800' : 'bg-red-50 text-red-800'
+                            }`}>
+                                <div className="font-bold mb-1">{t.bacReadiness}</div>
+                                <div>
+                                    {latestResult.percentage >= 80 ? lang === 'en' ? 'Excellent! You\'re ready!' : 'ល្អណាស់! អ្នករួចរាល់ហើយ!' :
+                                     latestResult.percentage >= 60 ? lang === 'en' ? 'Good! Keep practicing!' : 'ល្អ! បន្តអនុវត្ត!' :
+                                     lang === 'en' ? 'Keep studying! You can do it!' : 'បន្តសិក្សា! អ្នកអាចធ្វើបាន!'}
+                                </div>
+                            </div>
+                            <div className="space-y-3">
+                                <button
+                                    onClick={startExam}
+                                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold"
+                                >
+                                    {t.retakeExam}
+                                </button>
+                                <button
+                                    onClick={() => setExamStarted(false)}
+                                    className="w-full bg-gray-200 text-gray-700 py-4 rounded-xl font-bold"
+                                >
+                                    Back to Home
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const currentQ = mockExamData[currentQuestionIndex];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pb-24 p-6">
+                    <div className="mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                            <div className="text-sm text-gray-600">
+                                Question {currentQuestionIndex + 1} / {mockExamData.length}
+                            </div>
+                            <div className="text-sm font-bold text-purple-600">
+                                {Object.keys(answers).length} answered
+                            </div>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div 
+                                className="bg-purple-600 h-2 rounded-full transition-all"
+                                style={{ width: `${((currentQuestionIndex + 1) / mockExamData.length) * 100}%` }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-3xl shadow-2xl p-6 mb-4">
+                        <div className="text-sm text-purple-600 font-medium mb-3">
+                            {currentQ.subject === 'math' ? t.math : t.biology}
+                        </div>
+                        <div className="text-xl font-bold text-gray-800 mb-6">
+                            {currentQ.q[lang]}
+                        </div>
+
+                        <div className="space-y-3">
+                            {currentQ.options.map((option, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => handleAnswer(currentQuestionIndex, option)}
+                                    className={`w-full p-4 rounded-xl font-medium text-left transition-all ${
+                                        answers[currentQuestionIndex] === option
+                                            ? 'bg-purple-500 text-white'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-purple-100'
+                                    }`}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                        {currentQuestionIndex > 0 && (
+                            <button
+                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+                                className="flex-1 bg-gray-300 text-gray-700 py-4 rounded-xl font-bold"
+                            >
+                                ← Previous
+                            </button>
+                        )}
+                        {currentQuestionIndex < mockExamData.length - 1 ? (
+                            <button
+                                onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+                                className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold"
+                            >
+                                Next →
+                            </button>
+                        ) : (
+                            <button
+                                onClick={submitExam}
+                                disabled={Object.keys(answers).length < mockExamData.length}
+                                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold disabled:opacity-50"
+                            >
+                                {t.submitExam} ✅
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
         // Tab Bar Component
         function TabBar({ currentPage, setCurrentPage, t }) {
             const tabs = [
                 { id: 'home', icon: '🏠', label: t.home },
-                { id: 'lessons', icon: '📚', label: t.lessons },
-                { id: 'donate', icon: '💝', label: t.donate },
-                { id: 'chat', icon: '💬', label: t.chat }
+                { id: 'mockexam', icon: '📝', label: 'Test' },
+                { id: 'chat', icon: '💬', label: 'Chat' },
+                { id: 'leaderboard', icon: '🏆', label: 'Rank' },
+                { id: 'progress', icon: '📊', label: 'Progress' },
+                { id: 'donate', icon: '💝', label: t.donate }
             ];
 
             return (
                 <div className="tab-bar">
-                    <div className="flex justify-around py-3">
+                    <div className="flex justify-around py-2">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => setCurrentPage(tab.id)}
-                                className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
+                                className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all ${
                                     currentPage === tab.id 
                                         ? 'bg-purple-100 text-purple-600 scale-110' 
                                         : 'text-gray-500'
                                 }`}
                             >
                                 <span className="text-2xl">{tab.icon}</span>
-                                <span className="text-xs font-medium">{tab.label}</span>
+                                <span className="text-[10px] font-medium">{tab.label}</span>
                             </button>
                         ))}
                     </div>
