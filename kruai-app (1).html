@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>KruAI</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --pink:    #ff6eb4;
+  --pink2:   #ff3fa4;
+  --purple:  #a855f7;
+  --purple2: #7c3aed;
+  --blue:    #38bdf8;
+  --blue2:   #6366f1;
+  --cyan:    #22d3ee;
+  --mint:    #4ade80;
+  --yellow:  #fbbf24;
+  --red:     #f87171;
+  --bg:      #0d0a1a;
+  --card:    #130f24;
+  --card2:   #1a1430;
+  --border:  rgba(168,85,247,0.18);
+  --text:    #f1e8ff;
+  --muted:   #9580c4;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #0a0814;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 0 40px;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; top:-100px; left:-80px;
+  width:340px; height:340px;
+  background:radial-gradient(circle,rgba(168,85,247,0.2) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+body::after {
+  content:'';
+  position:fixed; bottom:60px; right:-80px;
+  width:280px; height:280px;
+  background:radial-gradient(circle,rgba(255,62,164,0.15) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.phone {
+  width:390px; min-height:844px;
+  background:var(--bg);
+  border-radius:48px;
+  border:2px solid rgba(168,85,247,0.3);
+  box-shadow:0 0 0 6px rgba(168,85,247,0.07),0 40px 80px rgba(0,0,0,0.7),inset 0 0 60px rgba(168,85,247,0.04);
+  position:relative; overflow:hidden; z-index:1;
+}
+.notch {
+  width:126px; height:34px; background:#000;
+  border-radius:0 0 22px 22px;
+  margin:0 auto;
+  display:flex; align-items:center; justify-content:center;
+  gap:8px; position:relative; z-index:10;
+}
+.notch-cam { width:10px; height:10px; border-radius:50%; background:#1a1a1a; border:1.5px solid #333; }
+.notch-mic { width:40px; height:5px; border-radius:10px; background:#1a1a1a; }
+.statusbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 28px 10px;
+  font-size:12px; font-weight:800; color:var(--text);
+}
+.status-icons { display:flex; gap:5px; align-items:center; font-size:11px; }
+.scroll-area {
+  overflow-y:auto; max-height:780px; padding-bottom:90px; scrollbar-width:none;
+}
+.scroll-area::-webkit-scrollbar { display:none; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position:sticky; bottom:0;
+  background:rgba(13,10,26,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(168,85,247,0.25);
+  padding:10px 6px 22px;
+  display:flex; justify-content:space-around;
+  z-index:50;
+}
+.nav-btn {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  padding:7px 10px; border-radius:14px;
+  cursor:pointer; transition:all 0.18s; min-width:48px;
+  border:none; background:transparent;
+}
+.nav-btn.active { background:rgba(168,85,247,0.2); }
+.nav-icon { font-size:20px; }
+.nav-lbl { font-size:9px; font-weight:800; color:var(--muted); font-family:'Nunito',sans-serif; }
+.nav-btn.active .nav-lbl { color:var(--purple); }
+
+/* ── SHARED COMPONENTS ── */
+.page-header {
+  padding:0 22px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.grad-title {
+  font-size:22px; font-weight:900;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.grad-title-sm {
+  font-size:18px; font-weight:900;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.page-sub { font-size:12px; color:var(--muted); font-weight:700; margin-top:2px; }
+.icon-pill {
+  width:40px; height:40px; border-radius:14px;
+  background:var(--card2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; cursor:pointer; transition:transform 0.15s;
+}
+.section-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 22px 12px;
+}
+.section-title { font-size:15px; font-weight:900; }
+.section-see { font-size:12px; font-weight:800; color:var(--purple); cursor:pointer; }
+.card-base {
+  background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:18px;
+}
+.btn-primary {
+  background:linear-gradient(135deg,var(--pink2),var(--purple2));
+  color:white; border:none; border-radius:16px;
+  padding:14px; font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:900; cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+  box-shadow:0 6px 20px rgba(168,85,247,0.3);
+  width:100%;
+}
+.btn-primary:active { transform:scale(0.97); }
+.btn-secondary {
+  background:var(--card2); color:var(--text);
+  border:1px solid var(--border); border-radius:16px;
+  padding:13px; font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:800; cursor:pointer;
+  transition:all 0.15s; width:100%;
+}
+.btn-secondary:active { transform:scale(0.97); }
+
+/* ── ANIMATIONS ── */
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes floatBob {
+  0%,100% { transform:translateY(0); }
+  50%      { transform:translateY(-8px); }
+}
+@keyframes shimmer {
+  0%   { background-position:-200% center; }
+  100% { background-position:200% center; }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50%      { opacity:0.5; }
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow:0 0 18px rgba(255,62,164,0.4); }
+  50%      { box-shadow:0 0 32px rgba(168,85,247,0.7); }
+}
+.anim-slide { animation:slideUp 0.4s ease both; }
+.anim-bob   { animation:floatBob 2.5s ease-in-out infinite; }
+.anim-pulse { animation:pulse 2s infinite; }
+
+/* ── SURVEY ── */
+.survey-wrap {
+  min-height:780px; padding:20px;
+  background:var(--bg);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.survey-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:24px; padding:24px;
+}
+.survey-step-title { font-size:16px; font-weight:900; margin-bottom:16px; }
+.subject-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.subject-btn {
+  padding:12px; border-radius:14px; border:1px solid var(--border);
+  background:var(--card); color:var(--muted);
+  font-family:'Nunito',sans-serif; font-size:13px; font-weight:800;
+  cursor:pointer; transition:all 0.18s;
+}
+.subject-btn.sel-green { background:rgba(74,222,128,0.15); color:var(--mint); border-color:rgba(74,222,128,0.4); }
+.subject-btn.sel-red   { background:rgba(255,110,180,0.15); color:var(--pink); border-color:rgba(255,110,180,0.4); }
+.subject-btn.sel-blue  { background:rgba(56,189,248,0.15); color:var(--blue); border-color:rgba(56,189,248,0.4); }
+.grade-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:16px; }
+.grade-btn {
+  padding:14px 0; border-radius:14px; border:1px solid var(--border);
+  background:var(--card); color:var(--muted);
+  font-family:'Nunito',sans-serif; font-size:16px; font-weight:900;
+  cursor:pointer; transition:all 0.18s;
+}
+.grade-btn.sel { background:rgba(56,189,248,0.15); color:var(--blue); border-color:rgba(56,189,248,0.4); }
+.months-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+.month-btn {
+  padding:14px 0; border-radius:14px; border:1px solid var(--border);
+  background:var(--card); color:var(--muted);
+  font-family:'Nunito',sans-serif; font-size:15px; font-weight:900;
+  cursor:pointer; transition:all 0.18s;
+}
+.month-btn.sel { background:rgba(251,191,36,0.15); color:var(--yellow); border-color:rgba(251,191,36,0.4); }
+.btn-row { display:flex; gap:10px; }
+.btn-row .btn-primary,.btn-row .btn-secondary { flex:1; }
+.progress-track-sm {
+  height:5px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; margin-bottom:20px;
+}
+.progress-fill-sm { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--pink),var(--purple)); transition:width 0.4s ease; }
+
+/* ── HOME ── */
+.home-hero {
+  margin:0 16px 16px;
+  background:linear-gradient(135deg,#1e0a3c 0%,#0f1540 60%,#051a30 100%);
+  border:1px solid rgba(168,85,247,0.35); border-radius:26px;
+  padding:20px; position:relative; overflow:hidden;
+}
+.home-hero::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px;
+  background:radial-gradient(circle,rgba(255,62,164,0.2),transparent 65%);
+}
+.home-hero::after {
+  content:''; position:absolute; bottom:-30px; left:20px;
+  width:120px; height:120px;
+  background:radial-gradient(circle,rgba(56,189,248,0.15),transparent 65%);
+}
+.hero-tag {
+  font-size:10px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.hero-greeting { font-size:20px; font-weight:900; line-height:1.2; margin-bottom:6px; }
+.hero-sub { font-size:12px; color:var(--muted); font-weight:700; margin-bottom:14px; }
+.hero-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.chip {
+  font-size:11px; font-weight:800; padding:6px 13px; border-radius:30px;
+  cursor:pointer; transition:transform 0.15s; border:1px solid transparent;
+}
+.chip:active { transform:scale(0.94); }
+.chip-pink   { background:rgba(255,110,180,0.15); color:var(--pink);   border-color:rgba(255,110,180,0.3); }
+.chip-blue   { background:rgba(56,189,248,0.15);  color:var(--blue);   border-color:rgba(56,189,248,0.3); }
+.chip-purple { background:rgba(168,85,247,0.15);  color:var(--purple); border-color:rgba(168,85,247,0.3); }
+.chip-yellow { background:rgba(251,191,36,0.15);  color:var(--yellow); border-color:rgba(251,191,36,0.3); }
+
+.stat-pills { display:flex; gap:10px; padding:0 16px 16px; overflow-x:auto; scrollbar-width:none; }
+.stat-pills::-webkit-scrollbar { display:none; }
+.stat-pill {
+  min-width:100px; background:var(--card2); border:1px solid var(--border);
+  border-radius:18px; padding:13px 12px; flex-shrink:0;
+  position:relative; overflow:hidden; cursor:pointer; transition:transform 0.15s;
+}
+.stat-pill:active { transform:scale(0.96); }
+.sp-emoji { font-size:18px; margin-bottom:6px; }
+.sp-val { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; line-height:1; margin-bottom:2px; }
+.sp-lbl { font-size:10px; color:var(--muted); font-weight:700; }
+.sp-up  { font-size:9px; font-weight:800; color:var(--mint); margin-top:5px; }
+
+/* lesson cards */
+.lesson-list { display:flex; flex-direction:column; gap:10px; padding:0 16px; }
+.lesson-card {
+  border-radius:20px; padding:16px 18px;
+  cursor:pointer; transition:transform 0.15s;
+  border:1px solid transparent; position:relative; overflow:hidden;
+}
+.lesson-card:active { transform:scale(0.98); }
+.lc-math  { background:linear-gradient(135deg,#2d1060,#1a0a3a); border-color:rgba(168,85,247,0.4); }
+.lc-bio   { background:linear-gradient(135deg,#0a2a1a,#071a10); border-color:rgba(74,222,128,0.4); }
+.lc-found { background:linear-gradient(135deg,#2a1205,#1a0a00); border-color:rgba(251,191,36,0.5); animation:glowPulse 2.5s infinite; }
+.lc-row { display:flex; align-items:center; gap:12px; }
+.lc-icon { font-size:32px; flex-shrink:0; }
+.lc-info { flex:1; }
+.lc-cat  { font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+.lc-name { font-size:14px; font-weight:900; }
+.lc-badge {
+  position:absolute; top:10px; right:10px;
+  font-size:9px; font-weight:900; letter-spacing:0.5px; text-transform:uppercase;
+  padding:3px 8px; border-radius:20px;
+  background:rgba(251,191,36,0.2); color:var(--yellow);
+}
+
+/* daily tasks */
+.task-card { margin:0 16px; background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:18px; }
+.task-item {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 12px; border-radius:14px;
+  border:1px solid var(--border); margin-bottom:8px;
+  cursor:pointer; transition:all 0.18s;
+}
+.task-item:last-child { margin-bottom:0; }
+.task-item.done { background:rgba(74,222,128,0.08); border-color:rgba(74,222,128,0.25); }
+.task-item:not(.done):hover { border-color:rgba(168,85,247,0.4); }
+.task-icon { font-size:20px; width:28px; text-align:center; }
+.task-txt  { flex:1; font-size:13px; font-weight:700; }
+.task-item.done .task-txt { color:var(--mint); text-decoration:line-through; }
+
+/* ── LESSON DETAIL ── */
+.lesson-top {
+  background:linear-gradient(135deg,#1e0a3c,#0f1540);
+  padding:16px 22px 20px; position:sticky; top:0; z-index:10;
+  border-bottom:1px solid var(--border);
+}
+.lesson-progress { height:5px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; margin-top:10px; }
+.lesson-progress-fill { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--pink),var(--purple)); transition:width 0.4s ease; }
+.step-card { margin:16px; background:var(--card2); border:1px solid var(--border); border-radius:22px; padding:20px; }
+.step-emoji { font-size:56px; text-align:center; margin-bottom:14px; }
+.step-label { font-size:10px; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.step-title { font-size:20px; font-weight:900; margin-bottom:10px; }
+.step-body  { font-size:13px; color:var(--muted); line-height:1.7; }
+.info-box {
+  border-radius:16px; padding:14px 16px; margin-bottom:12px;
+  border:1px solid transparent;
+}
+.ib-blue   { background:rgba(56,189,248,0.08);  border-color:rgba(56,189,248,0.25);  }
+.ib-yellow { background:rgba(251,191,36,0.08);   border-color:rgba(251,191,36,0.3);   }
+.ib-purple { background:rgba(168,85,247,0.08);   border-color:rgba(168,85,247,0.25);  }
+.ib-green  { background:rgba(74,222,128,0.08);   border-color:rgba(74,222,128,0.25);  }
+.ib-pink   { background:rgba(255,110,180,0.08);  border-color:rgba(255,110,180,0.25); }
+.ib-title  { font-size:11px; font-weight:900; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px; }
+.ib-body   { font-size:13px; line-height:1.6; }
+
+/* flashcard flip */
+.flip-scene { perspective:1000px; min-height:280px; cursor:pointer; margin-bottom:14px; }
+.flip-card  { position:relative; width:100%; height:280px; transform-style:preserve-3d; transition:transform 0.5s; }
+.flip-card.flipped { transform:rotateY(180deg); }
+.flip-front,.flip-back {
+  position:absolute; width:100%; height:100%; border-radius:20px;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:24px; text-align:center;
+}
+.flip-front { background:linear-gradient(135deg,#2d1060,#1a0a3a); border:1px solid rgba(168,85,247,0.4); }
+.flip-back  { background:linear-gradient(135deg,#0a2a1a,#071a10); border:1px solid rgba(74,222,128,0.4); transform:rotateY(180deg); }
+.flip-q { font-size:18px; font-weight:900; margin-bottom:12px; }
+.flip-hint { font-size:11px; color:var(--muted); font-weight:700; }
+
+/* quiz options */
+.quiz-opt {
+  width:100%; padding:13px 16px; border-radius:14px;
+  border:1px solid var(--border); background:var(--card);
+  color:var(--text); font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:700; text-align:left;
+  cursor:pointer; transition:all 0.18s; margin-bottom:8px;
+}
+.quiz-opt:last-child { margin-bottom:0; }
+.quiz-opt.correct { background:rgba(74,222,128,0.15); border-color:rgba(74,222,128,0.5); color:var(--mint); }
+.quiz-opt.wrong   { background:rgba(248,113,113,0.15); border-color:rgba(248,113,113,0.5); color:var(--red); }
+.quiz-opt.neutral { background:rgba(255,255,255,0.04); color:var(--muted); }
+
+/* xp celebration */
+.xp-badge {
+  background:linear-gradient(135deg,var(--yellow),var(--pink));
+  color:#0d0a1a; font-weight:900; font-size:28px;
+  border-radius:20px; padding:20px; text-align:center; margin-bottom:14px;
+}
+
+/* ── DONATE ── */
+.impact-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+.impact-item { background:rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center; }
+.impact-val { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; line-height:1; margin-bottom:4px; }
+.impact-lbl { font-size:10px; color:var(--muted); font-weight:700; }
+.donate-btn {
+  border-radius:18px; padding:16px; margin-bottom:10px;
+  display:flex; align-items:center; gap:14px;
+  cursor:pointer; transition:transform 0.15s; border:1px solid transparent;
+}
+.donate-btn:active { transform:scale(0.98); }
+.db-bank  { background:rgba(56,189,248,0.1); border-color:rgba(56,189,248,0.3); }
+.db-ads   { background:rgba(251,191,36,0.1);  border-color:rgba(251,191,36,0.3); }
+.db-icon  { font-size:28px; flex-shrink:0; }
+.db-title { font-size:14px; font-weight:900; margin-bottom:2px; }
+.db-sub   { font-size:11px; color:var(--muted); font-weight:700; }
+.donor-item {
+  display:flex; align-items:center; gap:10px;
+  padding:11px 12px; border-radius:14px;
+  background:rgba(255,255,255,0.04); border:1px solid var(--border);
+  margin-bottom:8px;
+}
+.donor-rank { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:700; width:24px; color:var(--muted); }
+.donor-name { flex:1; font-size:13px; font-weight:800; }
+.donor-type { font-size:10px; color:var(--muted); font-weight:700; }
+.donor-amount { font-size:13px; font-weight:900; color:var(--mint); }
+
+/* ── CHAT ── */
+.chat-area { padding:16px; display:flex; flex-direction:column; gap:10px; }
+.chat-bubble { max-width:82%; padding:12px 14px; border-radius:16px; font-size:13px; line-height:1.6; }
+.cb-user { background:linear-gradient(135deg,var(--purple2),var(--pink2)); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
+.cb-bot  { background:var(--card2); border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:4px; }
+.chat-input-wrap {
+  position:sticky; bottom:90px;
+  background:rgba(13,10,26,0.95); backdrop-filter:blur(16px);
+  border-top:1px solid var(--border); padding:12px 16px;
+  display:flex; gap:10px;
+}
+.chat-input {
+  flex:1; background:var(--card2); border:1px solid var(--border);
+  border-radius:14px; padding:10px 14px;
+  font-size:13px; font-family:'Nunito',sans-serif; color:var(--text);
+  outline:none; transition:border-color 0.18s;
+}
+.chat-input:focus { border-color:var(--purple); }
+.chat-input::placeholder { color:var(--muted); }
+.chat-send {
+  background:linear-gradient(135deg,var(--purple2),var(--pink2));
+  border:none; border-radius:14px; width:42px; height:42px;
+  cursor:pointer; font-size:16px; color:white;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.18s;
+}
+.chat-send:hover { opacity:0.85; }
+.common-q {
+  padding:12px 14px; border-radius:14px;
+  background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.25);
+  color:var(--text); font-size:13px; font-weight:700;
+  text-align:left; cursor:pointer; transition:all 0.18s; width:100%; margin-bottom:8px;
+  font-family:'Nunito',sans-serif;
+}
+.common-q:hover { background:rgba(168,85,247,0.15); }
+
+/* ── MOCK EXAM ── */
+.exam-opt {
+  width:100%; padding:13px 16px; border-radius:14px;
+  border:1px solid var(--border); background:var(--card);
+  color:var(--text); font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:700; text-align:left;
+  cursor:pointer; transition:all 0.18s; margin-bottom:8px;
+}
+.exam-opt.selected { background:rgba(168,85,247,0.15); border-color:var(--purple); color:var(--purple); }
+.exam-result-ring {
+  width:110px; height:110px; border-radius:50%;
+  background:conic-gradient(var(--pink) 0%, var(--purple) 40%, var(--blue) 70%, var(--card2) 70%);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 0 30px rgba(168,85,247,0.4);
+}
+.exam-result-inner {
+  width:82px; height:82px; border-radius:50%;
+  background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column;
+}
+
+/* ── ROADMAP ── */
+.roadmap-phase {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:18px;
+  background:var(--card2); border:1px solid var(--border);
+  margin-bottom:10px;
+}
+.rp-icon { font-size:26px; flex-shrink:0; }
+.rp-month { font-size:10px; font-weight:900; letter-spacing:1px; text-transform:uppercase; color:var(--purple); margin-bottom:3px; }
+.rp-title { font-size:13px; font-weight:800; }
+
+/* ── LANG TOGGLE ── */
+.lang-btn {
+  background:rgba(168,85,247,0.15); color:var(--purple);
+  border:1px solid rgba(168,85,247,0.3); border-radius:20px;
+  padding:5px 12px; font-size:11px; font-weight:800;
+  cursor:pointer; font-family:'Nunito',sans-serif; transition:all 0.18s;
+}
+.lang-btn:hover { background:rgba(168,85,247,0.25); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── DATA ── */
+const T = {
+  en: {
+    appName:"KruAI", welcome:"Welcome, Hero! ⚔️",
+    bacStudy:"Your Quest to Conquer Bac II",
+    surveyIntro:"Let's customize your adventure!",
+    strengths:"What are your strengths?", weaknesses:"What are your weaknesses?",
+    targetGrade:"What's your target grade?", monthsLeft:"Months until Bac II?",
+    generateRoadmap:"Generate Quest Map 🗺️",
+    home:"Home", lessons:"Study", donate:"Donate", chat:"Mentor", profile:"More",
+    daysLeft:"Days Left", currentStreak:"Streak", todayChallenge:"Today's Missions",
+    dailyPlan:"Daily Quests", yourRoadmap:"Your Quest Map",
+    recommendedTime:"Daily Training Time", hoursPerDay:"hrs/day",
+    basedOn:"Based on your target grade",
+    roadmapPhases:"Adventure Phases",
+    todaysPlan:"Complete missions to earn XP!",
+    completedMsg:"All done! Come back tomorrow 🎉",
+    math:"Math", biology:"Biology", chemistry:"Chemistry",
+    physics:"Physics", history:"History", english:"English",
+    importanceNote:"Exam Weight",
+    summary:"Summary", funFact:"Fun Fact 🎉", surpriseTip:"Pro Tip 💡",
+    didYouKnow:"Did You Know? 🧠",
+    quickChallenge:"Battle Challenge", earnXP:"Earn XP",
+    donateTitle:"Support Heroes 💝",
+    donateSubtitle:"100% goes to student scholarships",
+    moneyDonation:"Donate via ABA Bank 🏦",
+    watchAds:"Watch Ads (free, $0.10 each) 📺",
+    topDonors:"Top Supporters 🏆", thankYou:"Thank you! 💖",
+    aiCoach:"AI Mentor 🤖", askQuestion:"Ask anything...",
+    send:"Send", noInternet:"⚠️ No connection. Try again later.",
+    commonQuestions:"Quick Questions",
+    viewRoadmap:"Quest Map 🗺️", studyNow:"Start Adventure 🚀",
+    completeLesson:"Complete a lesson", practice:"Practice quiz",
+    reviewCards:"Study flashcards", dailyChallengeTask:"Daily challenge",
+    chooseDepth:"Choose depth:", quickReview:"Quick (10 min)",
+    standardStudy:"Standard (30 min)", deepDive:"Epic (60 min)",
+    flashcards:"Flashcards", leaderboard:"Rankings",
+    progress:"Progress", mockExam:"Mock Exam",
+    showAnswer:"Reveal Answer", nextCard:"Next Card",
+    correct:"Correct ✅", incorrect:"Wrong ❌",
+    startPractice:"Start Practice", checkAnswer:"Check Answer",
+    nextQuestion:"Next Question", yourAnswer:"Your Answer",
+    correctAnswer:"Correct Answer", explanation:"Explanation",
+    practiceScore:"Practice Score",
+    startMockExam:"Start Mock Exam 🎯",
+    examInstructions:"Answer all questions to test your readiness",
+    submitExam:"Submit Exam ✅", examScore:"Exam Score",
+    retakeExam:"Retry Exam", bacReadiness:"Bac II Readiness",
+    impactMetrics:"Impact So Far 🌟",
+    totalRaised:"Total Raised", studentsHelped:"Students Helped",
+    donorsContributed:"Supporters",
+    watchAdDesc:"Each ad = $0.10 donated (free for you!)",
+    level:"Level", hero:"Hero", foundation:"Foundation",
+    month:"Month",
+  },
+  km: {
+    appName:"KruAI", welcome:"សូមស្វាគមន៍វីរបុរស! ⚔️",
+    bacStudy:"ភារកិច្ចយកឈ្នះ Bac II",
+    surveyIntro:"តោះប្ដូរដំណើររបស់អ្នក!",
+    strengths:"តើអ្នកពូកែអ្វី?", weaknesses:"តើអ្នកខ្សោយអ្វី?",
+    targetGrade:"ពិន្ទុគោលដៅ?", monthsLeft:"ខែទៅ Bac II?",
+    generateRoadmap:"បង្កើតផែនទី 🗺️",
+    home:"ទំព័រដើម", lessons:"រៀន", donate:"ជួយ", chat:"គ្រូ", profile:"ច្រើនទៀត",
+    daysLeft:"ថ្ងៃទៅ", currentStreak:"ជួរ", todayChallenge:"ភារកិច្ចថ្ងៃនេះ",
+    dailyPlan:"ភារកិច្ចប្រចាំថ្ងៃ", yourRoadmap:"ផែនទីភារកិច្ច",
+    recommendedTime:"ម៉ោងរៀនប្រចាំថ្ងៃ", hoursPerDay:"ម៉ោង/ថ្ងៃ",
+    basedOn:"ផ្អែកលើពិន្ទុគោលដៅ",
+    roadmapPhases:"ដំណាក់កាល",
+    todaysPlan:"បំពេញភារកិច្ចដើម្បីទទួលបាន XP!",
+    completedMsg:"ចប់ហើយ! ត្រលប់ស្អែក 🎉",
+    math:"គណិត", biology:"ជីវវិទ្យា", chemistry:"គីមី",
+    physics:"រូបវិទ្យា", history:"ប្រវត្តិ", english:"អង់គ្លេស",
+    importanceNote:"ទម្ងន់ប្រឡង",
+    summary:"សង្ខេប", funFact:"ការពិតគួរចាប់ 🎉", surpriseTip:"គន្លឹះ 💡",
+    didYouKnow:"តើអ្នកដឹងទេ? 🧠",
+    quickChallenge:"បញ្ហាប្រយុទ្ធ", earnXP:"ទទួល XP",
+    donateTitle:"គាំទ្រវីរបុរស 💝",
+    donateSubtitle:"100% ទៅជាអាហារូបករណ៍",
+    moneyDonation:"បរិច្ចាគតាម ABA Bank 🏦",
+    watchAds:"មើលផ្សាយពាណិជ្ជកម្ម 📺",
+    topDonors:"អ្នកគាំទ្រ 🏆", thankYou:"អរគុណ! 💖",
+    aiCoach:"គ្រូ AI 🤖", askQuestion:"សួរអ្វីក៏បាន...",
+    send:"ផ្ញើ", noInternet:"⚠️ គ្មានការតភ្ជាប់។ សូមព្យាយាមម្តងទៀត។",
+    commonQuestions:"សំណួរទូទៅ",
+    viewRoadmap:"ផែនទី 🗺️", studyNow:"ចាប់ផ្តើម 🚀",
+    completeLesson:"បញ្ចប់មេរៀន", practice:"Quiz",
+    reviewCards:"ស្ទឹង Flashcard", dailyChallengeTask:"បញ្ហាប្រឈម",
+    chooseDepth:"ជ្រើសរើស:", quickReview:"រហ័ស (10 នាទី)",
+    standardStudy:"ស្តង់ដារ (30 នាទី)", deepDive:"ស៊ីជម្រៅ (60 នាទី)",
+    flashcards:"Flashcard", leaderboard:"ចំណាត់ថ្នាក់",
+    progress:"ការរីកចម្រើន", mockExam:"ប្រឡងល្បិច",
+    showAnswer:"បង្ហាញចម្លើយ", nextCard:"កាតបន្ទាប់",
+    correct:"ត្រឹមត្រូវ ✅", incorrect:"ខុស ❌",
+    startPractice:"ចាប់ផ្តើម", checkAnswer:"ពិនិត្យ",
+    nextQuestion:"សំណួរបន្ទាប់", yourAnswer:"ចម្លើយអ្នក",
+    correctAnswer:"ចម្លើយត្រឹមត្រូវ", explanation:"ការវិភាគ",
+    practiceScore:"ពិន្ទុ",
+    startMockExam:"ចាប់ផ្តើមប្រឡង 🎯",
+    examInstructions:"ឆ្លើយសំណួរទាំងអស់",
+    submitExam:"បញ្ជូន ✅", examScore:"ពិន្ទុប្រឡង",
+    retakeExam:"ប្រឡងម្តងទៀត", bacReadiness:"ការត្រៀមខ្លួន",
+    impactMetrics:"ផលប៉ះពាល់ 🌟",
+    totalRaised:"ប្រមូលបាន", studentsHelped:"សិស្សបានជួយ",
+    donorsContributed:"អ្នកគាំទ្រ",
+    watchAdDesc:"មើលផ្សាយ = $0.10 បរិច្ចាគ (ឥតគិតថ្លៃ!)",
+    level:"កម្រិត", hero:"វីរបុរស", foundation:"គ្រឹះ",
+    month:"ខែ",
+  }
+};
+
+const LESSONS = {
+  math: {
+    limits: {
+      title:{en:"Basic Limits",km:"លីមីតមូលដ្ឋាន"}, importance:"85%", icon:"📐",
+      content:{en:"A limit describes the value that a function approaches as the input approaches some value. Limits are essential for calculus and frequently tested in Bac II.",km:"លីមីតពិពណ៌នាអំពីតម្លៃដែលអនុគមន៍ទៅជិតនៅពេលដែលធាតុចូលទៅជិតតម្លៃមួយ។"},
+      summary:{en:"Key formula: lim(x→a) f(x) = L. Always check left and right limits separately.",km:"រូបមន្ត: lim(x→a) f(x) = L។ ពិនិត្យលីមីតខាងឆ្វេងនិងស្តាំ។"},
+      funFact:{en:"Limits were invented so mathematicians could divide by zero... safely!",km:"លីមីតត្រូវបានបង្កើតឡើងឲ្យគណិតវិទូអាចចែកដោយសូន្យ... ប៉ុន្តែឲ្យមានសុវត្ថិភាព!"},
+      tip:{en:"Always check left and right limits — they might not match!",km:"ពិនិត្យលីមីតខាងឆ្វេងនិងស្តាំ — ពួកវាប្រហែលជាមិនដូចគ្នា!"},
+    },
+    probability: {
+      title:{en:"Basic Probability",km:"ប្រូបាប៊ីលីតេ"}, importance:"40%", icon:"🎲",
+      content:{en:"Probability measures the likelihood of an event. Combined with combinatorics, it forms a big part of the Bac II math exam.",km:"ប្រូបាប៊ីលីតេវាស់លទ្ធភាពនៃការកើតឡើង។"},
+      summary:{en:"P(Event) = Favorable / Total. Use tree diagrams for complex problems.",km:"P(ព្រឹត្តិការណ៍) = អំណោយផល / សរុប។"},
+      funFact:{en:"Flipping heads 10 times doesn't make tails more likely — each flip is independent!",km:"បោះក្បាល 10 ដងមិនធ្វើឲ្យកន្ទុយមានលទ្ធភាពច្រើននោះទេ!"},
+      tip:{en:"Draw tree diagrams — much faster and you won't miss cases!",km:"គូរដ្យាក្រាមដើមឈើ — រហ័សជាង!"},
+    }
+  },
+  biology: {
+    body: {
+      title:{en:"Human Body",km:"រាងកាយមនុស្ស"}, importance:"65%", icon:"🫀",
+      content:{en:"The human body has multiple organ systems. The digestive system is most tested in Bac II biology.",km:"រាងកាយមនុស្សមានប្រព័ន្ធសរីរាង្គច្រើន។ ប្រព័ន្ធរំលាយអាហារត្រូវបានសាកល្បងញឹកញាប់បំផុត។"},
+      summary:{en:"Major systems: Digestive, Respiratory, Circulatory, Nervous, Skeletal, Muscular.",km:"ប្រព័ន្ធ: រំលាយអាហារ ដង្ហើម ចរាចរ សរសៃប្រសាទ គ្រោង សាច់ដុំ។"},
+      funFact:{en:"Your stomach gets a completely new lining every 3-4 days to protect itself from its own acid!",km:"ក្រពះរបស់អ្នកទទួលស្រទាប់ថ្មីរៀងរាល់ 3-4 ថ្ងៃ!"},
+      tip:{en:"Draw body system diagrams with different colors — much easier to remember!",km:"គូរដ្យាក្រាមជាមួយពណ៌ផ្សេងៗ — ងាយចងចាំ!"},
+      didYouKnow:{en:"You have the same number of neck bones as a giraffe: 7 cervical vertebrae!",km:"អ្នកមានឆ្អឹងក ដូចហ្សីរ៉ាហ្វ: 7 កង!"},
+    },
+    brain: {
+      title:{en:"Human Brain",km:"ខួរក្បាលមនុស្ស"}, importance:"70%", icon:"🧠",
+      content:{en:"The human brain controls all body functions through billions of neurons. Understanding neuron structure is critical for Bac II.",km:"ខួរក្បាលគ្រប់គ្រងមុខងារទាំងអស់តាមរយៈណឺរ៉ូន។"},
+      summary:{en:"Main parts: Cerebrum (thinking), Cerebellum (coordination), Brain stem (vital). Neurons communicate via synapses.",km:"ផ្នែក: សេរេប្រុម (គំនិត), សេរេបែល (សម្របសម្រួល), ដើម (សំខាន់)។"},
+      funFact:{en:"Your brain uses 20% of your body's energy but is only 2% of body weight!",km:"ខួរក្បាលប្រើ 20% ថាមពលប៉ុន្តែ 2% ទម្ងន់!"},
+      tip:{en:"Connect brain parts to functions using stories — sticks better than memorization!",km:"ភ្ជាប់ផ្នែករឿង — ស្អិតជាងការចងចាំ!"},
+      didYouKnow:{en:"You have enough neurons to count every star in the Milky Way!",km:"ណឺរ៉ូនរបស់អ្នកគ្រប់គ្រាន់ដើម្បីរាប់ផ្កាយ Milky Way!"},
+    }
+  }
+};
+
+const FOUNDATION = {
+  math: {
+    title:{en:"Math Foundation",km:"គ្រឹះគណិត"}, importance:"100%", icon:"🔢",
+    content:{en:"Before diving into advanced topics, review the basics. Variables, equations, and operations are essential for all math.",km:"មុនរៀនកម្រិតខ្ពស់ ពិនិត្យមូលដ្ឋាន។"},
+    summary:{en:"Variables (x, y) represent unknowns. Equations show equality (2x+3=7).",km:"អថេរ (x, y) តំណាងអ្វីមិនស្គាល់។ សមីការ (2x+3=7)។"},
+    funFact:{en:"'Algebra' comes from Arabic meaning 'reunion of broken parts'!",km:"'Algebra' មកពីអារ៉ាប់ 'ការរួបរួមផ្នែកបែក'!"},
+    tip:{en:"Always isolate the variable. What you do to one side, do to the other!",km:"ដោះអថេរម្ខាង។ ធ្វើដូចគ្នានៅក្បែរ!"},
+  },
+  biology: {
+    title:{en:"Biology Foundation",km:"គ្រឹះជីវវិទ្យា"}, importance:"100%", icon:"🧫",
+    content:{en:"All living things are made of cells. Cells → Tissues → Organs → Systems. Understanding this hierarchy is key.",km:"សារពាង្គទាំងអស់ជាកោសិកា។ កោសិកា → ជាលិកា → សរីរាង្គ → ប្រព័ន្ធ។"},
+    summary:{en:"Cell → Tissue → Organ → Organ System → Organism. The biological hierarchy.",km:"កោសិកា → ជាលិកា → សរីរាង្គ → ប្រព័ន្ធ → សារពាង្គ។"},
+    funFact:{en:"Your body has about 37 trillion cells!",km:"រាងកាយអ្នកមាន 37 ទ្រីលាន កោសិកា!"},
+    tip:{en:"Draw diagrams! Visual learning helps remember organ structures.",km:"គូរដ្យាក្រាម! ជួយចងចាំ។"},
+    didYouKnow:{en:"Red blood cells live only 120 days before being replaced!",km:"កោសិកាឈាមក្រហមរស់ 120 ថ្ងៃ!"},
+  }
+};
+
+const FLASHCARDS = {
+  math: [
+    {q:{en:"What is a limit?",km:"តើលីមីតជាអ្វី?"},a:{en:"Value a function approaches as input approaches a value",km:"តម្លៃអនុគមន៍ទៅជិតនៅពេលធាតុចូលទៅជិតតម្លៃ"},topic:"limits"},
+    {q:{en:"Probability formula?",km:"រូបមន្តប្រូបាប?"},a:{en:"P(E) = Favorable / Total outcomes",km:"P(E) = អំណោយផល / លទ្ធផលសរុប"},topic:"probability"},
+    {q:{en:"What is 0/0 in limits?",km:"0/0 ក្នុងលីមីត?"},a:{en:"Indeterminate — use factoring or L'Hôpital's rule",km:"មិនកំណត់ — ប្រើដាក់កត្តា"},topic:"limits"},
+    {q:{en:"What is a variable?",km:"អថេរជាអ្វី?"},a:{en:"Symbol representing a number (x or y)",km:"និមិត្តតំណាងលេខ (x ឬ y)"},topic:"foundation"},
+  ],
+  biology: [
+    {q:{en:"Neck bones count?",km:"ឆ្អឹងកប៉ុន្មាន?"},a:{en:"7 cervical vertebrae",km:"7 កងឆ្អឹងក"},topic:"body"},
+    {q:{en:"Main brain parts?",km:"ផ្នែកខួរក្បាល?"},a:{en:"Cerebrum, Cerebellum, Brain stem",km:"សេរេប្រុម, សេរេបែល, ដើម"},topic:"brain"},
+    {q:{en:"Cerebellum controls?",km:"សេរេបែលគ្រប់គ្រង?"},a:{en:"Balance and coordination",km:"តុល្យភាពនិងការសម្របសម្រួល"},topic:"brain"},
+    {q:{en:"What is a cell?",km:"កោសិកាជាអ្វី?"},a:{en:"Basic unit of all living things",km:"ឯកតាមូលដ្ឋាននៃសារពាង្គ"},topic:"foundation"},
+  ]
+};
+
+const PRACTICE = {
+  math:[
+    {q:{en:"lim(x→2) (x²-4)/(x-2) = ?",km:"lim(x→2) (x²-4)/(x-2) = ?"},correct:"4",options:["2","4","0","undefined"],explanation:{en:"Factor: (x+2)(x-2)/(x-2) = x+2 → at x=2 → 4",km:"ដាក់កត្តា: (x+2)(x-2)/(x-2) = x+2 → x=2 → 4"}},
+    {q:{en:"P(both heads, 2 flips)?",km:"P(ក្បាលទាំងពីរ)?"},correct:"1/4",options:["1/2","1/4","1/3","2/3"],explanation:{en:"1/2 × 1/2 = 1/4",km:"1/2 × 1/2 = 1/4"}}
+  ],
+  biology:[
+    {q:{en:"Which part coordinates balance?",km:"ផ្នែកណាសម្របតុល្យភាព?"},correct:"Cerebellum",options:["Cerebrum","Cerebellum","Brain stem","Neuron"],explanation:{en:"Cerebellum controls coordination and balance",km:"សេរេបែលគ្រប់គ្រងតុល្យភាព"}},
+    {q:{en:"Stomach lining regenerates every?",km:"ស្រទាប់ក្រពះកើតឡើងវិញ?"},correct:"3-4 days",options:["1 day","3-4 days","1 week","1 month"],explanation:{en:"Stomach regenerates every 3-4 days to protect from acid",km:"ក្រពះកើតឡើងវិញ 3-4 ថ្ងៃ"}}
+  ]
+};
+
+const MOCK_QS = [
+  {subj:"math",q:{en:"lim(x→0) sin(x)/x = ?",km:"lim(x→0) sin(x)/x = ?"},correct:"1",options:["0","1","∞","undefined"]},
+  {subj:"math",q:{en:"P(rolling 6 on dice)?",km:"P(ទទួល 6)?"},correct:"1/6",options:["1/2","1/6","1/3","1/12"]},
+  {subj:"biology",q:{en:"Main function of neurons?",km:"មុខងារណឺរ៉ូន?"},correct:"Transmit signals",options:["Produce energy","Transmit signals","Store memory","Digest food"]},
+  {subj:"biology",q:{en:"Which system digests food?",km:"ប្រព័ន្ធណារំលាយ?"},correct:"Digestive",options:["Respiratory","Digestive","Circulatory","Nervous"]}
+];
+
+const DONORS = [
+  {name:"Ministry of Education",amount:"$100,000",type:"Government"},
+  {name:"ABA Bank",amount:"$25,000",type:"Company"},
+  {name:"UNICEF Cambodia",amount:"$50,000",type:"NGO"},
+  {name:"Sokha Tep",amount:"$5,000",type:"Individual"},
+  {name:"Dara Chan",amount:"$2,500",type:"Individual"},
+];
+
+const QUOTES = {
+  en:["Success is the sum of small efforts, repeated day in and day out.","The expert in anything was once a beginner.","Study hard now, celebrate later!","Your future self will thank you for today's effort."],
+  km:["ភាពជោគជ័យ = ការខិតខំតូចៗ ម្តងហើយម្តងទៀត។","អ្នកជំនាញធ្លាប់ជាអ្នកចាប់ផ្តើម។","ប្រឹងឥឡូវ អបអរពេលក្រោយ!","ខ្លួនឯងអនាគតនឹងថ្លែងអំណរ។"]
+};
+
+/* ── HELPERS ── */
+function getCurrentTime(){ return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false}); }
+
+/* ── SHELL ── */
+function PhoneShell({children}){
+  const [time,setTime]=useState(getCurrentTime());
+  useEffect(()=>{ const id=setInterval(()=>setTime(getCurrentTime()),10000); return()=>clearInterval(id); },[]);
+  return (
+    <div className="phone">
+      <div className="notch"><div className="notch-mic"/><div className="notch-cam"/></div>
+      <div className="statusbar">
+        <span>{time}</span>
+        <div className="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+/* ── BOTTOM NAV ── */
+function BottomNav({page,setPage,t}){
+  const tabs=[
+    {id:'home',icon:'🏠',lbl:t.home},
+    {id:'lessons',icon:'📚',lbl:t.lessons},
+    {id:'chat',icon:'🤖',lbl:t.chat},
+    {id:'exam',icon:'📝',lbl:t.mockExam.replace(' Exam','').replace(' ប្រឡង','')},
+    {id:'donate',icon:'💝',lbl:t.donate},
+  ];
+  return (
+    <div className="bottom-nav">
+      {tabs.map(tb=>(
+        <button key={tb.id} className={`nav-btn${page===tb.id?' active':''}`} onClick={()=>setPage(tb.id)}>
+          <span className="nav-icon">{tb.icon}</span>
+          <span className="nav-lbl">{tb.lbl}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   SURVEY
+══════════════════════════════ */
+function Survey({lang,setLang,onDone,t}){
+  const [step,setStep]=useState(1);
+  const [form,setForm]=useState({strengths:[],weaknesses:[],grade:'',months:''});
+  const subjects=['math','biology','chemistry','physics','history','english'];
+  const toggle=(field,s)=>{
+    const cur=form[field];
+    setForm({...form,[field]:cur.includes(s)?cur.filter(x=>x!==s):[...cur,s]});
+  };
+  const pct=((step-1)/3)*100;
+  return (
+    <PhoneShell>
+      <div className="scroll-area">
+        <div className="survey-wrap">
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
+            <div>
+              <div className="grad-title">KruAI ⚔️</div>
+              <div className="page-sub">Bac II Quest</div>
+            </div>
+            <button className="lang-btn" onClick={()=>setLang(lang==='en'?'km':'en')}>
+              {lang==='en'?'🇰🇭 ខ្មែរ':'🇬🇧 EN'}
+            </button>
+          </div>
+
+          <div style={{textAlign:'center',marginBottom:20}}>
+            <div style={{fontSize:52,marginBottom:8}} className="anim-bob">⚔️</div>
+            <div style={{fontSize:18,fontWeight:900,marginBottom:4}}>{t.welcome}</div>
+            <div style={{fontSize:13,color:'var(--muted)',fontWeight:700}}>{t.surveyIntro}</div>
+          </div>
+
+          <div className="survey-card anim-slide">
+            <div className="progress-track-sm"><div className="progress-fill-sm" style={{width:`${pct}%`}}/></div>
+
+            {step===1&&(<>
+              <div className="survey-step-title">💪 {t.strengths}</div>
+              <div className="subject-grid">
+                {subjects.map(s=>(
+                  <button key={s} className={`subject-btn${form.strengths.includes(s)?' sel-green':''}`}
+                    onClick={()=>toggle('strengths',s)}>{t[s]}</button>
+                ))}
+              </div>
+              <button className="btn-primary" disabled={!form.strengths.length} onClick={()=>setStep(2)}>Next →</button>
+            </>)}
+
+            {step===2&&(<>
+              <div className="survey-step-title">⚠️ {t.weaknesses}</div>
+              <div className="subject-grid">
+                {subjects.map(s=>(
+                  <button key={s} className={`subject-btn${form.weaknesses.includes(s)?' sel-red':''}`}
+                    onClick={()=>toggle('weaknesses',s)}>{t[s]}</button>
+                ))}
+              </div>
+              <div className="btn-row" style={{marginTop:4}}>
+                <button className="btn-secondary" onClick={()=>setStep(1)}>← Back</button>
+                <button className="btn-primary" disabled={!form.weaknesses.length} onClick={()=>setStep(3)}>Next →</button>
+              </div>
+            </>)}
+
+            {step===3&&(<>
+              <div className="survey-step-title">🎯 {t.targetGrade}</div>
+              <div className="grade-grid">
+                {['A','B','C','D','E'].map(g=>(
+                  <button key={g} className={`grade-btn${form.grade===g?' sel':''}`}
+                    onClick={()=>setForm({...form,grade:g})}>{g}</button>
+                ))}
+              </div>
+              <div className="btn-row">
+                <button className="btn-secondary" onClick={()=>setStep(2)}>← Back</button>
+                <button className="btn-primary" disabled={!form.grade} onClick={()=>setStep(4)}>Next →</button>
+              </div>
+            </>)}
+
+            {step===4&&(<>
+              <div className="survey-step-title">📅 {t.monthsLeft}</div>
+              <div className="months-grid">
+                {['1','2','3','4','5','6'].map(m=>(
+                  <button key={m} className={`month-btn${form.months===m?' sel':''}`}
+                    onClick={()=>setForm({...form,months:m})}>{m}</button>
+                ))}
+              </div>
+              <div className="btn-row">
+                <button className="btn-secondary" onClick={()=>setStep(3)}>← Back</button>
+                <button className="btn-primary" disabled={!form.months}
+                  onClick={()=>onDone(form)} style={{backgroundSize:'200% auto',backgroundImage:'linear-gradient(135deg,var(--pink2) 0%,var(--purple2) 40%,var(--blue2) 60%,var(--purple2) 80%,var(--pink2) 100%)',animation:'shimmer 3s linear infinite'}}>
+                  {t.generateRoadmap}
+                </button>
+              </div>
+            </>)}
+          </div>
+        </div>
+      </div>
+    </PhoneShell>
+  );
+}
+
+/* ══════════════════════════════
+   ROADMAP
+══════════════════════════════ */
+function Roadmap({lang,userData,onContinue,t}){
+  const gradeHours={'A':3.5,'B':2.5,'C':1.75,'D':1.25,'E':1};
+  const hrs=gradeHours[userData.grade]||2;
+  const phases=[
+    {icon:'📐',month:`${t.month} 1-2`,title:lang==='en'?'Fix Math foundations':'ជួសជុលគ្រឹះគណិត'},
+    {icon:'🧬',month:`${t.month} 3`,title:lang==='en'?'Biology deep dive':'ស៊ីជម្រៅជីវវិទ្យា'},
+    {icon:'📚',month:`${t.month} 4`,title:lang==='en'?'Mixed practice all subjects':'អនុវត្តមុខវិជ្ជាទាំងអស់'},
+    {icon:'🎯',month:`${t.month} 5`,title:lang==='en'?'Exam simulation & weak areas':'ប្រឡងពិសោធ & តំបន់ខ្សោយ'},
+  ];
+  return (
+    <PhoneShell>
+      <div className="scroll-area">
+        <div style={{padding:'16px 22px'}}>
+          <div style={{marginBottom:20}}>
+            <div className="grad-title">{t.yourRoadmap} 🗺️</div>
+            <div className="page-sub">{t.bacStudy||'Your Bac II Plan'}</div>
+          </div>
+
+          <div className="card-base anim-slide" style={{marginBottom:14}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+              <span style={{fontSize:20}}>🎯</span>
+              <div>
+                <div style={{fontSize:11,color:'var(--muted)',fontWeight:800,textTransform:'uppercase',letterSpacing:1}}>Target Grade</div>
+                <div style={{fontSize:22,fontWeight:900,color:'var(--yellow)'}}>{userData.grade}</div>
+              </div>
+              <div style={{marginLeft:'auto',textAlign:'right'}}>
+                <div style={{fontSize:11,color:'var(--muted)',fontWeight:800,textTransform:'uppercase',letterSpacing:1}}>Time Left</div>
+                <div style={{fontSize:22,fontWeight:900,color:'var(--pink)'}}>{userData.months} {lang==='en'?'months':'ខែ'}</div>
+              </div>
+            </div>
+            <div style={{background:'rgba(255,255,255,0.04)',borderRadius:14,padding:14,textAlign:'center'}}>
+              <div style={{fontSize:11,color:'var(--muted)',fontWeight:800,marginBottom:6,textTransform:'uppercase',letterSpacing:1}}>⏰ {t.recommendedTime}</div>
+              <div style={{fontFamily:'Space Grotesk',fontSize:40,fontWeight:700,background:'linear-gradient(135deg,var(--pink),var(--yellow))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{hrs}</div>
+              <div style={{fontSize:13,color:'var(--muted)',fontWeight:700}}>{t.hoursPerDay}</div>
+              <div style={{fontSize:11,color:'var(--muted)',marginTop:4}}>{t.basedOn}</div>
+            </div>
+          </div>
+
+          <div style={{marginBottom:14}}>
+            <div className="section-title" style={{marginBottom:12}}>🗺️ {t.roadmapPhases}</div>
+            {phases.map((p,i)=>(
+              <div key={i} className="roadmap-phase" style={{animationDelay:`${i*0.08}s`}}>
+                <span className="rp-icon">{p.icon}</span>
+                <div><div className="rp-month">{p.month}</div><div className="rp-title">{p.title}</div></div>
+              </div>
+            ))}
+          </div>
+
+          <button className="btn-primary" onClick={onContinue}
+            style={{backgroundSize:'200% auto',backgroundImage:'linear-gradient(135deg,var(--pink2) 0%,var(--purple2) 40%,var(--blue2) 60%,var(--purple2) 80%,var(--pink2) 100%)',animation:'shimmer 3s linear infinite',marginBottom:20}}>
+            {t.studyNow}
+          </button>
+        </div>
+      </div>
+    </PhoneShell>
+  );
+}
+
+/* ══════════════════════════════
+   HOME
+══════════════════════════════ */
+function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,userData,t,setPage}){
+  const allDone=Object.values(tasks).every(v=>v);
+  const quote=QUOTES[lang][Math.floor(Math.random()*QUOTES[lang].length)];
+  const weaknesses=userData.weaknesses||[];
+  const cards=[];
+  if(weaknesses.includes('math')) cards.push({id:'math-foundation',name:FOUNDATION.math.title[lang],icon:FOUNDATION.math.icon,cat:`${t.math} — ${t.foundation}`,cls:'lc-found',badge:'⭐ Foundation'});
+  cards.push({id:'math-limits',name:LESSONS.math.limits.title[lang],icon:'📐',cat:t.math,cls:'lc-math'});
+  cards.push({id:'math-probability',name:LESSONS.math.probability.title[lang],icon:'🎲',cat:t.math,cls:'lc-math'});
+  if(weaknesses.includes('biology')) cards.push({id:'biology-foundation',name:FOUNDATION.biology.title[lang],icon:FOUNDATION.biology.icon,cat:`${t.biology} — ${t.foundation}`,cls:'lc-found',badge:'⭐ Foundation'});
+  cards.push({id:'biology-body',name:LESSONS.biology.body.title[lang],icon:'🫀',cat:t.biology,cls:'lc-bio'});
+  cards.push({id:'biology-brain',name:LESSONS.biology.brain.title[lang],icon:'🧠',cat:t.biology,cls:'lc-bio'});
+
+  return (
+    <div className="scroll-area">
+      {/* header */}
+      <div style={{padding:'0 22px 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div>
+          <div className="grad-title">KruAI ⚔️</div>
+          <div className="page-sub">{t.hero} {t.level} {level}</div>
+        </div>
+        <button className="lang-btn" onClick={()=>setLang(lang==='en'?'km':'en')}>
+          {lang==='en'?'🇰🇭 KM':'🇬🇧 EN'}
+        </button>
+      </div>
+
+      {/* hero banner */}
+      <div className="home-hero anim-slide">
+        <div style={{position:'relative',zIndex:1}}>
+          <div className="hero-tag">✨ {lang==='en'?'Good Day!':'ថ្ងៃល្អ!'}</div>
+          <div className="hero-greeting" style={{background:'linear-gradient(90deg,var(--pink),var(--purple),var(--blue))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>
+            {daysLeft} {t.daysLeft}
+          </div>
+          <div className="hero-sub">"{quote}"</div>
+          <div className="hero-chips">
+            <div className="chip chip-pink" onClick={onRoadmap}>🗺️ {t.viewRoadmap}</div>
+            <div className="chip chip-blue" onClick={()=>setPage('exam')}>📝 {t.mockExam}</div>
+            <div className="chip chip-purple" onClick={()=>window.open('kruai-progress.html','_blank')}>📈 Progress</div>
+            <div className="chip chip-yellow" onClick={()=>window.open('kruai-competition.html','_blank')}>⚔️ Battle</div>
+          </div>
+        </div>
+      </div>
+
+      {/* stats */}
+      <div className="stat-pills">
+        <div className="stat-pill">
+          <div className="sp-emoji">⚡</div>
+          <div className="sp-val" style={{color:'var(--pink)'}}>{xp}</div>
+          <div className="sp-lbl">XP Points</div>
+          <div className="sp-up">▲ +20 today</div>
+        </div>
+        <div className="stat-pill">
+          <div className="sp-emoji">🔥</div>
+          <div className="sp-val" style={{color:'var(--yellow)'}}>{streak}</div>
+          <div className="sp-lbl">{t.currentStreak}</div>
+          <div className="sp-up">🏆 Best!</div>
+        </div>
+        <div className="stat-pill">
+          <div className="sp-emoji">🎯</div>
+          <div className="sp-val" style={{color:'var(--purple)'}}>Lv{level}</div>
+          <div className="sp-lbl">{t.level}</div>
+          <div className="sp-up">+80 to next</div>
+        </div>
+        <div className="stat-pill">
+          <div className="sp-emoji">📖</div>
+          <div className="sp-val" style={{color:'var(--blue)'}}>342</div>
+          <div className="sp-lbl">Questions</div>
+          <div className="sp-up">▲ +48 today</div>
+        </div>
+      </div>
+
+      {/* lessons */}
+      <div className="section-row">
+        <div className="section-title">📚 {t.lessons}</div>
+        <div className="section-see" onClick={()=>setPage('lessons')}>See all →</div>
+      </div>
+      <div className="lesson-list" style={{marginBottom:18}}>
+        {cards.map(c=>(
+          <div key={c.id} className={`lesson-card ${c.cls}`} onClick={()=>setPage('lesson:'+c.id)}>
+            {c.badge&&<div className="lc-badge">{c.badge}</div>}
+            <div className="lc-row">
+              <span className="lc-icon">{c.icon}</span>
+              <div className="lc-info">
+                <div className="lc-cat">{c.cat}</div>
+                <div className="lc-name">{c.name}</div>
+              </div>
+              <span style={{fontSize:20,color:'var(--muted)'}}>→</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* daily tasks */}
+      <div className="section-row"><div className="section-title">📋 {t.todayChallenge}</div></div>
+      <div className="task-card" style={{marginBottom:20}}>
+        {!allDone?(
+          <>
+            <div style={{fontSize:12,color:'var(--muted)',fontWeight:700,marginBottom:12}}>{t.todaysPlan}</div>
+            {[['lesson','📖',t.completeLesson],['practice','✍️',t.practice],['flashcards','🎴',t.reviewCards],['challenge','🎯',t.dailyChallengeTask]].map(([key,icon,label])=>(
+              <div key={key} className={`task-item${tasks[key]?' done':''}`} onClick={()=>!tasks[key]&&doTask(key)}>
+                <span className="task-icon">{tasks[key]?'✅':icon}</span>
+                <span className="task-txt">{label}</span>
+                {!tasks[key]&&<span style={{fontSize:11,fontWeight:800,color:'var(--purple)',background:'rgba(168,85,247,0.15)',padding:'3px 8px',borderRadius:20}}>+20 XP</span>}
+              </div>
+            ))}
+          </>
+        ):(
+          <div style={{textAlign:'center',padding:'20px 0'}}>
+            <div style={{fontSize:48,marginBottom:8}} className="anim-bob">🎉</div>
+            <div style={{fontWeight:900,color:'var(--mint)',fontSize:15}}>{t.completedMsg}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   LESSONS LIST
+══════════════════════════════ */
+function LessonsList({lang,t,setPage}){
+  const sections=[
+    {title:`📐 ${t.math}`,items:[
+      {id:'math-foundation',name:FOUNDATION.math.title[lang],icon:FOUNDATION.math.icon,imp:'100%',cls:'lc-found'},
+      {id:'math-limits',name:LESSONS.math.limits.title[lang],icon:'📐',imp:'85%',cls:'lc-math'},
+      {id:'math-probability',name:LESSONS.math.probability.title[lang],icon:'🎲',imp:'40%',cls:'lc-math'},
+    ]},
+    {title:`🧬 ${t.biology}`,items:[
+      {id:'biology-foundation',name:FOUNDATION.biology.title[lang],icon:FOUNDATION.biology.icon,imp:'100%',cls:'lc-found'},
+      {id:'biology-body',name:LESSONS.biology.body.title[lang],icon:'🫀',imp:'65%',cls:'lc-bio'},
+      {id:'biology-brain',name:LESSONS.biology.brain.title[lang],icon:'🧠',imp:'70%',cls:'lc-bio'},
+    ]}
+  ];
+  return (
+    <div className="scroll-area">
+      <div style={{padding:'0 22px 16px'}}>
+        <div className="grad-title">📚 {t.lessons}</div>
+        <div className="page-sub">All available quests</div>
+      </div>
+      {sections.map(sec=>(
+        <div key={sec.title} style={{marginBottom:20}}>
+          <div className="section-row"><div className="section-title">{sec.title}</div></div>
+          <div className="lesson-list">
+            {sec.items.map(item=>(
+              <div key={item.id} className={`lesson-card ${item.cls}`} onClick={()=>setPage('lesson:'+item.id)}>
+                <div className="lc-row">
+                  <span className="lc-icon">{item.icon}</span>
+                  <div className="lc-info">
+                    <div className="lc-cat">{t.importanceNote}: {item.imp}</div>
+                    <div className="lc-name">{item.name}</div>
+                  </div>
+                  <span style={{fontSize:20,color:'var(--muted)'}}>→</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   LESSON DETAIL
+══════════════════════════════ */
+function LessonDetail({lang,lessonId,onBack,onComplete,t}){
+  const [step,setStep]=useState(0);
+  const [flipped,setFlipped]=useState(false);
+  const [selected,setSelected]=useState(null);
+  const [scored,setScored]=useState(false);
+
+  const getLData=()=>{
+    if(lessonId==='math-foundation') return FOUNDATION.math;
+    if(lessonId==='biology-foundation') return FOUNDATION.biology;
+    const [cat,topic]=lessonId.split('-');
+    return LESSONS[cat][topic==='limits'?'limits':topic==='probability'?'probability':topic==='body'?'body':'brain'];
+  };
+  const ld=getLData();
+  const cat=lessonId.split('-')[0];
+  const topic=lessonId.includes('foundation')?'foundation':lessonId.split('-')[1];
+  const cards=(FLASHCARDS[cat]||[]).filter(c=>c.topic===topic);
+  const qs=PRACTICE[cat]||[];
+  const TOTAL=6;
+  const pct=Math.round((step/TOTAL)*100);
+
+  const renderStep=()=>{
+    if(step===0) return (
+      <div style={{textAlign:'center'}}>
+        <div className="step-emoji">{ld.icon||'📖'}</div>
+        <div style={{fontSize:10,fontWeight:900,letterSpacing:2,textTransform:'uppercase',color:'var(--muted)',marginBottom:8}}>Quest Importance</div>
+        <div style={{fontFamily:'Space Grotesk',fontSize:36,fontWeight:700,background:'linear-gradient(135deg,var(--pink),var(--yellow))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',marginBottom:6}}>{ld.importance}</div>
+        <div style={{fontSize:20,fontWeight:900,marginBottom:8}}>{ld.title[lang]}</div>
+        <div style={{fontSize:13,color:'var(--muted)',marginBottom:20}}>{lang==='en'?'Step by step learning quest!':'រៀនជាជំហានៗ!'}</div>
+        <button className="btn-primary" onClick={()=>setStep(1)}>{lang==='en'?'Start Learning 🚀':'ចាប់ផ្តើម 🚀'}</button>
+      </div>
+    );
+
+    if(step===1) return (
+      <div>
+        <div className="step-label">📖 {lang==='en'?'Lesson Content':'មាតិកា'}</div>
+        <div className="info-box ib-blue" style={{marginBottom:14}}>
+          <div className="ib-body" style={{color:'var(--blue)'}}>{ld.content[lang]}</div>
+        </div>
+        <div className="info-box ib-purple">
+          <div className="ib-title" style={{color:'var(--purple)'}}>📝 {t.summary}</div>
+          <div className="ib-body" style={{color:'var(--text)'}}>{ld.summary[lang]}</div>
+        </div>
+        <button className="btn-primary" style={{marginTop:16}} onClick={()=>setStep(2)}>{lang==='en'?'Continue →':'បន្ត →'}</button>
+      </div>
+    );
+
+    if(step===2) return (
+      <div>
+        <div className="step-label" style={{marginBottom:8}}>🎴 {lang==='en'?'Flashcard':'Flashcard'}</div>
+        {cards.length>0?(
+          <>
+            <div className="flip-scene" onClick={()=>setFlipped(!flipped)}>
+              <div className={`flip-card${flipped?' flipped':''}`}>
+                <div className="flip-front">
+                  <div style={{fontSize:36,marginBottom:12}}>❓</div>
+                  <div className="flip-q">{cards[0].q[lang]}</div>
+                  <div className="flip-hint">👆 {lang==='en'?'Tap to reveal':'ចុចដើម្បីមើល'}</div>
+                </div>
+                <div className="flip-back">
+                  <div style={{fontSize:36,marginBottom:12}}>✅</div>
+                  <div className="flip-q" style={{color:'var(--mint)'}}>{cards[0].a[lang]}</div>
+                  <div className="flip-hint">👆 {lang==='en'?'Tap to flip back':'ចុចត្រឡប់'}</div>
+                </div>
+              </div>
+            </div>
+            <button className="btn-primary" onClick={()=>{setStep(3);setFlipped(false);}}>{lang==='en'?'Got it! →':'យល់! →'}</button>
+          </>
+        ):(
+          <div style={{textAlign:'center',padding:30,color:'var(--muted)'}}>No flashcards yet</div>
+        )}
+      </div>
+    );
+
+    if(step===3) return (
+      <div>
+        <div className="info-box ib-yellow" style={{marginBottom:12}}>
+          <div className="ib-title" style={{color:'var(--yellow)'}}>🎉 {t.funFact}</div>
+          <div className="ib-body">{ld.funFact[lang]}</div>
+        </div>
+        <div className="info-box ib-pink">
+          <div className="ib-title" style={{color:'var(--pink)'}}>💡 {t.surpriseTip}</div>
+          <div className="ib-body">{ld.tip[lang]}</div>
+        </div>
+        <button className="btn-primary" style={{marginTop:16}} onClick={()=>setStep(4)}>{lang==='en'?'Continue →':'បន្ត →'}</button>
+      </div>
+    );
+
+    if(step===4) return (
+      <div>
+        {ld.didYouKnow?(
+          <>
+            <div className="info-box ib-green" style={{textAlign:'center',padding:20}}>
+              <div style={{fontSize:40,marginBottom:10}}>🧠</div>
+              <div className="ib-title" style={{color:'var(--mint)'}}>{t.didYouKnow}</div>
+              <div className="ib-body">{ld.didYouKnow[lang]}</div>
+            </div>
+            <button className="btn-primary" style={{marginTop:16}} onClick={()=>setStep(5)}>{lang==='en'?'Quiz Time! 🎯':'Quiz! 🎯'}</button>
+          </>
+        ):( setStep(5), null )}
+      </div>
+    );
+
+    if(step===5){
+      const q=qs[0];
+      if(!q){ onComplete(); setStep(6); return null; }
+      return (
+        <div>
+          <div className="step-label">✍️ {lang==='en'?'Practice Quiz':'Quiz'}</div>
+          <div className="card-base" style={{marginBottom:14}}>
+            <div style={{fontWeight:900,fontSize:15,marginBottom:16}}>{q.q[lang]}</div>
+            {q.options.map((opt,i)=>(
+              <button key={i} className={`quiz-opt${selected?opt===q.correct?' correct':opt===selected?' wrong':' neutral':''}`}
+                onClick={()=>!selected&&setSelected(opt)} disabled={!!selected}>
+                {opt}
+              </button>
+            ))}
+            {selected&&(
+              <div className={`info-box ${selected===q.correct?'ib-green':'ib-pink'}`} style={{marginTop:12}}>
+                <div className="ib-title" style={{color:selected===q.correct?'var(--mint)':'var(--pink)'}}>
+                  {selected===q.correct?t.correct:t.incorrect}
+                </div>
+                <div className="ib-body">{q.explanation[lang]}</div>
+              </div>
+            )}
+          </div>
+          {selected&&<button className="btn-primary" onClick={()=>{onComplete();setStep(6);}}>Continue →</button>}
+        </div>
+      );
+    }
+
+    if(step===6) return (
+      <div style={{textAlign:'center'}}>
+        <div style={{fontSize:64,marginBottom:12}} className="anim-bob">🎉</div>
+        <div style={{fontSize:22,fontWeight:900,marginBottom:10,background:'linear-gradient(90deg,var(--pink),var(--purple),var(--blue))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>
+          {lang==='en'?'Quest Complete!':'ភារកិច្ចបញ្ចប់!'}
+        </div>
+        <div className="xp-badge">+20 XP<br/><span style={{fontSize:14}}>Experience Earned</span></div>
+        <div style={{color:'var(--muted)',fontSize:13,fontWeight:700,marginBottom:20}}>{ld.title[lang]}</div>
+        <button className="btn-primary" onClick={onBack}>{lang==='en'?'← Back to Quests':'← ត្រឡប់'}</button>
+      </div>
+    );
+  };
+
+  return (
+    <PhoneShell>
+      <div className="lesson-top">
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+          <button onClick={onBack} style={{background:'none',border:'none',color:'var(--text)',fontSize:13,fontWeight:800,cursor:'pointer',fontFamily:'Nunito'}}>← {lang==='en'?'Exit':'ចេញ'}</button>
+          <div style={{fontSize:12,color:'var(--muted)',fontWeight:700}}>{step} / {TOTAL}</div>
+        </div>
+        <div className="lesson-progress"><div className="lesson-progress-fill" style={{width:`${pct}%`}}/></div>
+      </div>
+      <div className="scroll-area" style={{maxHeight:'calc(780px - 80px)'}}>
+        <div className="step-card anim-slide">{renderStep()}</div>
+      </div>
+    </PhoneShell>
+  );
+}
+
+/* ══════════════════════════════
+   CHAT
+══════════════════════════════ */
+function Chat({lang,t}){
+  const [msgs,setMsgs]=useState([]);
+  const [inp,setInp]=useState('');
+  const commonQs=[
+    {q:lang==='en'?'How do I calculate limits?':'តើគណនាលីមីតយ៉ាងដូចម្តេច?',a:lang==='en'?'Substitute the value. If 0/0 appears, try factoring or L\'Hôpital\'s rule!':'ជំនួសតម្លៃ។ ប្រសិនបើ 0/0 ព្យាយាមដាក់កត្តា!'},
+    {q:lang==='en'?'What are the brain parts?':'ផ្នែកខួរក្បាល?',a:lang==='en'?'3 main parts: Cerebrum (thinking), Cerebellum (balance), Brain stem (vital functions).':'3 ផ្នែក: សេរេប្រុម (គំនិត), សេរេបែល (តុល្យភាព), ដើម (មុខងារ)។'},
+    {q:lang==='en'?'How to improve my score?':'ធ្វើយ៉ាងណាកែពិន្ទុ?',a:lang==='en'?'Follow daily plan, practice weak areas, use flashcards. Consistency is key!':'អនុវត្តផែនការប្រចាំថ្ងៃ ស្ទឹង Flashcard ហើយអនុវត្ត!'},
+  ];
+  const send=()=>{
+    if(!inp.trim()) return;
+    setMsgs(m=>[...m,{type:'user',text:inp}]);
+    setTimeout(()=>setMsgs(m=>[...m,{type:'bot',text:t.noInternet}]),400);
+    setInp('');
+  };
+  const quickAsk=(q,a)=>setMsgs(m=>[...m,{type:'user',text:q},{type:'bot',text:a}]);
+
+  return (
+    <div className="scroll-area">
+      <div style={{padding:'0 22px 16px'}}>
+        <div className="grad-title">🤖 {t.aiCoach}</div>
+        <div className="page-sub">Ask anything about Bac II</div>
+      </div>
+      {msgs.length===0?(
+        <div style={{padding:'0 16px'}}>
+          <div style={{fontSize:13,color:'var(--muted)',fontWeight:700,marginBottom:12}}>💡 {t.commonQuestions}</div>
+          {commonQs.map((item,i)=>(
+            <button key={i} className="common-q" onClick={()=>quickAsk(item.q,item.a)}>{item.q}</button>
+          ))}
+        </div>
+      ):(
+        <div className="chat-area">
+          {msgs.map((m,i)=>(
+            <div key={i} className={`chat-bubble ${m.type==='user'?'cb-user':'cb-bot'}`}>{m.text}</div>
+          ))}
+        </div>
+      )}
+      <div className="chat-input-wrap">
+        <input className="chat-input" value={inp} onChange={e=>setInp(e.target.value)}
+          onKeyDown={e=>e.key==='Enter'&&send()} placeholder={t.askQuestion}/>
+        <button className="chat-send" onClick={send}>➤</button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   DONATE
+══════════════════════════════ */
+function Donate({lang,t}){
+  const [donated,setDonated]=useState(false);
+  const [dtype,setDtype]=useState('');
+  return (
+    <div className="scroll-area">
+      <div style={{padding:'0 22px 16px'}}>
+        <div className="grad-title">💝 {t.donateTitle}</div>
+        <div className="page-sub">{t.donateSubtitle}</div>
+      </div>
+      <div style={{padding:'0 16px'}}>
+        <div className="card-base" style={{marginBottom:14}}>
+          <div style={{fontSize:12,fontWeight:900,textTransform:'uppercase',letterSpacing:1,color:'var(--muted)',marginBottom:12}}>🌟 {t.impactMetrics}</div>
+          <div className="impact-grid">
+            <div className="impact-item"><div className="impact-val" style={{color:'var(--mint)'}}>$12,450</div><div className="impact-lbl">{t.totalRaised}</div></div>
+            <div className="impact-item"><div className="impact-val" style={{color:'var(--pink)'}}>87</div><div className="impact-lbl">{t.studentsHelped}</div></div>
+            <div className="impact-item"><div className="impact-val" style={{color:'var(--blue)'}}>234</div><div className="impact-lbl">{t.donorsContributed}</div></div>
+          </div>
+        </div>
+
+        {!donated?(
+          <>
+            <div className="donate-btn db-bank" onClick={()=>{setDonated(true);setDtype('bank');}}>
+              <span className="db-icon">🏦</span>
+              <div><div className="db-title">{t.moneyDonation}</div><div className="db-sub">{lang==='en'?'Bank transfer via ABA':'ផ្ទេរតាម ABA'}</div></div>
+            </div>
+            <div className="donate-btn db-ads" onClick={()=>{setDonated(true);setDtype('ads');}}>
+              <span className="db-icon">📺</span>
+              <div><div className="db-title">{t.watchAds}</div><div className="db-sub">{t.watchAdDesc}</div></div>
+            </div>
+          </>
+        ):(
+          <div className="card-base" style={{textAlign:'center',padding:28,marginBottom:14}}>
+            <div style={{fontSize:52,marginBottom:10}} className="anim-bob">{dtype==='ads'?'📺':'🎉'}</div>
+            <div style={{fontWeight:900,fontSize:18,color:'var(--mint)',marginBottom:6}}>{t.thankYou}</div>
+            <div style={{fontSize:13,color:'var(--muted)',fontWeight:700,marginBottom:16}}>{dtype==='ads'?'+$0.10 donated!':lang==='en'?'Your donation helps students!':'ការបរិច្ចាគជួយសិស្ស!'}</div>
+            <button className="btn-secondary" onClick={()=>setDonated(false)}>{lang==='en'?'Donate Again':'បរិច្ចាគម្តងទៀត'}</button>
+          </div>
+        )}
+
+        <div className="card-base">
+          <div style={{fontWeight:900,fontSize:14,marginBottom:12}}>🏆 {t.topDonors}</div>
+          {DONORS.map((d,i)=>(
+            <div key={i} className="donor-item">
+              <span className="donor-rank" style={{color:i===0?'var(--yellow)':i===1?'#94a3b8':i===2?'#cd7c32':'var(--muted)'}}>#{i+1}</span>
+              <div className="donor-name">{d.name}<div className="donor-type">{d.type}</div></div>
+              <span className="donor-amount">{d.amount}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{height:20}}/>
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   MOCK EXAM
+══════════════════════════════ */
+function MockExam({lang,t,addXp}){
+  const [started,setStarted]=useState(false);
+  const [idx,setIdx]=useState(0);
+  const [answers,setAnswers]=useState({});
+  const [done,setDone]=useState(false);
+  const [results,setResults]=useState([]);
+
+  const startExam=()=>{setStarted(true);setIdx(0);setAnswers({});setDone(false);};
+  const submit=()=>{
+    let score=0;
+    MOCK_QS.forEach((q,i)=>{ if(answers[i]===q.correct) score++; });
+    const pct=Math.round((score/MOCK_QS.length)*100);
+    setResults(r=>[...r,{score,total:MOCK_QS.length,pct,date:new Date().toISOString()}]);
+    addXp(score*20); setDone(true);
+  };
+
+  if(!started) return (
+    <div className="scroll-area">
+      <div style={{padding:'0 22px 16px'}}>
+        <div className="grad-title">📝 {t.mockExam}</div>
+        <div className="page-sub">Bac II Simulation</div>
+      </div>
+      <div style={{padding:'0 16px'}}>
+        <div className="card-base" style={{textAlign:'center',padding:28,marginBottom:14}}>
+          <div style={{fontSize:52,marginBottom:12}} className="anim-bob">🎯</div>
+          <div style={{fontWeight:900,fontSize:18,marginBottom:8}}>{t.startMockExam}</div>
+          <div style={{fontSize:13,color:'var(--muted)',fontWeight:700,marginBottom:16}}>{t.examInstructions}</div>
+          <div style={{fontFamily:'Space Grotesk',fontSize:40,fontWeight:700,color:'var(--purple)',marginBottom:4}}>{MOCK_QS.length}</div>
+          <div style={{fontSize:12,color:'var(--muted)',fontWeight:700,marginBottom:20}}>Questions</div>
+          <button className="btn-primary" onClick={startExam}>{t.startMockExam}</button>
+        </div>
+        {results.length>0&&(
+          <div className="card-base">
+            <div style={{fontWeight:900,fontSize:14,marginBottom:12}}>Previous Results</div>
+            {results.slice(-3).reverse().map((r,i)=>(
+              <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 12px',borderRadius:12,background:'rgba(255,255,255,0.04)',border:'1px solid var(--border)',marginBottom:8}}>
+                <div>
+                  <div style={{fontWeight:800,fontSize:14}}>{r.score}/{r.total}</div>
+                  <div style={{fontSize:11,color:'var(--muted)',fontWeight:700}}>{new Date(r.date).toLocaleDateString()}</div>
+                </div>
+                <div style={{fontFamily:'Space Grotesk',fontSize:22,fontWeight:700,color:r.pct>=80?'var(--mint)':r.pct>=60?'var(--yellow)':'var(--red)'}}>{r.pct}%</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  if(done){
+    const last=results[results.length-1];
+    const pct=last.pct;
+    const deg=Math.round((pct/100)*360);
+    return (
+      <div className="scroll-area">
+        <div style={{padding:'28px 22px',textAlign:'center'}}>
+          <div className="exam-result-ring" style={{background:`conic-gradient(${pct>=80?'var(--mint)':pct>=60?'var(--yellow)':'var(--red)'} ${deg}deg, var(--card2) ${deg}deg)`}}>
+            <div className="exam-result-inner">
+              <div style={{fontFamily:'Space Grotesk',fontSize:22,fontWeight:700,color:pct>=80?'var(--mint)':pct>=60?'var(--yellow)':'var(--red)'}}>{pct}%</div>
+              <div style={{fontSize:9,color:'var(--muted)',fontWeight:700}}>Score</div>
+            </div>
+          </div>
+          <div style={{fontWeight:900,fontSize:20,marginBottom:6}}>{t.examScore}</div>
+          <div style={{color:'var(--muted)',fontSize:13,fontWeight:700,marginBottom:16}}>{last.score}/{last.total} correct</div>
+          <div className={`info-box ${pct>=80?'ib-green':pct>=60?'ib-yellow':'ib-pink'}`} style={{textAlign:'left',marginBottom:16}}>
+            <div className="ib-title" style={{color:pct>=80?'var(--mint)':pct>=60?'var(--yellow)':'var(--pink)'}}>{t.bacReadiness}</div>
+            <div className="ib-body">{pct>=80?lang==='en'?'Excellent! You\'re ready!':'ល្អណាស់!':pct>=60?lang==='en'?'Good! Keep practicing!':'ល្អ!':lang==='en'?'Keep studying! You can do it!':'ប្រឹងសិក្សា!'}</div>
+          </div>
+          <button className="btn-primary" style={{marginBottom:10}} onClick={startExam}>{t.retakeExam}</button>
+          <button className="btn-secondary" onClick={()=>setStarted(false)}>{lang==='en'?'← Back':'← ត្រឡប់'}</button>
+        </div>
+      </div>
+    );
+  }
+
+  const q=MOCK_QS[idx];
+  return (
+    <div className="scroll-area">
+      <div style={{padding:'14px 22px'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+          <div style={{fontSize:13,color:'var(--muted)',fontWeight:700}}>Q{idx+1} / {MOCK_QS.length}</div>
+          <div style={{fontSize:13,fontWeight:800,color:'var(--purple)'}}>{Object.keys(answers).length} answered</div>
+        </div>
+        <div style={{height:5,background:'rgba(255,255,255,0.08)',borderRadius:10,overflow:'hidden'}}>
+          <div style={{height:'100%',borderRadius:10,background:'linear-gradient(90deg,var(--pink),var(--purple))',width:`${((idx+1)/MOCK_QS.length)*100}%`,transition:'width 0.4s'}}/>
+        </div>
+      </div>
+      <div style={{padding:'0 16px'}}>
+        <div className="card-base" style={{marginBottom:14}}>
+          <div style={{fontSize:11,fontWeight:800,color:'var(--purple)',textTransform:'uppercase',letterSpacing:1,marginBottom:10}}>
+            {q.subj==='math'?t.math:t.biology}
+          </div>
+          <div style={{fontWeight:900,fontSize:15,marginBottom:16}}>{q.q[lang]}</div>
+          {q.options.map((opt,i)=>(
+            <button key={i} className={`exam-opt${answers[idx]===opt?' selected':''}`}
+              onClick={()=>setAnswers({...answers,[idx]:opt})}>{opt}</button>
+          ))}
+        </div>
+        <div style={{display:'flex',gap:10}}>
+          {idx>0&&<button className="btn-secondary" style={{flex:1}} onClick={()=>setIdx(idx-1)}>← Prev</button>}
+          {idx<MOCK_QS.length-1?(
+            <button className="btn-primary" style={{flex:1}} onClick={()=>setIdx(idx+1)}>Next →</button>
+          ):(
+            <button className="btn-primary" style={{flex:1,opacity:Object.keys(answers).length<MOCK_QS.length?0.5:1}}
+              disabled={Object.keys(answers).length<MOCK_QS.length} onClick={submit}>{t.submitExam}</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   APP ROOT
+══════════════════════════════ */
+function App(){
+  const [lang,setLang]=useState('en');
+  const [surveyed,setSurveyed]=useState(false);
+  const [userData,setUserData]=useState({strengths:[],weaknesses:[],grade:'',months:''});
+  const [xp,setXp]=useState(0);
+  const [level,setLevel]=useState(1);
+  const [streak,setStreak]=useState(3);
+  const [tasks,setTasks]=useState({lesson:false,practice:false,flashcards:false,challenge:false});
+  const [page,setPage]=useState('home'); // home|lessons|lesson:id|chat|donate|exam|roadmap
+
+  const t=T[lang];
+
+  useEffect(()=>{
+    try{
+      const d=JSON.parse(localStorage.getItem('kruai')||'{}');
+      if(d.surveyed){setSurveyed(true);setUserData(d.userData||userData);setXp(d.xp||0);setLevel(d.level||1);setStreak(d.streak||3);setTasks(d.tasks||tasks);}
+    }catch(e){}
+  },[]);
+
+  useEffect(()=>{
+    try{ localStorage.setItem('kruai',JSON.stringify({surveyed,userData,xp,level,streak,tasks})); }catch(e){}
+  },[surveyed,userData,xp,level,streak,tasks]);
+
+  const doTask=(key)=>{
+    if(tasks[key]) return;
+    const newTasks={...tasks,[key]:true};
+    setTasks(newTasks);
+    const newXp=xp+20;
+    setXp(newXp);
+    if(newXp>=level*100) setLevel(l=>l+1);
+  };
+
+  const addXp=(amount)=>{ setXp(x=>{const nx=x+amount; if(nx>=level*100) setLevel(l=>l+1); return nx;}); };
+  const daysLeft=parseInt(userData.months)*30||150;
+
+  if(!surveyed) return <Survey lang={lang} setLang={setLang} onDone={(d)=>{setUserData(d);setSurveyed(true);setPage('roadmap');}} t={t}/>;
+  if(page==='roadmap') return <PhoneShell><Roadmap lang={lang} userData={userData} onContinue={()=>setPage('home')} t={t}/></PhoneShell>;
+  if(page.startsWith('lesson:')) return <LessonDetail lang={lang} lessonId={page.replace('lesson:','')} onBack={()=>setPage('home')} onComplete={()=>doTask('lesson')} t={t}/>;
+
+  return (
+    <PhoneShell>
+      {page==='home'&&<Home lang={lang} setLang={setLang} xp={xp} level={level} streak={streak} daysLeft={daysLeft} tasks={tasks} doTask={doTask} onRoadmap={()=>setPage('roadmap')} userData={userData} t={t} setPage={setPage}/>}
+      {page==='lessons'&&<LessonsList lang={lang} t={t} setPage={setPage}/>}
+      {page==='chat'&&<Chat lang={lang} t={t}/>}
+      {page==='donate'&&<Donate lang={lang} t={t}/>}
+      {page==='exam'&&<MockExam lang={lang} t={t} addXp={addXp}/>}
+      <BottomNav page={page} setPage={setPage} t={t}/>
+    </PhoneShell>
+  );
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>
