@@ -81,7 +81,7 @@ body::after {
   overflow-y:auto; flex:1; padding-bottom:4px; scrollbar-width:none;
 }
 .scroll-area::-webkit-scrollbar { display:none; }
-
+ 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
   background:rgba(13,10,26,0.98);
@@ -101,7 +101,7 @@ body::after {
 .nav-icon { font-size:20px; }
 .nav-lbl { font-size:9px; font-weight:800; color:var(--muted); font-family:'Nunito',sans-serif; }
 .nav-btn.active .nav-lbl { color:var(--purple); }
-
+ 
 /* ── SHARED COMPONENTS ── */
 .page-header {
   padding:0 22px 16px;
@@ -151,7 +151,7 @@ body::after {
   transition:all 0.15s; width:100%;
 }
 .btn-secondary:active { transform:scale(0.97); }
-
+ 
 /* ── ANIMATIONS ── */
 @keyframes slideUp {
   from { opacity:0; transform:translateY(20px); }
@@ -180,7 +180,7 @@ body::after {
 .anim-slide { animation:slideUp 0.4s ease both; }
 .anim-bob   { animation:floatBob 2.5s ease-in-out infinite; }
 .anim-pulse { animation:pulse 2s infinite; }
-
+ 
 /* ── SURVEY ── */
 .survey-wrap {
   padding:20px;
@@ -224,7 +224,7 @@ body::after {
   height:5px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; margin-bottom:20px;
 }
 .progress-fill-sm { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--pink),var(--purple)); transition:width 0.4s ease; }
-
+ 
 /* ── HOME ── */
 .home-hero {
   margin:0 16px 16px;
@@ -260,7 +260,7 @@ body::after {
 .chip-blue   { background:rgba(56,189,248,0.15);  color:var(--blue);   border-color:rgba(56,189,248,0.3); }
 .chip-purple { background:rgba(168,85,247,0.15);  color:var(--purple); border-color:rgba(168,85,247,0.3); }
 .chip-yellow { background:rgba(251,191,36,0.15);  color:var(--yellow); border-color:rgba(251,191,36,0.3); }
-
+ 
 .stat-pills { display:flex; gap:10px; padding:0 16px 16px; overflow-x:auto; scrollbar-width:none; }
 .stat-pills::-webkit-scrollbar { display:none; }
 .stat-pill {
@@ -273,7 +273,7 @@ body::after {
 .sp-val { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; line-height:1; margin-bottom:2px; }
 .sp-lbl { font-size:10px; color:var(--muted); font-weight:700; }
 .sp-up  { font-size:9px; font-weight:800; color:var(--mint); margin-top:5px; }
-
+ 
 /* lesson cards */
 .lesson-list { display:flex; flex-direction:column; gap:10px; padding:0 16px; }
 .lesson-card {
@@ -296,7 +296,7 @@ body::after {
   padding:3px 8px; border-radius:20px;
   background:rgba(251,191,36,0.2); color:var(--yellow);
 }
-
+ 
 /* daily tasks */
 .task-card { margin:0 16px; background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:18px; }
 .task-item {
@@ -311,7 +311,7 @@ body::after {
 .task-icon { font-size:20px; width:28px; text-align:center; }
 .task-txt  { flex:1; font-size:13px; font-weight:700; }
 .task-item.done .task-txt { color:var(--mint); text-decoration:line-through; }
-
+ 
 /* ── LESSON DETAIL ── */
 .lesson-top {
   background:linear-gradient(135deg,#1e0a3c,#0f1540);
@@ -336,7 +336,7 @@ body::after {
 .ib-pink   { background:rgba(255,110,180,0.08);  border-color:rgba(255,110,180,0.25); }
 .ib-title  { font-size:11px; font-weight:900; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px; }
 .ib-body   { font-size:13px; line-height:1.6; }
-
+ 
 /* flashcard flip */
 .flip-scene { perspective:1000px; min-height:280px; cursor:pointer; margin-bottom:14px; }
 .flip-card  { position:relative; width:100%; height:280px; transform-style:preserve-3d; transition:transform 0.5s; }
@@ -351,7 +351,7 @@ body::after {
 .flip-back  { background:linear-gradient(135deg,#0a2a1a,#071a10); border:1px solid rgba(74,222,128,0.4); transform:rotateY(180deg); }
 .flip-q { font-size:18px; font-weight:900; margin-bottom:12px; }
 .flip-hint { font-size:11px; color:var(--muted); font-weight:700; }
-
+ 
 /* quiz options */
 .quiz-opt {
   width:100%; padding:13px 16px; border-radius:14px;
@@ -364,14 +364,14 @@ body::after {
 .quiz-opt.correct { background:rgba(74,222,128,0.15); border-color:rgba(74,222,128,0.5); color:var(--mint); }
 .quiz-opt.wrong   { background:rgba(248,113,113,0.15); border-color:rgba(248,113,113,0.5); color:var(--red); }
 .quiz-opt.neutral { background:rgba(255,255,255,0.04); color:var(--muted); }
-
+ 
 /* xp celebration */
 .xp-badge {
   background:linear-gradient(135deg,var(--yellow),var(--pink));
   color:#0d0a1a; font-weight:900; font-size:28px;
   border-radius:20px; padding:20px; text-align:center; margin-bottom:14px;
 }
-
+ 
 /* ── DONATE ── */
 .impact-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
 .impact-item { background:rgba(255,255,255,0.06); border-radius:14px; padding:12px; text-align:center; }
@@ -398,7 +398,7 @@ body::after {
 .donor-name { flex:1; font-size:13px; font-weight:800; }
 .donor-type { font-size:10px; color:var(--muted); font-weight:700; }
 .donor-amount { font-size:13px; font-weight:900; color:var(--mint); }
-
+ 
 /* ── CHAT ── */
 .chat-area { padding:16px; display:flex; flex-direction:column; gap:10px; }
 .chat-bubble { max-width:82%; padding:12px 14px; border-radius:16px; font-size:13px; line-height:1.6; }
@@ -433,7 +433,7 @@ body::after {
   font-family:'Nunito',sans-serif;
 }
 .common-q:hover { background:rgba(168,85,247,0.15); }
-
+ 
 /* ── MOCK EXAM ── */
 .exam-opt {
   width:100%; padding:13px 16px; border-radius:14px;
@@ -456,7 +456,7 @@ body::after {
   display:flex; align-items:center; justify-content:center;
   flex-direction:column;
 }
-
+ 
 /* ── ROADMAP ── */
 .roadmap-phase {
   display:flex; align-items:center; gap:14px;
@@ -467,7 +467,7 @@ body::after {
 .rp-icon { font-size:26px; flex-shrink:0; }
 .rp-month { font-size:10px; font-weight:900; letter-spacing:1px; text-transform:uppercase; color:var(--purple); margin-bottom:3px; }
 .rp-title { font-size:13px; font-weight:800; }
-
+ 
 /* ── LANG TOGGLE ── */
 .lang-btn {
   background:rgba(168,85,247,0.15); color:var(--purple);
@@ -482,7 +482,7 @@ body::after {
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
-
+ 
 /* ── DATA ── */
 const T = {
   en: {
@@ -592,7 +592,7 @@ const T = {
     month:"ខែ",
   }
 };
-
+ 
 const LESSONS = {
   math: {
     limits: {
@@ -629,7 +629,7 @@ const LESSONS = {
     }
   }
 };
-
+ 
 const FOUNDATION = {
   math: {
     title:{en:"Math Foundation",km:"គ្រឹះគណិត"}, importance:"100%", icon:"🔢",
@@ -647,7 +647,7 @@ const FOUNDATION = {
     didYouKnow:{en:"Red blood cells live only 120 days before being replaced!",km:"កោសិកាឈាមក្រហមរស់ 120 ថ្ងៃ!"},
   }
 };
-
+ 
 const FLASHCARDS = {
   math: [
     {q:{en:"What is a limit?",km:"តើលីមីតជាអ្វី?"},a:{en:"Value a function approaches as input approaches a value",km:"តម្លៃអនុគមន៍ទៅជិតនៅពេលធាតុចូលទៅជិតតម្លៃ"},topic:"limits"},
@@ -662,7 +662,7 @@ const FLASHCARDS = {
     {q:{en:"What is a cell?",km:"កោសិកាជាអ្វី?"},a:{en:"Basic unit of all living things",km:"ឯកតាមូលដ្ឋាននៃសារពាង្គ"},topic:"foundation"},
   ]
 };
-
+ 
 const PRACTICE = {
   math:[
     {q:{en:"lim(x→2) (x²-4)/(x-2) = ?",km:"lim(x→2) (x²-4)/(x-2) = ?"},correct:"4",options:["2","4","0","undefined"],explanation:{en:"Factor: (x+2)(x-2)/(x-2) = x+2 → at x=2 → 4",km:"ដាក់កត្តា: (x+2)(x-2)/(x-2) = x+2 → x=2 → 4"}},
@@ -673,14 +673,14 @@ const PRACTICE = {
     {q:{en:"Stomach lining regenerates every?",km:"ស្រទាប់ក្រពះកើតឡើងវិញ?"},correct:"3-4 days",options:["1 day","3-4 days","1 week","1 month"],explanation:{en:"Stomach regenerates every 3-4 days to protect from acid",km:"ក្រពះកើតឡើងវិញ 3-4 ថ្ងៃ"}}
   ]
 };
-
+ 
 const MOCK_QS = [
   {subj:"math",q:{en:"lim(x→0) sin(x)/x = ?",km:"lim(x→0) sin(x)/x = ?"},correct:"1",options:["0","1","∞","undefined"]},
   {subj:"math",q:{en:"P(rolling 6 on dice)?",km:"P(ទទួល 6)?"},correct:"1/6",options:["1/2","1/6","1/3","1/12"]},
   {subj:"biology",q:{en:"Main function of neurons?",km:"មុខងារណឺរ៉ូន?"},correct:"Transmit signals",options:["Produce energy","Transmit signals","Store memory","Digest food"]},
   {subj:"biology",q:{en:"Which system digests food?",km:"ប្រព័ន្ធណារំលាយ?"},correct:"Digestive",options:["Respiratory","Digestive","Circulatory","Nervous"]}
 ];
-
+ 
 const DONORS = [
   {name:"Ministry of Education",amount:"$100,000",type:"Government"},
   {name:"ABA Bank",amount:"$25,000",type:"Company"},
@@ -688,15 +688,15 @@ const DONORS = [
   {name:"Sokha Tep",amount:"$5,000",type:"Individual"},
   {name:"Dara Chan",amount:"$2,500",type:"Individual"},
 ];
-
+ 
 const QUOTES = {
   en:["Success is the sum of small efforts, repeated day in and day out.","The expert in anything was once a beginner.","Study hard now, celebrate later!","Your future self will thank you for today's effort."],
   km:["ភាពជោគជ័យ = ការខិតខំតូចៗ ម្តងហើយម្តងទៀត។","អ្នកជំនាញធ្លាប់ជាអ្នកចាប់ផ្តើម។","ប្រឹងឥឡូវ អបអរពេលក្រោយ!","ខ្លួនឯងអនាគតនឹងថ្លែងអំណរ។"]
 };
-
+ 
 /* ── HELPERS ── */
 function getCurrentTime(){ return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false}); }
-
+ 
 /* ── SHELL ── */
 function PhoneShell({children}){
   const [time,setTime]=useState(getCurrentTime());
@@ -714,7 +714,7 @@ function PhoneShell({children}){
     </div>
   );
 }
-
+ 
 /* ── BOTTOM NAV ── */
 function BottomNav({page,setPage,t}){
   const tabs=[
@@ -735,7 +735,7 @@ function BottomNav({page,setPage,t}){
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    SURVEY
 ══════════════════════════════ */
@@ -761,16 +761,16 @@ function Survey({lang,setLang,onDone,t}){
               {lang==='en'?'🇰🇭 ខ្មែរ':'🇬🇧 EN'}
             </button>
           </div>
-
+ 
           <div style={{textAlign:'center',marginBottom:20}}>
             <div style={{fontSize:52,marginBottom:8}} className="anim-bob">⚔️</div>
             <div style={{fontSize:18,fontWeight:900,marginBottom:4}}>{t.welcome}</div>
             <div style={{fontSize:13,color:'var(--muted)',fontWeight:700}}>{t.surveyIntro}</div>
           </div>
-
+ 
           <div className="survey-card anim-slide">
             <div className="progress-track-sm"><div className="progress-fill-sm" style={{width:`${pct}%`}}/></div>
-
+ 
             {step===1&&(<>
               <div className="survey-step-title">❤️ {lang==='en'?'What subjects do you like?':'មុខវិជ្ជាអ្វីដែលអ្នកចូលចិត្ត?'}</div>
               <div className="subject-grid">
@@ -781,7 +781,7 @@ function Survey({lang,setLang,onDone,t}){
               </div>
               <button className="btn-primary" disabled={!form.liked.length} onClick={()=>setStep(2)}>Next →</button>
             </>)}
-
+ 
             {step===2&&(<>
               <div className="survey-step-title">⚠️ {t.weaknesses}</div>
               <div className="subject-grid">
@@ -795,7 +795,7 @@ function Survey({lang,setLang,onDone,t}){
                 <button className="btn-primary" disabled={!form.weaknesses.length} onClick={()=>setStep(3)}>Next →</button>
               </div>
             </>)}
-
+ 
             {step===3&&(<>
               <div className="survey-step-title">🎯 {t.targetGrade}</div>
               <div className="grade-grid">
@@ -809,7 +809,7 @@ function Survey({lang,setLang,onDone,t}){
                 <button className="btn-primary" disabled={!form.grade} onClick={()=>setStep(4)}>Next →</button>
               </div>
             </>)}
-
+ 
             {step===4&&(<>
               <div className="survey-step-title">📅 {t.monthsLeft}</div>
               <div className="months-grid">
@@ -832,7 +832,7 @@ function Survey({lang,setLang,onDone,t}){
     </PhoneShell>
   );
 }
-
+ 
 /* ══════════════════════════════
    ROADMAP
 ══════════════════════════════ */
@@ -853,7 +853,7 @@ function Roadmap({lang,userData,onContinue,t}){
             <div className="grad-title">{t.yourRoadmap} 🗺️</div>
             <div className="page-sub">{t.bacStudy||'Your Bac II Plan'}</div>
           </div>
-
+ 
           <div className="card-base anim-slide" style={{marginBottom:14}}>
             <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
               <span style={{fontSize:20}}>🎯</span>
@@ -873,7 +873,7 @@ function Roadmap({lang,userData,onContinue,t}){
               <div style={{fontSize:11,color:'var(--muted)',marginTop:4}}>{t.basedOn}</div>
             </div>
           </div>
-
+ 
           <div style={{marginBottom:14}}>
             <div className="section-title" style={{marginBottom:12}}>🗺️ {t.roadmapPhases}</div>
             {phases.map((p,i)=>(
@@ -883,7 +883,7 @@ function Roadmap({lang,userData,onContinue,t}){
               </div>
             ))}
           </div>
-
+ 
           <button className="btn-primary" onClick={onContinue}
             style={{backgroundSize:'200% auto',backgroundImage:'linear-gradient(135deg,var(--pink2) 0%,var(--purple2) 40%,var(--blue2) 60%,var(--purple2) 80%,var(--pink2) 100%)',animation:'shimmer 3s linear infinite',marginBottom:20}}>
             {t.studyNow}
@@ -893,7 +893,7 @@ function Roadmap({lang,userData,onContinue,t}){
     </PhoneShell>
   );
 }
-
+ 
 /* ══════════════════════════════
    HOME
 ══════════════════════════════ */
@@ -908,7 +908,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
   if(weaknesses.includes('biology')) cards.push({id:'biology-foundation',name:FOUNDATION.biology.title[lang],icon:FOUNDATION.biology.icon,cat:`${t.biology} — ${t.foundation}`,cls:'lc-found',badge:'⭐ Foundation'});
   cards.push({id:'biology-body',name:LESSONS.biology.body.title[lang],icon:'🫀',cat:t.biology,cls:'lc-bio'});
   cards.push({id:'biology-brain',name:LESSONS.biology.brain.title[lang],icon:'🧠',cat:t.biology,cls:'lc-bio'});
-
+ 
   return (
     <div className="scroll-area">
       {/* header */}
@@ -921,7 +921,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           {lang==='en'?'🇰🇭 KM':'🇬🇧 EN'}
         </button>
       </div>
-
+ 
       {/* hero banner */}
       <div className="home-hero anim-slide">
         <div style={{position:'relative',zIndex:1}}>
@@ -938,7 +938,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           </div>
         </div>
       </div>
-
+ 
       {/* stats */}
       <div className="stat-pills">
         <div className="stat-pill">
@@ -966,7 +966,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           <div className="sp-up">▲ +48 today</div>
         </div>
       </div>
-
+ 
       {/* lessons */}
       <div className="section-row">
         <div className="section-title">📚 {t.lessons}</div>
@@ -987,7 +987,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           </div>
         ))}
       </div>
-
+ 
       {/* daily tasks */}
       <div className="section-row"><div className="section-title">📋 {t.todayChallenge}</div></div>
       <div className="task-card" style={{marginBottom:20}}>
@@ -1012,7 +1012,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    LESSONS LIST
 ══════════════════════════════ */
@@ -1057,7 +1057,7 @@ function LessonsList({lang,t,setPage}){
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    LESSON DETAIL
 ══════════════════════════════ */
@@ -1066,7 +1066,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
   const [flipped,setFlipped]=useState(false);
   const [selected,setSelected]=useState(null);
   const [scored,setScored]=useState(false);
-
+ 
   const getLData=()=>{
     if(lessonId==='math-foundation') return FOUNDATION.math;
     if(lessonId==='biology-foundation') return FOUNDATION.biology;
@@ -1080,7 +1080,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
   const qs=PRACTICE[cat]||[];
   const TOTAL=6;
   const pct=Math.round((step/TOTAL)*100);
-
+ 
   const renderStep=()=>{
     if(step===0) return (
       <div style={{textAlign:'center'}}>
@@ -1092,7 +1092,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         <button className="btn-primary" onClick={()=>setStep(1)}>{lang==='en'?'Start Learning 🚀':'ចាប់ផ្តើម 🚀'}</button>
       </div>
     );
-
+ 
     if(step===1) return (
       <div>
         <div className="step-label">📖 {lang==='en'?'Lesson Content':'មាតិកា'}</div>
@@ -1106,7 +1106,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         <button className="btn-primary" style={{marginTop:16}} onClick={()=>setStep(2)}>{lang==='en'?'Continue →':'បន្ត →'}</button>
       </div>
     );
-
+ 
     if(step===2) return (
       <div>
         <div className="step-label" style={{marginBottom:8}}>🎴 {lang==='en'?'Flashcard':'Flashcard'}</div>
@@ -1133,7 +1133,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         )}
       </div>
     );
-
+ 
     if(step===3) return (
       <div>
         <div className="info-box ib-yellow" style={{marginBottom:12}}>
@@ -1147,7 +1147,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         <button className="btn-primary" style={{marginTop:16}} onClick={()=>setStep(4)}>{lang==='en'?'Continue →':'បន្ត →'}</button>
       </div>
     );
-
+ 
     if(step===4) return (
       <div>
         {ld.didYouKnow?(
@@ -1162,7 +1162,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         ):( setStep(5), null )}
       </div>
     );
-
+ 
     if(step===5){
       const q=qs[0];
       if(!q){ onComplete(); setStep(6); return null; }
@@ -1190,7 +1190,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         </div>
       );
     }
-
+ 
     if(step===6) return (
       <div style={{textAlign:'center'}}>
         <div style={{fontSize:64,marginBottom:12}} className="anim-bob">🎉</div>
@@ -1203,7 +1203,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
       </div>
     );
   };
-
+ 
   return (
     <PhoneShell>
       <div className="lesson-top">
@@ -1219,7 +1219,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
     </PhoneShell>
   );
 }
-
+ 
 /* ══════════════════════════════
    CHAT
 ══════════════════════════════ */
@@ -1238,7 +1238,7 @@ function Chat({lang,t}){
     setInp('');
   };
   const quickAsk=(q,a)=>setMsgs(m=>[...m,{type:'user',text:q},{type:'bot',text:a}]);
-
+ 
   return (
     <div style={{display:'flex',flexDirection:'column',flex:1,minHeight:0}}>
       <div style={{padding:'0 22px 12px',flexShrink:0}}>
@@ -1269,7 +1269,7 @@ function Chat({lang,t}){
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    DONATE
 ══════════════════════════════ */
@@ -1291,7 +1291,7 @@ function Donate({lang,t}){
             <div className="impact-item"><div className="impact-val" style={{color:'var(--blue)'}}>234</div><div className="impact-lbl">{t.donorsContributed}</div></div>
           </div>
         </div>
-
+ 
         {!donated?(
           <>
             <div className="donate-btn db-bank" onClick={()=>{setDonated(true);setDtype('bank');}}>
@@ -1311,7 +1311,7 @@ function Donate({lang,t}){
             <button className="btn-secondary" onClick={()=>setDonated(false)}>{lang==='en'?'Donate Again':'បរិច្ចាគម្តងទៀត'}</button>
           </div>
         )}
-
+ 
         <div className="card-base">
           <div style={{fontWeight:900,fontSize:14,marginBottom:12}}>🏆 {t.topDonors}</div>
           {DONORS.map((d,i)=>(
@@ -1327,7 +1327,7 @@ function Donate({lang,t}){
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    MOCK EXAM
 ══════════════════════════════ */
@@ -1337,7 +1337,7 @@ function MockExam({lang,t,addXp}){
   const [answers,setAnswers]=useState({});
   const [done,setDone]=useState(false);
   const [results,setResults]=useState([]);
-
+ 
   const startExam=()=>{setStarted(true);setIdx(0);setAnswers({});setDone(false);};
   const submit=()=>{
     let score=0;
@@ -1346,7 +1346,7 @@ function MockExam({lang,t,addXp}){
     setResults(r=>[...r,{score,total:MOCK_QS.length,pct,date:new Date().toISOString()}]);
     addXp(score*20); setDone(true);
   };
-
+ 
   if(!started) return (
     <div className="scroll-area">
       <div style={{padding:'0 22px 16px'}}>
@@ -1379,7 +1379,7 @@ function MockExam({lang,t,addXp}){
       </div>
     </div>
   );
-
+ 
   if(done){
     const last=results[results.length-1];
     const pct=last.pct;
@@ -1405,7 +1405,7 @@ function MockExam({lang,t,addXp}){
       </div>
     );
   }
-
+ 
   const q=MOCK_QS[idx];
   return (
     <div className="scroll-area">
@@ -1442,7 +1442,7 @@ function MockExam({lang,t,addXp}){
     </div>
   );
 }
-
+ 
 /* ══════════════════════════════
    APP ROOT
 ══════════════════════════════ */
@@ -1455,20 +1455,20 @@ function App(){
   const [streak,setStreak]=useState(3);
   const [tasks,setTasks]=useState({lesson:false,practice:false,flashcards:false,challenge:false});
   const [page,setPage]=useState('home'); // home|lessons|lesson:id|chat|donate|exam|roadmap
-
+ 
   const t=T[lang];
-
+ 
   useEffect(()=>{
     try{
       const d=JSON.parse(localStorage.getItem('kruai')||'{}');
       if(d.surveyed){setSurveyed(true);setUserData(d.userData||userData);setXp(d.xp||0);setLevel(d.level||1);setStreak(d.streak||3);setTasks(d.tasks||tasks);}
     }catch(e){}
   },[]);
-
+ 
   useEffect(()=>{
     try{ localStorage.setItem('kruai',JSON.stringify({surveyed,userData,xp,level,streak,tasks})); }catch(e){}
   },[surveyed,userData,xp,level,streak,tasks]);
-
+ 
   const doTask=(key)=>{
     if(tasks[key]) return;
     const newTasks={...tasks,[key]:true};
@@ -1477,14 +1477,14 @@ function App(){
     setXp(newXp);
     if(newXp>=level*100) setLevel(l=>l+1);
   };
-
+ 
   const addXp=(amount)=>{ setXp(x=>{const nx=x+amount; if(nx>=level*100) setLevel(l=>l+1); return nx;}); };
   const daysLeft=parseInt(userData.months)*30||150;
-
+ 
   if(!surveyed) return <Survey lang={lang} setLang={setLang} onDone={(d)=>{setUserData(d);setSurveyed(true);setPage('roadmap');}} t={t}/>;
   if(page==='roadmap') return <PhoneShell><Roadmap lang={lang} userData={userData} onContinue={()=>setPage('home')} t={t}/></PhoneShell>;
   if(page.startsWith('lesson:')) return <LessonDetail lang={lang} lessonId={page.replace('lesson:','')} onBack={()=>setPage('home')} onComplete={()=>doTask('lesson')} t={t}/>;
-
+ 
   return (
     <PhoneShell>
       {page==='home'&&<Home lang={lang} setLang={setLang} xp={xp} level={level} streak={streak} daysLeft={daysLeft} tasks={tasks} doTask={doTask} onRoadmap={()=>setPage('roadmap')} userData={userData} t={t} setPage={setPage}/>}
@@ -1495,8 +1495,9 @@ function App(){
       <BottomNav page={page} setPage={setPage} t={t}/>    </PhoneShell>
   );
 }
-
+ 
 ReactDOM.render(<App/>, document.getElementById('root'));
 </script>
 </body>
 </html>
+ 
