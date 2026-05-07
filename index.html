@@ -54,12 +54,13 @@ body::after {
   pointer-events:none; z-index:0;
 }
 .phone {
-  width:390px; min-height:844px;
+  width:390px; height:844px;
   background:var(--bg);
   border-radius:48px;
   border:2px solid rgba(168,85,247,0.3);
   box-shadow:0 0 0 6px rgba(168,85,247,0.07),0 40px 80px rgba(0,0,0,0.7),inset 0 0 60px rgba(168,85,247,0.04);
   position:relative; overflow:hidden; z-index:1;
+  display:flex; flex-direction:column;
 }
 .notch {
   width:126px; height:34px; background:#000;
@@ -77,19 +78,18 @@ body::after {
 }
 .status-icons { display:flex; gap:5px; align-items:center; font-size:11px; }
 .scroll-area {
-  overflow-y:auto; max-height:780px; padding-bottom:90px; scrollbar-width:none;
+  overflow-y:auto; flex:1; padding-bottom:4px; scrollbar-width:none;
 }
 .scroll-area::-webkit-scrollbar { display:none; }
 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
-  position:sticky; bottom:0;
-  background:rgba(13,10,26,0.95);
+  background:rgba(13,10,26,0.98);
   backdrop-filter:blur(20px);
   border-top:1px solid rgba(168,85,247,0.25);
   padding:10px 6px 22px;
   display:flex; justify-content:space-around;
-  z-index:50;
+  z-index:50; flex-shrink:0;
 }
 .nav-btn {
   display:flex; flex-direction:column; align-items:center; gap:3px;
@@ -183,7 +183,7 @@ body::after {
 
 /* ── SURVEY ── */
 .survey-wrap {
-  min-height:780px; padding:20px;
+  padding:20px;
   background:var(--bg);
   display:flex; flex-direction:column; justify-content:center;
 }
@@ -210,7 +210,7 @@ body::after {
   cursor:pointer; transition:all 0.18s;
 }
 .grade-btn.sel { background:rgba(56,189,248,0.15); color:var(--blue); border-color:rgba(56,189,248,0.4); }
-.months-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+.months-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px; }
 .month-btn {
   padding:14px 0; border-radius:14px; border:1px solid var(--border);
   background:var(--card); color:var(--muted);
@@ -405,10 +405,9 @@ body::after {
 .cb-user { background:linear-gradient(135deg,var(--purple2),var(--pink2)); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
 .cb-bot  { background:var(--card2); border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:4px; }
 .chat-input-wrap {
-  position:sticky; bottom:90px;
-  background:rgba(13,10,26,0.95); backdrop-filter:blur(16px);
+  background:rgba(13,10,26,0.98); backdrop-filter:blur(16px);
   border-top:1px solid var(--border); padding:12px 16px;
-  display:flex; gap:10px;
+  display:flex; gap:10px; flex-shrink:0;
 }
 .chat-input {
   flex:1; background:var(--card2); border:1px solid var(--border);
@@ -704,12 +703,14 @@ function PhoneShell({children}){
   useEffect(()=>{ const id=setInterval(()=>setTime(getCurrentTime()),10000); return()=>clearInterval(id); },[]);
   return (
     <div className="phone">
-      <div className="notch"><div className="notch-mic"/><div className="notch-cam"/></div>
-      <div className="statusbar">
+      <div className="notch" style={{flexShrink:0}}><div className="notch-mic"/><div className="notch-cam"/></div>
+      <div className="statusbar" style={{flexShrink:0}}>
         <span>{time}</span>
         <div className="status-icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
       </div>
-      {children}
+      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden',minHeight:0}}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -740,7 +741,7 @@ function BottomNav({page,setPage,t}){
 ══════════════════════════════ */
 function Survey({lang,setLang,onDone,t}){
   const [step,setStep]=useState(1);
-  const [form,setForm]=useState({strengths:[],weaknesses:[],grade:'',months:''});
+  const [form,setForm]=useState({liked:[],weaknesses:[],grade:'',months:''});
   const subjects=['math','biology','chemistry','physics','history','english'];
   const toggle=(field,s)=>{
     const cur=form[field];
@@ -771,14 +772,14 @@ function Survey({lang,setLang,onDone,t}){
             <div className="progress-track-sm"><div className="progress-fill-sm" style={{width:`${pct}%`}}/></div>
 
             {step===1&&(<>
-              <div className="survey-step-title">💪 {t.strengths}</div>
+              <div className="survey-step-title">❤️ {lang==='en'?'What subjects do you like?':'មុខវិជ្ជាអ្វីដែលអ្នកចូលចិត្ត?'}</div>
               <div className="subject-grid">
                 {subjects.map(s=>(
-                  <button key={s} className={`subject-btn${form.strengths.includes(s)?' sel-green':''}`}
-                    onClick={()=>toggle('strengths',s)}>{t[s]}</button>
+                  <button key={s} className={`subject-btn${form.liked.includes(s)?' sel-green':''}`}
+                    onClick={()=>toggle('liked',s)}>{t[s]}</button>
                 ))}
               </div>
-              <button className="btn-primary" disabled={!form.strengths.length} onClick={()=>setStep(2)}>Next →</button>
+              <button className="btn-primary" disabled={!form.liked.length} onClick={()=>setStep(2)}>Next →</button>
             </>)}
 
             {step===2&&(<>
@@ -812,7 +813,7 @@ function Survey({lang,setLang,onDone,t}){
             {step===4&&(<>
               <div className="survey-step-title">📅 {t.monthsLeft}</div>
               <div className="months-grid">
-                {['1','2','3','4','5','6'].map(m=>(
+                {['1','2','3','4','5','6','7','8','9','10','11','12'].map(m=>(
                   <button key={m} className={`month-btn${form.months===m?' sel':''}`}
                     onClick={()=>setForm({...form,months:m})}>{m}</button>
                 ))}
@@ -820,7 +821,7 @@ function Survey({lang,setLang,onDone,t}){
               <div className="btn-row">
                 <button className="btn-secondary" onClick={()=>setStep(3)}>← Back</button>
                 <button className="btn-primary" disabled={!form.months}
-                  onClick={()=>onDone(form)} style={{backgroundSize:'200% auto',backgroundImage:'linear-gradient(135deg,var(--pink2) 0%,var(--purple2) 40%,var(--blue2) 60%,var(--purple2) 80%,var(--pink2) 100%)',animation:'shimmer 3s linear infinite'}}>
+                  onClick={()=>onDone({...form,strengths:form.liked})} style={{backgroundSize:'200% auto',backgroundImage:'linear-gradient(135deg,var(--pink2) 0%,var(--purple2) 40%,var(--blue2) 60%,var(--purple2) 80%,var(--pink2) 100%)',animation:'shimmer 3s linear infinite'}}>
                   {t.generateRoadmap}
                 </button>
               </div>
@@ -1212,7 +1213,7 @@ function LessonDetail({lang,lessonId,onBack,onComplete,t}){
         </div>
         <div className="lesson-progress"><div className="lesson-progress-fill" style={{width:`${pct}%`}}/></div>
       </div>
-      <div className="scroll-area" style={{maxHeight:'calc(780px - 80px)'}}>
+      <div className="scroll-area">
         <div className="step-card anim-slide">{renderStep()}</div>
       </div>
     </PhoneShell>
@@ -1239,25 +1240,27 @@ function Chat({lang,t}){
   const quickAsk=(q,a)=>setMsgs(m=>[...m,{type:'user',text:q},{type:'bot',text:a}]);
 
   return (
-    <div className="scroll-area">
-      <div style={{padding:'0 22px 16px'}}>
+    <div style={{display:'flex',flexDirection:'column',flex:1,minHeight:0}}>
+      <div style={{padding:'0 22px 12px',flexShrink:0}}>
         <div className="grad-title">🤖 {t.aiCoach}</div>
         <div className="page-sub">Ask anything about Bac II</div>
       </div>
-      {msgs.length===0?(
-        <div style={{padding:'0 16px'}}>
-          <div style={{fontSize:13,color:'var(--muted)',fontWeight:700,marginBottom:12}}>💡 {t.commonQuestions}</div>
-          {commonQs.map((item,i)=>(
-            <button key={i} className="common-q" onClick={()=>quickAsk(item.q,item.a)}>{item.q}</button>
-          ))}
-        </div>
-      ):(
-        <div className="chat-area">
-          {msgs.map((m,i)=>(
-            <div key={i} className={`chat-bubble ${m.type==='user'?'cb-user':'cb-bot'}`}>{m.text}</div>
-          ))}
-        </div>
-      )}
+      <div className="scroll-area" style={{flex:1}}>
+        {msgs.length===0?(
+          <div style={{padding:'0 16px'}}>
+            <div style={{fontSize:13,color:'var(--muted)',fontWeight:700,marginBottom:12}}>💡 {t.commonQuestions}</div>
+            {commonQs.map((item,i)=>(
+              <button key={i} className="common-q" onClick={()=>quickAsk(item.q,item.a)}>{item.q}</button>
+            ))}
+          </div>
+        ):(
+          <div className="chat-area">
+            {msgs.map((m,i)=>(
+              <div key={i} className={`chat-bubble ${m.type==='user'?'cb-user':'cb-bot'}`}>{m.text}</div>
+            ))}
+          </div>
+        )}
+      </div>
       <div className="chat-input-wrap">
         <input className="chat-input" value={inp} onChange={e=>setInp(e.target.value)}
           onKeyDown={e=>e.key==='Enter'&&send()} placeholder={t.askQuestion}/>
@@ -1489,8 +1492,7 @@ function App(){
       {page==='chat'&&<Chat lang={lang} t={t}/>}
       {page==='donate'&&<Donate lang={lang} t={t}/>}
       {page==='exam'&&<MockExam lang={lang} t={t} addXp={addXp}/>}
-      <BottomNav page={page} setPage={setPage} t={t}/>
-    </PhoneShell>
+      <BottomNav page={page} setPage={setPage} t={t}/>    </PhoneShell>
   );
 }
 
