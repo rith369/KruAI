@@ -744,20 +744,28 @@ function PhoneShell({children}){
 }
 
 /* ── BOTTOM NAV ── */
-function BottomNav({page,setPage,t}){
+function BottomNav({page,setPage,t,lang}){
   const tabs=[
-    {id:'home',icon:'🏠',lbl:t.home},
-    {id:'lessons',icon:'📚',lbl:t.lessons},
-    {id:'chat',icon:'🤖',lbl:t.chat},
-    {id:'exam',icon:'📝',lbl:t.mockExam.replace(' Exam','').replace(' ប្រឡង','')},
-    {id:'donate',icon:'💝',lbl:t.donate},
+    {id:'home',     icon:'🏠', lbl:t.home},
+    {id:'lessons',  icon:'📚', lbl:t.lessons},
+    {id:'chat',     icon:'🤖', lbl:t.chat},
+    {id:'exam',     icon:'📝', lbl:lang==='en'?'Exam':'ប្រឡង'},
+    {id:'__progress',icon:'📈',lbl:'Progress', ext:'kruai-progress.html'},
+    {id:'__battle',  icon:'⚔️',lbl:'Battle',   ext:'kruai-competition.html'},
   ];
+  const handle=(tb)=>{
+    if(tb.ext){ window.location.href=tb.ext; return; }
+    setPage(tb.id);
+  };
   return (
     <div className="bottom-nav">
       {tabs.map(tb=>(
-        <button key={tb.id} className={`nav-btn${page===tb.id?' active':''}`} onClick={()=>setPage(tb.id)}>
-          <span className="nav-icon">{tb.icon}</span>
-          <span className="nav-lbl">{tb.lbl}</span>
+        <button key={tb.id}
+          className={`nav-btn${page===tb.id?' active':''}`}
+          onClick={()=>handle(tb)}
+          style={{minWidth:0,padding:'6px 4px'}}>
+          <span style={{fontSize:18}}>{tb.icon}</span>
+          <span className="nav-lbl" style={{fontSize:'8px'}}>{tb.lbl}</span>
         </button>
       ))}
     </div>
@@ -960,9 +968,7 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           <div className="hero-sub">"{quote}"</div>
           <div className="hero-chips">
             <div className="chip chip-pink" onClick={onRoadmap}>🗺️ {t.viewRoadmap}</div>
-            <div className="chip chip-blue" onClick={()=>setPage('exam')}>📝 {t.mockExam}</div>
-            <div className="chip chip-purple" onClick={()=>window.open('kruai-progress.html','_blank')}>📈 Progress</div>
-            <div className="chip chip-yellow" onClick={()=>window.open('kruai-competition.html','_blank')}>⚔️ Battle</div>
+            <div className="chip chip-yellow" onClick={()=>setPage('donate')}>💝 {t.donate}</div>
           </div>
         </div>
       </div>
@@ -1520,7 +1526,7 @@ function App(){
       {page==='chat'&&<Chat lang={lang} t={t}/>}
       {page==='donate'&&<Donate lang={lang} t={t}/>}
       {page==='exam'&&<MockExam lang={lang} t={t} addXp={addXp}/>}
-      <BottomNav page={page} setPage={setPage} t={t}/>    </PhoneShell>
+      <BottomNav page={page} setPage={setPage} t={t} lang={lang}/>    </PhoneShell>
   );
 }
 
