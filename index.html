@@ -967,8 +967,11 @@ function Home({lang,setLang,xp,level,streak,daysLeft,tasks,doTask,onRoadmap,user
           </div>
           <div className="hero-sub">"{quote}"</div>
           <div className="hero-chips">
-            <div className="chip chip-pink" onClick={onRoadmap}>🗺️ {t.viewRoadmap}</div>
-            <div className="chip chip-yellow" onClick={()=>setPage('donate')}>💝 {t.donate}</div>
+            <div className="chip chip-pink"   onClick={onRoadmap}>🗺️ {t.viewRoadmap}</div>
+            <div className="chip chip-blue"   onClick={()=>setPage('exam')}>📝 {lang==='en'?'Mock Exam':'ប្រឡង'}</div>
+            <div className="chip chip-purple" onClick={()=>window.location.href='kruai-progress.html'}>📈 Progress</div>
+            <div className="chip chip-yellow" onClick={()=>window.location.href='kruai-competition.html'}>⚔️ Battle</div>
+            <div className="chip chip-pink"   onClick={()=>setPage('donate')}>💝 {t.donate}</div>
           </div>
         </div>
       </div>
