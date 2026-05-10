@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>KruAI — Competition</title>
+<title>BrachNha — Progress</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -25,35 +25,41 @@
     --muted:   #9580c4;
   }
 
+
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
   /* ══ MOBILE — real full screen ══ */
   body {
     font-family: 'Nunito', sans-serif;
-    background: var(--bg); color: var(--text);
-    height: 100dvh; display: flex; flex-direction: column; overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   body::before {
-    content: ''; position: fixed; top: -100px; left: -80px;
+    content: '';
+    position: fixed; top: -100px; left: -80px;
     width: 340px; height: 340px;
     background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%);
     pointer-events: none; z-index: 0;
   }
   body::after {
-    content: ''; position: fixed; bottom: 60px; right: -80px;
+    content: '';
+    position: fixed; bottom: 60px; right: -80px;
     width: 280px; height: 280px;
-    background: radial-gradient(circle, rgba(255,62,164,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%);
     pointer-events: none; z-index: 0;
   }
   .phone {
     flex: 1; display: flex; flex-direction: column;
-    background: var(--bg); overflow: hidden;
-    position: relative; z-index: 1;
+    background: var(--bg);
+    overflow: hidden; position: relative; z-index: 1;
     border-radius: 0; border: none; box-shadow: none; width: 100%;
   }
   .notch { display: none; }
   .statusbar { display: none; }
-  .status-icons { display: none; }
   .scroll-area {
     overflow-y: auto; flex: 1; min-height: 0;
     padding-bottom: 4px; scrollbar-width: none;
@@ -65,7 +71,7 @@
     background: rgba(13,10,26,0.98);
     backdrop-filter: blur(20px);
     border-top: 1px solid rgba(168,85,247,0.2);
-    padding: 10px 10px env(safe-area-inset-bottom, 12px);
+    padding: 10px 6px env(safe-area-inset-bottom, 12px);
     display: flex; justify-content: space-around;
     z-index: 50; flex-shrink: 0;
   }
@@ -77,13 +83,15 @@
       display: flex; flex-direction: row;
       justify-content: center; align-items: flex-start;
       padding: 20px 0 40px;
-      overflow-x: hidden; overflow-y: auto; background: #0a0814;
+      overflow-x: hidden; overflow-y: auto;
+      background: #0a0814;
     }
     .phone {
-      width: 390px; height: 844px; flex: none;
+      width: 390px; height: 844px;
       border-radius: 48px;
       border: 2px solid rgba(168,85,247,0.3);
       box-shadow: 0 0 0 6px rgba(168,85,247,0.07), 0 40px 80px rgba(0,0,0,0.7), inset 0 0 60px rgba(168,85,247,0.04);
+      flex: none;
     }
     .notch {
       display: flex; width: 126px; height: 34px; background: #000;
@@ -96,13 +104,15 @@
       padding: 6px 28px 10px;
       font-size: 12px; font-weight: 800; color: var(--text); flex-shrink: 0;
     }
-    .status-icons { display: flex; }
-    .bottom-nav { padding: 10px 10px 22px; }
+    .bottom-nav {
+      padding: 10px 6px 22px;
+    }
   }
+
 
   /* ── HEADER ── */
   .header {
-    padding: 0 22px 16px;
+    padding: 0 22px 18px;
     display: flex; align-items: center; justify-content: space-between;
   }
   .page-title {
@@ -111,168 +121,35 @@
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
   .page-sub { font-size: 12px; color: var(--muted); font-weight: 700; margin-top: 2px; }
+
   .icon-pill {
     width: 40px; height: 40px; border-radius: 14px;
     background: var(--card2); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; cursor: pointer; transition: transform 0.15s;
   }
+  .icon-pill:active { transform: scale(0.93); }
 
-  /* ── TAB BAR ── */
-  .tab-bar {
+  /* ── TIME FILTER ── */
+  .time-filter {
     display: flex; gap: 6px;
     padding: 0 22px 18px;
+    overflow-x: auto; scrollbar-width: none;
   }
-  .tab-btn {
-    flex: 1; font-size: 12px; font-weight: 800;
-    padding: 8px 0; border-radius: 30px;
+  .time-filter::-webkit-scrollbar { display: none; }
+
+  .tf-btn {
+    font-size: 12px; font-weight: 800;
+    padding: 7px 16px; border-radius: 30px;
     border: 1px solid var(--border);
     background: var(--card2);
     color: var(--muted); cursor: pointer;
-    text-align: center; transition: all 0.18s;
+    transition: all 0.18s; white-space: nowrap;
   }
-  .tab-btn.active {
+  .tf-btn.active {
     background: linear-gradient(135deg, var(--purple2), var(--pink2));
     border-color: transparent; color: white;
   }
-
-  /* ── LIVE BATTLE CARD ── */
-  .live-banner {
-    margin: 0 16px 6px;
-    background: linear-gradient(135deg, #1e0635 0%, #0f0a2a 50%, #1a0530 100%);
-    border: 1px solid rgba(255,62,164,0.4);
-    border-radius: 26px;
-    padding: 20px;
-    position: relative; overflow: hidden;
-  }
-  .live-banner::before {
-    content: '';
-    position: absolute; top: -50px; right: -50px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(255,62,164,0.2), transparent 65%);
-  }
-  .live-banner::after {
-    content: '';
-    position: absolute; bottom: -40px; left: -20px;
-    width: 150px; height: 150px;
-    background: radial-gradient(circle, rgba(56,189,248,0.15), transparent 65%);
-  }
-
-  .live-tag {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 10px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
-    background: rgba(255,62,164,0.2); border: 1px solid rgba(255,62,164,0.4);
-    color: var(--pink); border-radius: 20px; padding: 4px 10px;
-    margin-bottom: 14px; position: relative; z-index: 1;
-  }
-  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); animation: livePulse 1.2s infinite; }
-  @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
-
-  /* VS section */
-  .vs-row {
-    display: flex; align-items: center; justify-content: space-between;
-    position: relative; z-index: 1;
-  }
-
-  .fighter {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    flex: 1;
-  }
-
-  .fighter-avatar {
-    width: 76px; height: 76px; border-radius: 50%;
-    position: relative;
-    border: 3px solid transparent;
-  }
-  .fighter-avatar img {
-    width: 100%; height: 100%;
-    border-radius: 50%; object-fit: cover;
-  }
-  .fighter-avatar.me { border-color: var(--pink); box-shadow: 0 0 16px rgba(255,62,164,0.5); }
-  .fighter-avatar.enemy { border-color: var(--blue); box-shadow: 0 0 16px rgba(56,189,248,0.5); }
-
-  .avatar-placeholder {
-    width: 100%; height: 100%; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-  }
-  .ap-me { background: linear-gradient(135deg, #2d1060, #1a0a3a); }
-  .ap-enemy { background: linear-gradient(135deg, #0e2040, #0a1a2e); }
-
-  .fighter-name { font-size: 13px; font-weight: 900; }
-  .fighter-grade { font-size: 10px; color: var(--muted); font-weight: 700; }
-  .fighter-score {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 26px; font-weight: 700; line-height: 1;
-  }
-  .fs-me { color: var(--pink); }
-  .fs-enemy { color: var(--blue); }
-
-  .vs-circle {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--pink2), var(--purple2));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px; font-weight: 700; color: white;
-    flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(168,85,247,0.4);
-    animation: vsPulse 2s infinite;
-  }
-  @keyframes vsPulse {
-    0%,100% { box-shadow: 0 0 20px rgba(168,85,247,0.4); }
-    50%      { box-shadow: 0 0 32px rgba(255,62,164,0.6); }
-  }
-
-  /* HP bars */
-  .hp-section { margin-top: 16px; position: relative; z-index: 1; }
-  .hp-labels { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--muted); margin-bottom: 5px; }
-  .hp-track {
-    height: 10px; background: rgba(255,255,255,0.06); border-radius: 20px;
-    overflow: hidden; display: flex;
-  }
-  .hp-me {
-    height: 100%;
-    background: linear-gradient(90deg, var(--pink2), var(--purple));
-    border-radius: 20px 0 0 20px;
-    width: 62%;
-    transition: width 1s ease;
-  }
-  .hp-enemy {
-    height: 100%;
-    background: linear-gradient(90deg, var(--blue), var(--cyan));
-    border-radius: 0 20px 20px 0;
-    width: 38%;
-    transition: width 1s ease;
-  }
-
-  .battle-info { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; position: relative; z-index: 1; }
-  .battle-subject {
-    font-size: 11px; font-weight: 800; color: var(--purple);
-    background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3);
-    padding: 4px 10px; border-radius: 20px;
-  }
-  .battle-timer {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px; font-weight: 700;
-    color: var(--yellow);
-    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3);
-    padding: 4px 12px; border-radius: 20px;
-  }
-  .battle-q { font-size: 11px; color: var(--muted); font-weight: 700; }
-
-  /* ── CHALLENGE BTN ── */
-  .challenge-btn {
-    margin: 14px 16px 0;
-    background: linear-gradient(135deg, var(--pink2), var(--purple2));
-    border: none; border-radius: 18px;
-    padding: 16px; width: calc(100% - 32px);
-    color: white; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 900;
-    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 8px 24px rgba(168,85,247,0.35);
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .challenge-btn:active { transform: scale(0.97); }
 
   /* ── SECTION ── */
   .section-row {
@@ -282,146 +159,239 @@
   .section-title { font-size: 15px; font-weight: 900; }
   .section-see { font-size: 12px; font-weight: 800; color: var(--purple); }
 
-  /* ── OPPONENT CARDS ── */
-  .opponent-list { display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
-
-  .opponent-card {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 12px;
-    cursor: pointer; transition: transform 0.15s, border-color 0.2s;
+  /* ── SCORE HERO CARD ── */
+  .score-hero {
+    margin: 0 16px 18px;
+    background: linear-gradient(135deg, #1e0a3c 0%, #0f1540 60%, #051a30 100%);
+    border: 1px solid rgba(168,85,247,0.35);
+    border-radius: 26px;
+    padding: 22px;
     position: relative; overflow: hidden;
   }
-  .opponent-card:active { transform: scale(0.98); }
-  .opponent-card:hover { border-color: rgba(255,110,180,0.4); }
-
-  .opponent-card::before {
+  .score-hero::before {
     content: '';
-    position: absolute; top: -20px; right: -20px;
-    width: 80px; height: 80px; border-radius: 50%;
-    opacity: 0.12; pointer-events: none;
+    position: absolute; top: -40px; right: -30px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(255,62,164,0.25), transparent 65%);
   }
-  .oc-pink::before  { background: var(--pink); }
-  .oc-blue::before  { background: var(--blue); }
-  .oc-mint::before  { background: var(--mint); }
-  .oc-yellow::before { background: var(--yellow); }
-
-  .opp-avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    border: 2.5px solid transparent;
-    flex-shrink: 0; position: relative;
-    overflow: hidden;
-  }
-  .opp-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-  .opp-avatar-placeholder {
-    width: 100%; height: 100%; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
+  .score-hero::after {
+    content: '';
+    position: absolute; bottom: -30px; left: 20px;
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, rgba(56,189,248,0.18), transparent 65%);
   }
 
-  .opp-info { flex: 1; }
-  .opp-name { font-size: 14px; font-weight: 900; margin-bottom: 2px; }
-  .opp-meta { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+  .score-top { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+  .score-label { font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
 
-  .opp-stats { display: flex; gap: 8px; }
-  .opp-stat {
-    font-size: 10px; font-weight: 800;
-    padding: 3px 8px; border-radius: 20px;
+  /* Donut chart */
+  .donut-wrap { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+  .donut-wrap svg { transform: rotate(-90deg); }
+  .donut-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+  .donut-fill {
+    fill: none; stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 251.2;
+    stroke-dashoffset: 93; /* 63% = 251.2 * 0.37 */
+    stroke: url(#donutGrad);
+    transition: stroke-dashoffset 1.2s ease;
   }
-  .os-win  { background: rgba(74,222,128,0.15); color: var(--mint); }
-  .os-rank { background: rgba(168,85,247,0.15); color: var(--purple); }
-  .os-score { background: rgba(56,189,248,0.15); color: var(--blue); }
-
-  .opp-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-  .challenge-mini {
-    font-size: 11px; font-weight: 900;
-    background: linear-gradient(135deg, var(--pink2), var(--purple2));
-    color: white; border: none;
-    padding: 7px 14px; border-radius: 20px;
-    cursor: pointer; transition: transform 0.15s;
-    font-family: 'Nunito', sans-serif;
+  .donut-center {
+    position: absolute; top:50%; left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
   }
-  .challenge-mini:active { transform: scale(0.95); }
-  .online-dot { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); font-weight: 700; }
-  .odot { width: 6px; height: 6px; border-radius: 50%; }
-  .odot.on { background: var(--mint); }
-  .odot.off { background: rgba(255,255,255,0.2); }
+  .donut-pct {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .donut-lbl { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; }
 
-  /* ── PAST BATTLES ── */
-  .battle-history { display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
+  .score-stats { flex: 1; padding-right: 18px; }
+  .score-big {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 42px; font-weight: 700;
+    background: linear-gradient(135deg, var(--pink), var(--yellow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .score-unit { font-size: 16px; color: var(--muted); font-weight: 700; }
+  .score-desc { font-size: 12px; color: var(--muted); font-weight: 700; margin-top: 4px; }
+  .score-change {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 900;
+    color: var(--mint); margin-top: 8px;
+    background: rgba(74,222,128,0.1); border-radius: 20px; padding: 4px 10px;
+  }
 
-  .battle-item {
+  /* mini metric row */
+  .mini-metrics {
+    display: flex; gap: 10px; margin-top: 18px; position: relative; z-index: 1;
+  }
+  .mm-item {
+    flex: 1; background: rgba(255,255,255,0.05); border-radius: 14px;
+    padding: 10px 12px; border: 1px solid rgba(255,255,255,0.07);
+    text-align: center;
+  }
+  .mm-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px; font-weight: 700; line-height: 1;
+  }
+  .mm-lbl { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+
+  /* ── LINE CHART CARD ── */
+  .chart-card {
+    margin: 0 16px 18px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 20px;
+  }
+
+  .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .chart-title { font-size: 14px; font-weight: 900; }
+  .chart-sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+  .chart-legend { display: flex; gap: 10px; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--muted); }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* SVG line chart */
+  .line-chart-wrap { width: 100%; position: relative; }
+  .line-chart-wrap svg { width: 100%; height: 160px; overflow: visible; }
+
+  .y-labels { display: flex; flex-direction: column; justify-content: space-between; height: 130px; position: absolute; left: -28px; top: 0; }
+  .y-lbl { font-size: 9px; color: var(--muted); font-weight: 700; }
+
+  .x-labels { display: flex; justify-content: space-between; padding: 6px 0 0; }
+  .x-lbl { font-size: 9px; color: var(--muted); font-weight: 700; flex: 1; text-align: center; }
+
+  /* ── BAR CHART CARD ── */
+  .bar-chart-wrap {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    height: 120px; gap: 6px; padding: 0 4px;
+  }
+
+  .bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
+  .bar-stack { width: 100%; display: flex; flex-direction: column; justify-content: flex-end; border-radius: 8px 8px 0 0; overflow: hidden; }
+
+  .b-fill {
+    width: 100%; border-radius: 8px 8px 0 0;
+    transition: height 1s ease;
+  }
+  .bar-val { font-size: 9px; font-weight: 800; color: var(--muted); }
+  .bar-lbl { font-size: 9px; font-weight: 800; color: var(--muted); }
+
+  /* ── SUBJECT BREAKDOWN ── */
+  .subj-breakdown { display: flex; flex-direction: column; gap: 12px; padding: 0 16px; }
+
+  .subj-row {
     background: var(--card2);
     border: 1px solid var(--border);
     border-radius: 18px;
     padding: 14px 16px;
-    display: flex; align-items: center; gap: 12px;
-    cursor: pointer;
+    cursor: pointer; transition: transform 0.15s;
   }
+  .subj-row:active { transform: scale(0.98); }
 
-  .result-badge {
-    width: 44px; height: 44px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 900; flex-shrink: 0;
-  }
-  .rb-win  { background: rgba(74,222,128,0.15); color: var(--mint); border: 1px solid rgba(74,222,128,0.3); }
-  .rb-loss { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
-  .rb-draw { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .subj-top-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .subj-emoji { font-size: 20px; }
+  .subj-info { flex: 1; }
+  .subj-name-txt { font-size: 13px; font-weight: 800; }
+  .subj-sessions { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 1px; }
 
-  .battle-opp-mini {
-    width: 36px; height: 36px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-    overflow: hidden;
-  }
-  .battle-opp-mini img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-
-  .battle-info-txt { flex: 1; }
-  .bi-name { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
-  .bi-sub  { font-size: 11px; color: var(--muted); font-weight: 700; }
-
-  .battle-score-txt {
+  .subj-right { text-align: right; }
+  .subj-score {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px; font-weight: 700;
-    text-align: right;
+    font-size: 18px; font-weight: 700;
   }
-  .bst-win  { color: var(--mint); }
-  .bst-loss { color: var(--red); }
-  .bst-draw { color: var(--yellow); }
-  .battle-date { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 2px; }
+  .subj-trend { font-size: 10px; font-weight: 800; }
+  .trend-up { color: var(--mint); }
+  .trend-dn { color: var(--red); }
 
-  /* ── MY BATTLE STATS ── */
-  .battle-stats-card {
-    margin: 0 16px;
+  .subj-prog-track {
+    height: 7px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden;
+  }
+  .subj-prog-fill { height: 100%; border-radius: 10px; transition: width 1.2s ease; }
+
+  /* mini sparkline per subject */
+  .sparkline { display: flex; align-items: flex-end; gap: 3px; height: 28px; margin-top: 8px; }
+  .spark-bar {
+    flex: 1; border-radius: 3px 3px 0 0;
+    transition: height 0.8s ease;
+  }
+
+  /* ── WEAK / STRONG AREAS ── */
+  .areas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+
+  .area-card {
+    border-radius: 18px; padding: 14px;
+    border: 1px solid transparent;
+    cursor: pointer; transition: transform 0.15s;
+  }
+  .area-card:active { transform: scale(0.97); }
+  .area-weak { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.25); }
+  .area-strong { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.25); }
+
+  .area-icon { font-size: 22px; margin-bottom: 8px; }
+  .area-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .area-label.weak { color: var(--red); }
+  .area-label.strong { color: var(--mint); }
+  .area-topic { font-size: 12px; font-weight: 800; margin-bottom: 3px; }
+  .area-sub { font-size: 10px; color: var(--muted); font-weight: 700; }
+
+  /* ── HEATMAP ── */
+  .heatmap-wrap {
+    margin: 0 16px 18px;
     background: var(--card2);
     border: 1px solid var(--border);
     border-radius: 24px;
     padding: 18px 20px;
-    position: relative; overflow: hidden;
-  }
-  .battle-stats-card::before {
-    content: '';
-    position: absolute; top: -30px; right: -20px;
-    width: 130px; height: 130px;
-    background: radial-gradient(circle, rgba(168,85,247,0.15), transparent 65%);
   }
 
-  .bsc-top { display: flex; justify-content: space-around; margin-bottom: 16px; position: relative; z-index: 1; }
-  .bsc-item { text-align: center; }
-  .bsc-val {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 26px; font-weight: 700; line-height: 1;
+  .hmap-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 12px;
   }
-  .bsc-lbl { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+  .hmap-lbl { font-size: 8px; color: var(--muted); font-weight: 700; text-align: center; padding-bottom: 3px; }
+  .hmap-cell {
+    aspect-ratio: 1; border-radius: 5px;
+    cursor: pointer; transition: transform 0.1s;
+  }
+  .hmap-cell:hover { transform: scale(1.2); }
+  .h0 { background: rgba(255,255,255,0.05); }
+  .h1 { background: rgba(168,85,247,0.25); }
+  .h2 { background: rgba(168,85,247,0.5); }
+  .h3 { background: rgba(168,85,247,0.75); }
+  .h4 { background: linear-gradient(135deg, var(--pink), var(--purple)); }
 
-  .winrate-bar-wrap { position: relative; z-index: 1; }
-  .winrate-label { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; margin-bottom: 5px; }
-  .winrate-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; display: flex; }
-  .wr-win  { background: linear-gradient(90deg, var(--mint), var(--cyan)); height: 100%; border-radius: 20px 0 0 20px; }
-  .wr-draw { background: var(--yellow); height: 100%; }
-  .wr-loss { background: linear-gradient(90deg, var(--red), var(--pink2)); height: 100%; border-radius: 0 20px 20px 0; }
+  .hmap-legend { display: flex; align-items: center; gap: 5px; margin-top: 10px; justify-content: flex-end; }
+  .hmap-leg-lbl { font-size: 9px; color: var(--muted); font-weight: 700; }
+  .hmap-swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* ── INSIGHT CARDS ── */
+  .insights-row { display: flex; gap: 10px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; }
+  .insights-row::-webkit-scrollbar { display: none; }
+
+  .insight-card {
+    min-width: 160px; border-radius: 18px; padding: 14px;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    cursor: pointer; transition: transform 0.15s;
+  }
+  .insight-card:active { transform: scale(0.97); }
+  .ic-purple { background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); }
+  .ic-pink   { background: rgba(255,110,180,0.1); border-color: rgba(255,110,180,0.3); }
+  .ic-blue   { background: rgba(56,189,248,0.1);  border-color: rgba(56,189,248,0.3); }
+
+  .ic-icon { font-size: 22px; margin-bottom: 8px; }
+  .ic-title { font-size: 12px; font-weight: 900; margin-bottom: 3px; }
+  .ic-body { font-size: 11px; color: var(--muted); font-weight: 600; line-height: 1.5; }
 
 
   .nav-btn {
@@ -439,54 +409,12 @@
     from { opacity:0; transform: translateY(20px); }
     to   { opacity:1; transform: translateY(0); }
   }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-  }
-  .live-banner    { animation: slideUp 0.4s ease both 0.05s; }
-  .challenge-btn  { animation: slideUp 0.4s ease both 0.1s; }
-  .battle-stats-card { animation: slideUp 0.4s ease both 0.15s; }
-  .opponent-list  { animation: slideUp 0.4s ease both 0.2s; }
-  .battle-history { animation: slideUp 0.4s ease both 0.25s; }
-
-  /* shimmer on challenge btn */
-  .challenge-btn {
-    background-size: 200% auto;
-    background-image: linear-gradient(135deg, var(--pink2) 0%, var(--purple2) 40%, var(--blue2) 60%, var(--purple2) 80%, var(--pink2) 100%);
-    animation: slideUp 0.4s ease both 0.1s, shimmer 3s linear infinite;
-  }
-
-  /* floating particles */
-  .particle {
-    position: absolute; border-radius: 50%;
-    pointer-events: none; z-index: 0;
-    animation: float linear infinite;
-  }
-  @keyframes float {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-    100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
-  }
-
-  /* ── GENERATED AVATARS ── */
-  .gen-avatar {
-    width: 100%; height: 100%; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-family: 'Nunito', sans-serif;
-    font-size: 1.3em; color: white; flex-shrink: 0;
-    position: relative; overflow: hidden;
-  }
-  .gen-avatar::after {
-    content: '';
-    position: absolute; inset: 0; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-  }
-  .av-you    { background: linear-gradient(135deg, #ff3fa4, #a855f7); font-size: 22px; }
-  .av-srey   { background: linear-gradient(135deg, #38bdf8, #6366f1); font-size: 22px; }
-  .av-visal  { background: linear-gradient(135deg, #a855f7, #ff6eb4); font-size: 18px; }
-  .av-kimnak { background: linear-gradient(135deg, #22d3ee, #38bdf8); font-size: 18px; }
-  .av-sokha  { background: linear-gradient(135deg, #4ade80, #22d3ee); font-size: 18px; }
-  .av-dara   { background: linear-gradient(135deg, #fbbf24, #f97316); font-size: 18px; }
-
+  .score-hero    { animation: slideUp 0.4s ease both 0.05s; }
+  .chart-card    { animation: slideUp 0.4s ease both 0.1s; }
+  .subj-breakdown { animation: slideUp 0.4s ease both 0.15s; }
+  .areas-grid    { animation: slideUp 0.4s ease both 0.2s; }
+  .heatmap-wrap  { animation: slideUp 0.4s ease both 0.25s; }
+  .insights-row  { animation: slideUp 0.4s ease both 0.3s; }
 </style>
 </head>
 <body>
@@ -505,269 +433,389 @@
     <!-- HEADER -->
     <div class="header">
       <div>
-        <div class="page-title">Competition ⚔️</div>
-        <div class="page-sub">Battle other students · Bac II Mode</div>
+        <div class="page-title">My Progress 📈</div>
+        <div class="page-sub">Bac II Prep — Science Track</div>
       </div>
-      <div class="icon-pill">🔍</div>
+      <div class="icon-pill">📤</div>
     </div>
 
-    <!-- TAB BAR -->
-    <div class="tab-bar">
-      <div class="tab-btn active">⚔️ Battle</div>
-      <div class="tab-btn">🏆 Rankings</div>
-      <div class="tab-btn">📜 History</div>
+    <!-- TIME FILTER -->
+    <div class="time-filter">
+      <div class="tf-btn">Today</div>
+      <div class="tf-btn">Week</div>
+      <div class="tf-btn active">Month</div>
+      <div class="tf-btn">3 Months</div>
+      <div class="tf-btn">All Time</div>
     </div>
 
-    <!-- LIVE BATTLE CARD -->
-    <div class="live-banner">
-      <!-- floating particles -->
-      <div class="particle" style="width:5px;height:5px;background:var(--pink);left:20%;bottom:10px;animation-duration:3s;animation-delay:0s;"></div>
-      <div class="particle" style="width:4px;height:4px;background:var(--purple);left:50%;bottom:5px;animation-duration:4s;animation-delay:0.5s;"></div>
-      <div class="particle" style="width:6px;height:6px;background:var(--blue);left:75%;bottom:15px;animation-duration:3.5s;animation-delay:1s;"></div>
-
-      <div class="live-tag">
-        <div class="live-dot"></div> Live Battle
-      </div>
-
-      <!-- VS -->
-      <div class="vs-row">
-        <div class="fighter">
-          <div class="fighter-avatar me">
-            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=panharith" alt="You" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-          </div>
-          <div class="fighter-name">You</div>
-          <div class="fighter-grade">Grade 12 · Science</div>
-          <div class="fighter-score fs-me">6/10</div>
+    <!-- SCORE HERO CARD -->
+    <div class="score-hero">
+      <div class="score-top">
+        <div class="score-stats">
+          <div class="score-label">Overall Readiness</div>
+          <div class="score-big">83<span class="score-unit">%</span></div>
+          <div class="score-desc">Average exam score this month</div>
+          <div class="score-change">▲ +8% vs last month</div>
         </div>
-
-        <div class="vs-circle">VS</div>
-
-        <div class="fighter">
-          <div class="fighter-avatar enemy">
-            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=sreyroth" alt="Srey Roth" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-          </div>
-          <div class="fighter-name">Srey Roth</div>
-          <div class="fighter-grade">Grade 12 · Science</div>
-          <div class="fighter-score fs-enemy">4/10</div>
-        </div>
-      </div>
-
-      <!-- HP bars -->
-      <div class="hp-section">
-        <div class="hp-labels">
-          <span style="color:var(--pink)">You 62%</span>
-          <span>⚗️ Chemistry · Q7/10</span>
-          <span style="color:var(--blue)">38% Srey Roth</span>
-        </div>
-        <div class="hp-track">
-          <div class="hp-me"></div>
-          <div class="hp-enemy"></div>
-        </div>
-      </div>
-
-      <div class="battle-info">
-        <div class="battle-subject">⚗️ Chemistry</div>
-        <div class="battle-q">7 of 10 questions</div>
-        <div class="battle-timer">01:24 ⏱</div>
-      </div>
-    </div>
-
-    <!-- CHALLENGE BTN -->
-    <button class="challenge-btn">⚔️ Join Battle Now!</button>
-
-    <!-- MY BATTLE STATS -->
-    <div class="section-row" style="margin-top:20px">
-      <div class="section-title">My Battle Stats 🏅</div>
-    </div>
-    <div class="battle-stats-card">
-      <div class="bsc-top">
-        <div class="bsc-item">
-          <div class="bsc-val" style="color:var(--mint)">24</div>
-          <div class="bsc-lbl">Wins 🏆</div>
-        </div>
-        <div class="bsc-item">
-          <div class="bsc-val" style="color:var(--red)">8</div>
-          <div class="bsc-lbl">Losses 💀</div>
-        </div>
-        <div class="bsc-item">
-          <div class="bsc-val" style="color:var(--yellow)">3</div>
-          <div class="bsc-lbl">Draws 🤝</div>
-        </div>
-        <div class="bsc-item">
-          <div class="bsc-val" style="color:var(--pink)">75%</div>
-          <div class="bsc-lbl">Win Rate</div>
-        </div>
-      </div>
-      <div class="winrate-bar-wrap">
-        <div class="winrate-label">
-          <span style="color:var(--mint)">Wins 69%</span>
-          <span style="color:var(--yellow)">Draw 9%</span>
-          <span style="color:var(--red)">Losses 23%</span>
-        </div>
-        <div class="winrate-track">
-          <div class="wr-win" style="width:69%"></div>
-          <div class="wr-draw" style="width:9%"></div>
-          <div class="wr-loss" style="width:22%"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CHALLENGE OPPONENTS -->
-    <div class="section-row" style="margin-top:20px">
-      <div class="section-title">Challenge Someone 👊</div>
-      <div class="section-see">See all →</div>
-    </div>
-    <div class="opponent-list">
-
-      <!-- Opponent 1 -->
-      <div class="opponent-card oc-pink">
-        <div class="opp-avatar" style="border-color:var(--pink)">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=visal" alt="Visal" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="opp-info">
-          <div class="opp-name">Visal Prum</div>
-          <div class="opp-meta">Grade 12 · Science · #2 Ranked</div>
-          <div class="opp-stats">
-            <div class="opp-stat os-win">🏆 31W</div>
-            <div class="opp-stat os-score">Avg 87%</div>
-            <div class="opp-stat os-rank">#2</div>
+        <div class="donut-wrap">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <defs>
+              <linearGradient id="donutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--pink)"/>
+                <stop offset="50%" style="stop-color:var(--purple)"/>
+                <stop offset="100%" style="stop-color:var(--blue)"/>
+              </linearGradient>
+            </defs>
+            <circle class="donut-bg" cx="50" cy="50" r="40"/>
+            <circle class="donut-fill" cx="50" cy="50" r="40"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-pct">83%</div>
+            <div class="donut-lbl">ready</div>
           </div>
         </div>
-        <div class="opp-right">
-          <button class="challenge-mini">⚔️ Battle</button>
-          <div class="online-dot"><div class="odot on"></div> Online</div>
+      </div>
+      <div class="mini-metrics">
+        <div class="mm-item">
+          <div class="mm-val" style="color:var(--pink)">342</div>
+          <div class="mm-lbl">Questions</div>
+        </div>
+        <div class="mm-item">
+          <div class="mm-val" style="color:var(--blue)">28h</div>
+          <div class="mm-lbl">Study Time</div>
+        </div>
+        <div class="mm-item">
+          <div class="mm-val" style="color:var(--mint)">12🔥</div>
+          <div class="mm-lbl">Day Streak</div>
+        </div>
+        <div class="mm-item">
+          <div class="mm-val" style="color:var(--yellow)">1,240</div>
+          <div class="mm-lbl">XP Earned</div>
         </div>
       </div>
-
-      <!-- Opponent 2 -->
-      <div class="opponent-card oc-blue">
-        <div class="opp-avatar" style="border-color:var(--blue)">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=kimnak" alt="Kimnak" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="opp-info">
-          <div class="opp-name">Kimnak Dara</div>
-          <div class="opp-meta">Grade 12 · Science · #3 Ranked</div>
-          <div class="opp-stats">
-            <div class="opp-stat os-win">🏆 28W</div>
-            <div class="opp-stat os-score">Avg 81%</div>
-            <div class="opp-stat os-rank">#3</div>
-          </div>
-        </div>
-        <div class="opp-right">
-          <button class="challenge-mini">⚔️ Battle</button>
-          <div class="online-dot"><div class="odot on"></div> Online</div>
-        </div>
-      </div>
-
-      <!-- Opponent 3 -->
-      <div class="opponent-card oc-mint">
-        <div class="opp-avatar" style="border-color:var(--mint)">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=sokhatin" alt="Sokha" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="opp-info">
-          <div class="opp-name">Sokha Tith</div>
-          <div class="opp-meta">Grade 12 · Science · #6 Ranked</div>
-          <div class="opp-stats">
-            <div class="opp-stat os-win">🏆 19W</div>
-            <div class="opp-stat os-score">Avg 76%</div>
-            <div class="opp-stat os-rank">#6</div>
-          </div>
-        </div>
-        <div class="opp-right">
-          <button class="challenge-mini">⚔️ Battle</button>
-          <div class="online-dot"><div class="odot off"></div> Away</div>
-        </div>
-      </div>
-
-      <!-- Opponent 4 -->
-      <div class="opponent-card oc-yellow">
-        <div class="opp-avatar" style="border-color:var(--yellow)">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=daravuth" alt="Daravuth" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="opp-info">
-          <div class="opp-name">Daravuth Meas</div>
-          <div class="opp-meta">Grade 12 · Science · #4 Ranked</div>
-          <div class="opp-stats">
-            <div class="opp-stat os-win">🏆 22W</div>
-            <div class="opp-stat os-score">Avg 79%</div>
-            <div class="opp-stat os-rank">#4</div>
-          </div>
-        </div>
-        <div class="opp-right">
-          <button class="challenge-mini">⚔️ Battle</button>
-          <div class="online-dot"><div class="odot on"></div> Online</div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- BATTLE HISTORY -->
-    <div class="section-row" style="margin-top:20px">
-      <div class="section-title">Recent Battles 📜</div>
-      <div class="section-see">See all →</div>
-    </div>
-    <div class="battle-history" style="margin-bottom:10px">
-
-      <div class="battle-item">
-        <div class="result-badge rb-win">WIN</div>
-        <div class="battle-opp-mini">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=visal" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="battle-info-txt">
-          <div class="bi-name">vs Visal Prum</div>
-          <div class="bi-sub">🧮 Mathematics · 10 questions</div>
-        </div>
+    <!-- LINE CHART — Score Trend -->
+    <div class="chart-card">
+      <div class="chart-header">
         <div>
-          <div class="battle-score-txt bst-win">9 – 7</div>
-          <div class="battle-date">Today, 2:30pm</div>
+          <div class="chart-title">Score Trend 📉📈</div>
+          <div class="chart-sub">Daily avg score over 4 weeks</div>
+        </div>
+        <div class="chart-legend">
+          <div class="leg-item"><div class="leg-dot" style="background:var(--pink)"></div>Score</div>
+          <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,0.2)"></div>Target</div>
         </div>
       </div>
+      <div style="position:relative; padding-left:30px;">
+        <div class="y-labels">
+          <span class="y-lbl">100</span>
+          <span class="y-lbl">75</span>
+          <span class="y-lbl">50</span>
+          <span class="y-lbl">25</span>
+          <span class="y-lbl">0</span>
+        </div>
+        <div class="line-chart-wrap">
+          <svg viewBox="0 0 320 140" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#ff6eb4"/>
+                <stop offset="50%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#38bdf8"/>
+              </linearGradient>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a855f7" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- grid lines -->
+            <line x1="0" y1="35" x2="320" y2="35" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="0" y1="70" x2="320" y2="70" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <line x1="0" y1="105" x2="320" y2="105" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <!-- target line -->
+            <line x1="0" y1="28" x2="320" y2="28" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4"/>
+            <!-- area fill -->
+            <path d="M0,91 C20,85 40,100 53,88 C67,76 80,95 107,80 C133,66 147,92 160,70 C173,49 187,62 213,46 C240,30 267,40 293,28 C306,22 320,26 320,26 L320,140 L0,140 Z"
+                  fill="url(#areaGrad)"/>
+            <!-- score line -->
+            <path d="M0,91 C20,85 40,100 53,88 C67,76 80,95 107,80 C133,66 147,92 160,70 C173,49 187,62 213,46 C240,30 267,40 293,28 C306,22 320,26 320,26"
+                  fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- data points -->
+            <circle cx="0" cy="91" r="4" fill="var(--pink)"/>
+            <circle cx="53" cy="88" r="4" fill="var(--pink)"/>
+            <circle cx="107" cy="80" r="4" fill="var(--purple)"/>
+            <circle cx="160" cy="70" r="4" fill="var(--purple)"/>
+            <circle cx="213" cy="46" r="4" fill="var(--blue)"/>
+            <circle cx="293" cy="28" r="4" fill="var(--blue)"/>
+            <circle cx="320" cy="26" r="5" fill="var(--mint)" stroke="var(--card2)" stroke-width="2"/>
+            <!-- today tooltip -->
+            <rect x="290" y="8" width="30" height="16" rx="5" fill="var(--mint)" opacity="0.9"/>
+            <text x="305" y="20" text-anchor="middle" fill="#0d0a1a" font-size="9" font-weight="bold" font-family="Nunito">83%</text>
+          </svg>
+        </div>
+        <div class="x-labels">
+          <span class="x-lbl">Wk 1</span>
+          <span class="x-lbl">Wk 2</span>
+          <span class="x-lbl">Wk 3</span>
+          <span class="x-lbl">Wk 4</span>
+        </div>
+      </div>
+    </div>
 
-      <div class="battle-item">
-        <div class="result-badge rb-loss">LOSS</div>
-        <div class="battle-opp-mini">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=sreyroth" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="battle-info-txt">
-          <div class="bi-name">vs Srey Roth</div>
-          <div class="bi-sub">⚗️ Chemistry · 10 questions</div>
-        </div>
+    <!-- BAR CHART — Questions per Subject -->
+    <div class="chart-card">
+      <div class="chart-header">
         <div>
-          <div class="battle-score-txt bst-loss">5 – 8</div>
-          <div class="battle-date">Yesterday, 5:10pm</div>
+          <div class="chart-title">Questions Answered 📊</div>
+          <div class="chart-sub">Per subject this month</div>
+        </div>
+      </div>
+      <div class="bar-chart-wrap">
+        <!-- Math -->
+        <div class="bar-col">
+          <div class="bar-val">98</div>
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;">
+            <div class="b-fill" style="height:98px;width:100%;background:linear-gradient(180deg,var(--purple),var(--purple2));border-radius:8px 8px 0 0;"></div>
+          </div>
+          <div class="bar-lbl">Math</div>
+        </div>
+        <!-- Chemistry -->
+        <div class="bar-col">
+          <div class="bar-val">72</div>
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;">
+            <div class="b-fill" style="height:72px;width:100%;background:linear-gradient(180deg,var(--blue),var(--blue2));border-radius:8px 8px 0 0;"></div>
+          </div>
+          <div class="bar-lbl">Chem</div>
+        </div>
+        <!-- Physics -->
+        <div class="bar-col">
+          <div class="bar-val">85</div>
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;">
+            <div class="b-fill" style="height:85px;width:100%;background:linear-gradient(180deg,var(--pink),var(--pink2));border-radius:8px 8px 0 0;"></div>
+          </div>
+          <div class="bar-lbl">Phys</div>
+        </div>
+        <!-- Biology -->
+        <div class="bar-col">
+          <div class="bar-val">54</div>
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;">
+            <div class="b-fill" style="height:54px;width:100%;background:linear-gradient(180deg,var(--mint),#16a34a);border-radius:8px 8px 0 0;"></div>
+          </div>
+          <div class="bar-lbl">Bio</div>
+        </div>
+        <!-- Geography -->
+        <div class="bar-col">
+          <div class="bar-val">33</div>
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end;">
+            <div class="b-fill" style="height:33px;width:100%;background:linear-gradient(180deg,var(--yellow),#d97706);border-radius:8px 8px 0 0;"></div>
+          </div>
+          <div class="bar-lbl">Geo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBJECT BREAKDOWN -->
+    <div class="section-row">
+      <div class="section-title">Subject Breakdown 🎯</div>
+    </div>
+    <div class="subj-breakdown">
+
+      <!-- Math -->
+      <div class="subj-row">
+        <div class="subj-top-row">
+          <div class="subj-emoji">🧮</div>
+          <div class="subj-info">
+            <div class="subj-name-txt">Mathematics</div>
+            <div class="subj-sessions">24 sessions · 98 questions</div>
+          </div>
+          <div class="subj-right">
+            <div class="subj-score" style="color:var(--purple)">78%</div>
+            <div class="subj-trend trend-up">▲ +6%</div>
+          </div>
+        </div>
+        <div class="subj-prog-track">
+          <div class="subj-prog-fill" style="width:78%;background:linear-gradient(90deg,var(--purple),var(--pink))"></div>
+        </div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:40%;background:rgba(168,85,247,0.4)"></div>
+          <div class="spark-bar" style="height:55%;background:rgba(168,85,247,0.5)"></div>
+          <div class="spark-bar" style="height:50%;background:rgba(168,85,247,0.5)"></div>
+          <div class="spark-bar" style="height:65%;background:rgba(168,85,247,0.6)"></div>
+          <div class="spark-bar" style="height:70%;background:rgba(168,85,247,0.6)"></div>
+          <div class="spark-bar" style="height:75%;background:rgba(168,85,247,0.7)"></div>
+          <div class="spark-bar" style="height:78%;background:var(--purple)"></div>
         </div>
       </div>
 
-      <div class="battle-item">
-        <div class="result-badge rb-win">WIN</div>
-        <div class="battle-opp-mini">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=kimnak" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
+      <!-- Chemistry -->
+      <div class="subj-row">
+        <div class="subj-top-row">
+          <div class="subj-emoji">⚗️</div>
+          <div class="subj-info">
+            <div class="subj-name-txt">Chemistry</div>
+            <div class="subj-sessions">18 sessions · 72 questions</div>
+          </div>
+          <div class="subj-right">
+            <div class="subj-score" style="color:var(--blue)">65%</div>
+            <div class="subj-trend trend-dn">▼ -2%</div>
+          </div>
         </div>
-        <div class="battle-info-txt">
-          <div class="bi-name">vs Kimnak Dara</div>
-          <div class="bi-sub">🔭 Physics · 10 questions</div>
+        <div class="subj-prog-track">
+          <div class="subj-prog-fill" style="width:65%;background:linear-gradient(90deg,var(--blue),var(--cyan))"></div>
         </div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:70%;background:rgba(56,189,248,0.5)"></div>
+          <div class="spark-bar" style="height:68%;background:rgba(56,189,248,0.5)"></div>
+          <div class="spark-bar" style="height:72%;background:rgba(56,189,248,0.55)"></div>
+          <div class="spark-bar" style="height:66%;background:rgba(56,189,248,0.5)"></div>
+          <div class="spark-bar" style="height:60%;background:rgba(56,189,248,0.45)"></div>
+          <div class="spark-bar" style="height:63%;background:rgba(56,189,248,0.5)"></div>
+          <div class="spark-bar" style="height:65%;background:var(--blue)"></div>
+        </div>
+      </div>
+
+      <!-- Physics -->
+      <div class="subj-row">
+        <div class="subj-top-row">
+          <div class="subj-emoji">🔭</div>
+          <div class="subj-info">
+            <div class="subj-name-txt">Physics</div>
+            <div class="subj-sessions">22 sessions · 85 questions</div>
+          </div>
+          <div class="subj-right">
+            <div class="subj-score" style="color:var(--pink)">91%</div>
+            <div class="subj-trend trend-up">▲ +11%</div>
+          </div>
+        </div>
+        <div class="subj-prog-track">
+          <div class="subj-prog-fill" style="width:91%;background:linear-gradient(90deg,var(--pink2),var(--purple))"></div>
+        </div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:55%;background:rgba(255,110,180,0.4)"></div>
+          <div class="spark-bar" style="height:65%;background:rgba(255,110,180,0.5)"></div>
+          <div class="spark-bar" style="height:72%;background:rgba(255,110,180,0.6)"></div>
+          <div class="spark-bar" style="height:78%;background:rgba(255,110,180,0.7)"></div>
+          <div class="spark-bar" style="height:84%;background:rgba(255,110,180,0.8)"></div>
+          <div class="spark-bar" style="height:88%;background:rgba(255,110,180,0.9)"></div>
+          <div class="spark-bar" style="height:91%;background:var(--pink)"></div>
+        </div>
+      </div>
+
+      <!-- Biology -->
+      <div class="subj-row">
+        <div class="subj-top-row">
+          <div class="subj-emoji">🌿</div>
+          <div class="subj-info">
+            <div class="subj-name-txt">Biology</div>
+            <div class="subj-sessions">12 sessions · 54 questions</div>
+          </div>
+          <div class="subj-right">
+            <div class="subj-score" style="color:var(--mint)">54%</div>
+            <div class="subj-trend trend-up">▲ +3%</div>
+          </div>
+        </div>
+        <div class="subj-prog-track">
+          <div class="subj-prog-fill" style="width:54%;background:linear-gradient(90deg,var(--mint),var(--cyan))"></div>
+        </div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:48%;background:rgba(74,222,128,0.4)"></div>
+          <div class="spark-bar" style="height:50%;background:rgba(74,222,128,0.45)"></div>
+          <div class="spark-bar" style="height:45%;background:rgba(74,222,128,0.4)"></div>
+          <div class="spark-bar" style="height:52%;background:rgba(74,222,128,0.5)"></div>
+          <div class="spark-bar" style="height:50%;background:rgba(74,222,128,0.5)"></div>
+          <div class="spark-bar" style="height:53%;background:rgba(74,222,128,0.55)"></div>
+          <div class="spark-bar" style="height:54%;background:var(--mint)"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- WEAK / STRONG AREAS -->
+    <div class="section-row" style="margin-top:18px">
+      <div class="section-title">Focus Areas 🔍</div>
+    </div>
+    <div class="areas-grid">
+      <div class="area-card area-weak">
+        <div class="area-icon">⚠️</div>
+        <div class="area-label weak">Need Work</div>
+        <div class="area-topic">Oxidation States</div>
+        <div class="area-sub">Chemistry · 48% avg</div>
+      </div>
+      <div class="area-card area-strong">
+        <div class="area-icon">⭐</div>
+        <div class="area-label strong">Strongest</div>
+        <div class="area-topic">Mechanics</div>
+        <div class="area-sub">Physics · 95% avg</div>
+      </div>
+      <div class="area-card area-weak">
+        <div class="area-icon">📉</div>
+        <div class="area-label weak">Declining</div>
+        <div class="area-topic">Organic Chem</div>
+        <div class="area-sub">Chemistry · ▼ -5%</div>
+      </div>
+      <div class="area-card area-strong">
+        <div class="area-icon">🚀</div>
+        <div class="area-label strong">Most Improved</div>
+        <div class="area-topic">Calculus</div>
+        <div class="area-sub">Math · ▲ +14%</div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY HEATMAP -->
+    <div class="heatmap-wrap" style="margin-top:18px">
+      <div class="chart-header">
         <div>
-          <div class="battle-score-txt bst-win">10 – 6</div>
-          <div class="battle-date">2 days ago</div>
+          <div class="chart-title">Study Activity 🗓️</div>
+          <div class="chart-sub">Questions answered per day</div>
         </div>
       </div>
+      <div class="hmap-grid">
+        <div class="hmap-lbl">S</div><div class="hmap-lbl">M</div><div class="hmap-lbl">T</div>
+        <div class="hmap-lbl">W</div><div class="hmap-lbl">T</div><div class="hmap-lbl">F</div><div class="hmap-lbl">S</div>
 
-      <div class="battle-item">
-        <div class="result-badge rb-draw">DRAW</div>
-        <div class="battle-opp-mini">
-          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=daravuth" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-        </div>
-        <div class="battle-info-txt">
-          <div class="bi-name">vs Daravuth Meas</div>
-          <div class="bi-sub">🌿 Biology · 10 questions</div>
-        </div>
-        <div>
-          <div class="battle-score-txt bst-draw">7 – 7</div>
-          <div class="battle-date">3 days ago</div>
-        </div>
+        <div class="hmap-cell h0"></div><div class="hmap-cell h1"></div><div class="hmap-cell h2"></div>
+        <div class="hmap-cell h3"></div><div class="hmap-cell h2"></div><div class="hmap-cell h4"></div><div class="hmap-cell h0"></div>
+
+        <div class="hmap-cell h2"></div><div class="hmap-cell h4"></div><div class="hmap-cell h3"></div>
+        <div class="hmap-cell h4"></div><div class="hmap-cell h3"></div><div class="hmap-cell h2"></div><div class="hmap-cell h0"></div>
+
+        <div class="hmap-cell h1"></div><div class="hmap-cell h3"></div><div class="hmap-cell h4"></div>
+        <div class="hmap-cell h4"></div><div class="hmap-cell h4"></div><div class="hmap-cell h3"></div><div class="hmap-cell h0"></div>
+
+        <div class="hmap-cell h2"></div><div class="hmap-cell h4"></div><div class="hmap-cell h3"></div>
+        <div class="hmap-cell h4"></div><div class="hmap-cell h2"></div><div class="hmap-cell h0"></div><div class="hmap-cell h0"></div>
       </div>
+      <div class="hmap-legend">
+        <div class="hmap-leg-lbl">Less</div>
+        <div class="hmap-swatch h0"></div>
+        <div class="hmap-swatch h1"></div>
+        <div class="hmap-swatch h2"></div>
+        <div class="hmap-swatch h3"></div>
+        <div class="hmap-swatch h4"></div>
+        <div class="hmap-leg-lbl">More</div>
+      </div>
+    </div>
 
+    <!-- AI INSIGHTS -->
+    <div class="section-row">
+      <div class="section-title">AI Insights 🤖✨</div>
+    </div>
+    <div class="insights-row">
+      <div class="insight-card ic-purple">
+        <div class="ic-icon">💡</div>
+        <div class="ic-title">Study Tip</div>
+        <div class="ic-body">Your Physics score jumps after morning sessions. Try studying it before 10am!</div>
+      </div>
+      <div class="insight-card ic-pink">
+        <div class="ic-icon">⚠️</div>
+        <div class="ic-title">Watch Out</div>
+        <div class="ic-body">Chemistry is dropping. You haven't practiced Organic in 5 days.</div>
+      </div>
+      <div class="insight-card ic-blue">
+        <div class="ic-icon">🎯</div>
+        <div class="ic-title">Next Goal</div>
+        <div class="ic-body">Reach 85% avg score to unlock the Gold badge. Only 2% away!</div>
+      </div>
     </div>
 
   </div><!-- /scroll-area -->
@@ -790,11 +838,11 @@
       <div class="nav-icon-wrap">📝</div>
       <div class="nav-lbl">Exam</div>
     </div>
-    <div class="nav-btn" onclick="window.location.href='kruai-progress.html'" style="cursor:pointer">
+    <div class="nav-btn active">
       <div class="nav-icon-wrap">📈</div>
       <div class="nav-lbl">Progress</div>
     </div>
-    <div class="nav-btn active">
+    <div class="nav-btn" onclick="window.location.href='brachnha-competition.html'" style="cursor:pointer">
       <div class="nav-icon-wrap">⚔️</div>
       <div class="nav-lbl">Battle</div>
     </div>
